@@ -4,6 +4,7 @@ Repository for IH12A team 5 towards HEW 2020
 
 ## File Structure
 
+```
 root                                project root
 ├───docs                            documents of this project
 |   ├───design requirement          requirements for gui design
@@ -12,7 +13,7 @@ root                                project root
 │   ├───page                        pug/html files of page/components
 │   ├───script                      typescript files of scripts
 │   ├───style                       less file of styles
-│   ├───sql                         sql commands
+│   └───sql                         sql commands
 └───test                            test files, either for php and js
 └───www                             website root
 │   ├───controller                  php files which interact with user access
@@ -21,3 +22,4 @@ root                                project root
 └───cdn                             files other than html
     └───js                          js files, bundled from src/script
     └───css                         css files, compiled from src/style
+```
