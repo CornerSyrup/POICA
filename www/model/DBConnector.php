@@ -10,7 +10,7 @@ class DBConnector
     /**
      * Undocumented function
      *
-     * @param string $sid
+     * @param string $sid student id
      * @return string password hash
      */
     public static function obtain_credential(string $sid): string
@@ -21,7 +21,14 @@ class DBConnector
         return $res['password'];
     }
 
-    public static function insert_credential(string $sid): bool
+    /**
+     * Undocumented function
+     *
+     * @param string $sid student id
+     * @param string $pwd_hash password hash
+     * @return boolean whether insertion succeed
+     */
+    public static function insert_credential(string $sid, string $pwd_hash): bool
     {
         $con = new mysqli();
         return mysqli_query() ? true : false;
