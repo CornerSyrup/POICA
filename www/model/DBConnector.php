@@ -20,4 +20,10 @@ class DBConnector
 
         return $res['password'];
     }
+
+    public static function insert_credential(string $sid): bool
+    {
+        $con = new mysqli();
+        return mysqli_query() ? true : false;
+    }
 }
