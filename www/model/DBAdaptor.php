@@ -4,7 +4,7 @@ namespace model;
 
 use mysqli;
 
-class DBConnector
+class DBAdaptor
 {
     //! uncompleted, this is a dummy function for dev
     /**
