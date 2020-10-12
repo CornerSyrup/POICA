@@ -6,7 +6,21 @@ use mysqli;
 
 class DBAdaptor
 {
-    //! uncompleted, this is a dummy function for dev
+    const HOST = "ec2-54-75-246-118.eu-west-1.compute.amazonaws.com";
+    const DATA = "df2smd4s7a2fc9";
+    const USER = "mekizxwyldndzk";
+    const PASS = "f3e23c643a8d0cda95acbd4884f0adbbc6dde213da7711e70c64e55c172e1060";
+
+    /**
+     * Create and return connection to PostgreSQL
+     *
+     * @return resource|false database connection
+     */
+    private static function create_connection()
+    {
+        return pg_connect(sprintf('host=%s dbname=%s user=%s password=%s', self::HOST, self::DATA, self::USER, self::PASS));
+    }
+
     /**
      * Undocumented function
      *
