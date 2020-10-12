@@ -9,6 +9,7 @@ root                                project root
 ├───docs                            documents of this project
 |   ├───design requirement          requirements for gui design
 |   └───functional specification    specifications for coding of functions
+|   └───database usage              usage and schema of database
 ├───src                             source files
 │   ├───page                        pug/html files of page/components
 │   ├───script                      typescript files of scripts
