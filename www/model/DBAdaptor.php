@@ -2,7 +2,7 @@
 
 namespace model;
 
-use mysqli;
+use Exception;
 
 /**
  * adaptor to database and provide insertion and query services
@@ -17,11 +17,23 @@ class DBAdaptor
     /**
      * Create and return connection to PostgreSQL
      *
-     * @return resource|false database connection
+     * @return resource database connection
      */
     private static function create_connection()
     {
-        return pg_connect(sprintf('host=%s dbname=%s user=%s password=%s', self::HOST, self::DATA, self::USER, self::PASS));
+        $cstring = sprintf('host=%s dbname=%s user=%s password=%s', self::HOST, self::DATA, self::USER, self::PASS);
+
+        $con = pg_connect($cstring);
+
+        if (!$con) {
+            $con = pg_connect($cstring);
+
+            if (!$con) {
+                throw new Exception('Connection fail');
+            }
+        } else {
+            return $con;
+        }
     }
 
     /**
