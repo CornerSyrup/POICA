@@ -37,7 +37,7 @@ class DBAdaptor
     }
 
     /**
-     * Undocumented function
+     * Interface to obtain user credential from database
      *
      * @param string $sid student id
      * @return string password hash
@@ -51,7 +51,7 @@ class DBAdaptor
     }
 
     /**
-     * Undocumented function
+     * Interface to insert user credential to database
      *
      * @param string $sid student id
      * @param string $pwd_hash password hash
