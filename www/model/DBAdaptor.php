@@ -4,6 +4,9 @@ namespace model;
 
 use mysqli;
 
+/**
+ * adaptor to database and provide insertion and query services
+ */
 class DBAdaptor
 {
     const HOST = "ec2-54-75-246-118.eu-west-1.compute.amazonaws.com";
