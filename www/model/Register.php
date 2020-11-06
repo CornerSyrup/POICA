@@ -5,7 +5,7 @@ namespace model;
 use UnexpectedValueException;
 
 /**
- * Registration service provider, including user registration
+ * Registration service provider, including user registration.
  */
 class Register
 {

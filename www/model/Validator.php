@@ -5,7 +5,7 @@ namespace model;
 use Exception;
 
 /**
- * Data and value validation service provider, including validation of GET/POST values
+ * Data and value validation service provider, including validation of GET/POST values.
  */
 class Validator
 {
@@ -21,18 +21,18 @@ class Validator
 }
 
 /**
- * Exception representing some string do not match an expression rule
+ * Exception representing some string do not match an expression rule.
  */
 class ExpressionMismatchException extends Exception
 {
     /**
-     * Constructor of expression mismatch exception
+     * Constructor of expression mismatch exception.
      *
-     * @param String $varName name of the variable which leads to this exception
-     * @param String $value value received
-     * @param String $expected value expected
-     * @param Integer $code exception code for exception instance
-     * @param Exception $innerException inner exception of instance
+     * @param String $varName name of the variable which leads to this exception.
+     * @param String $value value received.
+     * @param String $expected value expected.
+     * @param Integer $code exception code for exception instance.
+     * @param Exception $innerException inner exception of instance.
      */
     public function __construct(string $varName, string $value, int $code = 0, Exception $innerException = null)
     {

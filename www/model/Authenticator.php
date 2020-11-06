@@ -5,15 +5,15 @@ namespace model;
 use model\ExpressionMismatchException;
 
 /**
- * Internal authentication service provider
+ * Internal authentication service provider.
  */
 class Authenticator
 {
     /**
-     * Authenticate user whether he is legal
+     * Authenticate user whether he is legal.
      *
-     * @param string $sid student id
-     * @param string $password password string
+     * @param string $sid student id.
+     * @param string $password password string.
      * @return boolean
      */
     public static function authenticate(string $sid, string $password): bool
@@ -39,10 +39,10 @@ class Authenticator
     }
 
     /**
-     * Get password hash
+     * Get password hash.
      *
-     * @param string $password password string to be hashed
-     * @return string hash of password
+     * @param string $password password string to be hashed.
+     * @return string hash of password.
      */
     public static function get_password_hash(string $password): string
     {
@@ -50,10 +50,10 @@ class Authenticator
     }
 
     /**
-     * Verify whether password input is valid
+     * Verify whether password input is valid.
      *
-     * @param string $input password received
-     * @param string $pwd_hash password hash obtained from db
+     * @param string $input password received.
+     * @param string $pwd_hash password hash obtained from db.
      * @return boolean
      */
     public static function verify_password(string $input, string $pwd_hash): bool

@@ -15,9 +15,9 @@ class DBAdaptor
     const PASS = "f3e23c643a8d0cda95acbd4884f0adbbc6dde213da7711e70c64e55c172e1060";
 
     /**
-     * Create and return connection to PostgreSQL
+     * Create and return connection to PostgreSQL.
      *
-     * @return resource database connection
+     * @return resource database connection.
      */
     private static function create_connection()
     {
@@ -38,11 +38,11 @@ class DBAdaptor
     }
 
     /**
-     * Interface to obtain user credential from database
+     * Interface to obtain user credential from database.
      *
-     * @param string $sid student id
-     * @throws RecordNotFoundException throw when credential not found
-     * @return string password hash
+     * @param string $sid student id.
+     * @throws RecordNotFoundException throw when credential not found.
+     * @return string password hash.
      */
     public static function obtain_credential(string $sid): string
     {
@@ -63,16 +63,16 @@ class DBAdaptor
 }
 
 /**
- * Exception representing record not found in database
+ * Exception representing record not found in database.
  */
 class RecordNotFoundException extends Exception
 {
     /**
-     * Constructor of record not found exception
+     * Constructor of record not found exception.
      *
-     * @param string $message
-     * @param integer $code
-     * @param Exception $innerException
+     * @param string $message not found message.
+     * @param integer $code error code.
+     * @param Exception $innerException internal exception which raised this exception indirectly.
      */
     public function __construct(string $message = '', int $code = 0, Exception $innerException = null)
     {
