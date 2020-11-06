@@ -25,6 +25,7 @@ class DBAdaptor
 
         $con = pg_connect($cstring);
 
+        // try twice
         if (!$con) {
             $con = pg_connect($cstring);
 
@@ -40,26 +41,19 @@ class DBAdaptor
      * Interface to obtain user credential from database
      *
      * @param string $sid student id
+     * @throws Exception throw when credential not found
      * @return string password hash
      */
     public static function obtain_credential(string $sid): string
     {
-        $con = new mysqli();
-        $res = mysqli_query()->fetch_assoc();
+        $con = self::create_connection();
+        $res = pg_fetch_array(pg_query($con, "SELECT Usership.obtain_pwd('${sid}');"));
 
-        return $res['password'];
-    }
+        if (empty($res[0])) {
+            throw new Exception('credential not found');
+        }
 
-    /**
-     * Interface to insert user credential to database
-     *
-     * @param string $sid student id
-     * @param string $pwd_hash password hash
-     * @return boolean whether insertion succeed
-     */
-    public static function insert_credential(string $sid, string $pwd_hash): bool
-    {
-        $con = new mysqli();
-        return mysqli_query() ? true : false;
+        pg_close($con);
+        return $res[0];
     }
 }
