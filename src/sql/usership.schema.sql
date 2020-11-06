@@ -7,6 +7,7 @@ CREATE TABLE Usership.Users(
     userID SERIAL,
     studentID CHAR(5) NOT NULL,
     studentYear CHAR(2) NOT NULL,
+    -- php return pwd hash in length of 60
     pwd CHAR(60) NOT NULL,
     -- triple size for ja, 4 char
     jaFName VARCHAR(12) NOT NULL,
