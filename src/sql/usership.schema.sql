@@ -24,7 +24,7 @@ CREATE TABLE Usership.Users(
     -- 4 kinds enum
     kind BIT(2),
     -- graduate year and month, for graduates
-    gradMonth DATE NOT NULL,
+    gradMonth DATE,
     phone CHAR(10),
     suica CHAR(20),
     CONSTRAINT PK_User PRIMARY KEY (userID)
