@@ -19,7 +19,7 @@ class Register
             throw new UnexpectedValueException(`password passed do not match password rule`);
         }
 
-        DBConnector::insert_credential($sid, Authenticator::get_password_hash($password));
+        DBAdaptor::insert_credential($sid, Authenticator::get_password_hash($password));
         return false;
     }
 }

@@ -41,7 +41,7 @@ class DBAdaptor
      * Interface to obtain user credential from database
      *
      * @param string $sid student id
-     * @throws Exception throw when credential not found
+     * @throws RecordNotFoundException throw when credential not found
      * @return string password hash
      */
     public static function obtain_credential(string $sid): string
