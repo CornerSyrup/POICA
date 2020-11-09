@@ -17,6 +17,7 @@ class DBAdaptor
     /**
      * Create and return connection to PostgreSQL.
      *
+     * @throws Exception throw when connection fail after trying twice
      * @return resource database connection.
      */
     private static function create_connection()
@@ -46,18 +47,20 @@ class DBAdaptor
      */
     public static function obtain_credential(string $sid): string
     {
-        $con = self::create_connection();
         try {
-            $res = pg_fetch_array(pg_query($con, "SELECT Usership.obtain_pwd('${sid}');"));
+            $con = self::create_connection();
         } catch (\Throwable $th) {
-            throw new RecordNotFoundException('Fail to find record for database access error', 0, $th);
+            throw new Exception("Fail to connect to db server", 0, $th);
         }
+
+        $res = pg_fetch_array(
+            pg_query($con, "SELECT Usership.obtain_pwd('${sid}');")
+        );
 
         if (empty($res[0])) {
             throw new RecordNotFoundException("Fail to obtain credential with student ID ${sid}");
         }
 
-        pg_close($con);
         return $res[0];
     }
 }
