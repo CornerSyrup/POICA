@@ -16,7 +16,7 @@ class Validator
 
     public static function validate_pwd(string $password): bool
     {
-        return preg_match('/^*+$/', $password);
+        return preg_match('/^.+$/', $password);
     }
 }
 

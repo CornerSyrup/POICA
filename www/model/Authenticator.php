@@ -2,7 +2,12 @@
 
 namespace model;
 
+use model\DBAdaptor;
 use model\ExpressionMismatchException;
+use model\Validator;
+
+require 'DBAdaptor.php';
+require 'Validator.php';
 
 /**
  * Internal authentication service provider.
@@ -26,13 +31,10 @@ class Authenticator
             throw new ExpressionMismatchException('password', $password);
         }
 
-        $ret = false;
-
         try {
-            $hash = DBAdaptor::obtain_credential($sid);
-            $ret = Authenticator::verify_password($password, $hash);
+            $ret = Authenticator::verify_password($password, DBAdaptor::obtain_credential($sid));
         } catch (\Throwable $th) {
-            //! log caught error
+            $ret = false;
         } finally {
             return $ret;
         }
