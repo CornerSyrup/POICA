@@ -14,7 +14,8 @@ CREATE TABLE Usership.Users(
     -- triple size for ja, 12 char
     jaLName VARCHAR(36) NOT NULL,
     -- triple size for ja, 30 char
-    jaKana VARCHAR(90) NOT NULL,
+    jaFKana VARCHAR(45) NOT NULL,
+    jaLKana VARCHAR(45) NOT NULL,
     enFName VARCHAR(30),
     enLName VARCHAR(30),
     birthDay DATE,
