@@ -7,7 +7,6 @@
 namespace controller;
 
 use model\Authenticator;
-use model\DBAdaptor;
 use model\Localizer;
 use model\Validator;
 
