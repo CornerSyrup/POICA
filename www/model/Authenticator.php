@@ -4,9 +4,11 @@ namespace model;
 
 use model\DBAdaptor;
 use model\ExpressionMismatchException;
+use model\Logger;
 use model\Validator;
 
 require 'DBAdaptor.php';
+require 'Logger.php';
 require 'Validator.php';
 
 /**
@@ -31,9 +33,16 @@ class Authenticator
             throw new ExpressionMismatchException('password', $password);
         }
 
+        $log  = new Logger('auth');
+
         try {
             $ret = Authenticator::verify_password($password, DBAdaptor::obtain_credential($sid));
+
+            // $log->appendRecord("Authenticate succeed with student id ${sid}");
+            echo $log->appendRecord("Authenticate succeed with student id ${sid}") ? 'log sus' : 'log fail';
         } catch (\Throwable $th) {
+            $log->appendError($th);
+
             $ret = false;
         } finally {
             return $ret;
