@@ -1,0 +1,22 @@
+# Defaults
+    DirectoryIndex None
+
+# ErrorDoc
+    #ErrorDocument 404 /error/404.html
+    ErrorDocument 404 "its 404"
+
+# Rewrites
+    RewriteEngine On
+
+    # forbidden
+        RewriteRule ^model/ / [R=404]
+        RewriteRule ^view/ / [R=404]
+        RewriteRule ^controller/ / [R=404]
+
+    # service
+        RewriteRule ^apply/(\d+)/$ /view/home.php?a=$1 [END,QSA] # for test
+        RewriteRule ^signin/$ /controller/signin_std.php [END]
+
+    # direct
+        RewriteRule ^(.+)/$ /view/$1.php [END]
+        RewriteRule ^(.+)(?<!/)$ /$1/ [R]
