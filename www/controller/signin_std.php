@@ -7,6 +7,7 @@
 namespace controller;
 
 use model\Authenticator;
+use model\DBAdaptor;
 use model\Localizer;
 use model\Validator;
 
@@ -22,7 +23,7 @@ try {
     if (Validator::validate_sid($_POST['sid'])) {
         if (Validator::validate_pwd($_POST['pwd'])) {
             if (Authenticator::authenticate($_POST['sid'], $_POST['pwd'])) {
-                // auth succeed
+                $_SESSION['user'] = DBAdaptor
             } else {
                 // auth failed
             }
