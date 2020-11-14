@@ -2,8 +2,6 @@
 
 namespace model;
 
-use Throwable;
-
 require 'Global.php';
 
 class Logger
@@ -20,7 +18,7 @@ class Logger
      */
     public function __construct(string $tag, string $file = null)
     {
-        $this->tag = $tag;
+        $this->tag = ucfirst($tag);
         $this->dirPath = join_path(dirname(__DIR__), 'logs');
         $this->fileName = is_null($file) ? $tag . '.log' : $file . '.log';
 
@@ -50,11 +48,13 @@ class Logger
      * @param Throwable $error instance of the exception.
      * @return boolean true on success append; false on failure.
      */
-    public function appendError(Throwable $error): bool
+    public function appendError(\Throwable $error): bool
     {
-        $msg = empty($this->tag) ?
-            "Error:\t{$error->getMessage()}" :
-            "[{$this->tag}] Error:\n{$error->getMessage()}";
+        $msg = "[{$this->tag}]\tError caught\nError\t: {$error->getMessage()}";
+
+        if ($error->getPrevious() !== null) {
+            $msg .= "\nIntErr\t: {$error->getPrevious()->getMessage()}";
+        }
 
         return $this->append($msg);
     }

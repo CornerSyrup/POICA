@@ -14,15 +14,17 @@ class Localizer
      * @param array $data set of data to be processed.
      * @return array
      */
-    public static function LocalizeArray(array &$data)
+    public static function LocalizeArray(array $data): array
     {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                self::LocalizeArray($data[$key]);
+                $data[$key] = self::LocalizeArray($value);
             } elseif (is_string($value)) {
-                self::LocalizeString($data[$key]);
+                $data[$key] = self::LocalizeString($value);
             }
         }
+
+        return $data;
     }
 
     /**
@@ -31,10 +33,12 @@ class Localizer
      * @param string $data string to be localized.
      * @return void
      */
-    public static function LocalizeString(string &$data)
+    public static function LocalizeString(string $data): string
     {
         $data = self::Disarm($data);
         $data = self::Encode($data);
+
+        return $data;
     }
 
     /**
@@ -43,9 +47,11 @@ class Localizer
      * @param string $data string to be processed.
      * @return string
      */
-    private static function Disarm(string &$data)
+    private static function Disarm(string $data): string
     {
         $data = htmlentities($data);
+
+        return $data;
     }
 
     /**
@@ -54,8 +60,10 @@ class Localizer
      * @param string $data string to be processed.
      * @return void
      */
-    private static function Encode(string &$data)
+    private static function Encode(string &$data): string
     {
         $data = mb_convert_encoding($data, 'UTF-8', ['Shift_JIS', 'UTF-8', 'auto']);
+
+        return $data;
     }
 }

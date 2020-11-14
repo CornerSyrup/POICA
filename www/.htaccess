@@ -1,5 +1,5 @@
 # php
-    php_value include_path ".;C:/Users/STUDY/Coding/hew2020/www/model"
+    php_value include_path ".;C:/Users/STUDY/Coding/hew2020/www/"
 
 # Defaults
     DirectoryIndex None

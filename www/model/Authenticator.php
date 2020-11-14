@@ -2,11 +2,6 @@
 
 namespace model;
 
-use model\DBAdaptor;
-use model\ExpressionMismatchException;
-use model\Logger;
-use model\Validator;
-
 require 'DBAdaptor.php';
 require 'Logger.php';
 require 'Validator.php';
@@ -22,6 +17,8 @@ class Authenticator
      * @param string $sid student id.
      * @param string $password password string.
      * @return boolean
+     * @throws ExpressionMismatchException throw when student id (sid) or password (pwd) found invalid.
+     * @throws RecordNotFoundException throw then credential not fround from database.
      */
     public static function authenticate(string $sid, string $password): bool
     {
@@ -30,23 +27,17 @@ class Authenticator
         }
 
         if (!Validator::validate_pwd($password)) {
-            throw new ExpressionMismatchException('password', $password);
+            throw new ExpressionMismatchException('pwd', $password);
         }
-
-        $log  = new Logger('auth');
 
         try {
-            $ret = Authenticator::verify_password($password, DBAdaptor::obtain_credential($sid));
-
-            // $log->appendRecord("Authenticate succeed with student id ${sid}");
-            echo $log->appendRecord("Authenticate succeed with student id ${sid}") ? 'log sus' : 'log fail';
+            $hash = DBAdaptor::obtain_credential($sid);
+            $ret = Authenticator::verify_password($password, $hash);
         } catch (\Throwable $th) {
-            $log->appendError($th);
-
-            $ret = false;
-        } finally {
-            return $ret;
+            throw $th;
         }
+
+        return $ret;
     }
 
     /**

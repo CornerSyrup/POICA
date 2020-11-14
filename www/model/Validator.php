@@ -25,6 +25,7 @@ class Validator
  */
 class ExpressionMismatchException extends Exception
 {
+    public $var = '';
     /**
      * Constructor of expression mismatch exception.
      *
@@ -36,7 +37,8 @@ class ExpressionMismatchException extends Exception
      */
     public function __construct(string $varName, string $value, int $code = 0, Exception $innerException = null)
     {
-        $message = "variable [${varName}] revived unexpected value of [${value}] mismatching its expected expression rule";
+        $this->var = $varName;
+        $message = "variable [${varName}] revived unexpected value of [${value}] mismatching its expected expression rule.";
         parent::__construct($message, $code, $innerException);
     }
 }

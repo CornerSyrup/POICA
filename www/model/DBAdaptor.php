@@ -42,15 +42,15 @@ class DBAdaptor
      * Interface to obtain user credential from database.
      *
      * @param string $sid student id.
-     * @throws RecordNotFoundException throw when credential not found.
      * @return string password hash.
+     * @throws RecordNotFoundException throw when credential not found.
      */
     public static function obtain_credential(string $sid): string
     {
         try {
             $con = self::create_connection();
         } catch (\Throwable $th) {
-            throw new Exception("Fail to connect to db server", 0, $th);
+            throw new Exception("Fail to connect to db server.", 0, $th);
         }
 
         $res = pg_fetch_array(
@@ -58,7 +58,7 @@ class DBAdaptor
         );
 
         if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with student ID ${sid}");
+            throw new RecordNotFoundException("Fail to obtain credential with student ID [${sid}].");
         }
 
         return $res[0];
@@ -77,7 +77,7 @@ class RecordNotFoundException extends Exception
      * @param integer $code error code.
      * @param Exception $innerException internal exception which raised this exception indirectly.
      */
-    public function __construct(string $message = '', int $code = 0, Exception $innerException = null)
+    public function __construct(string $message, int $code = 0, Exception $innerException = null)
     {
         parent::__construct($message, $code, $innerException);
     }
