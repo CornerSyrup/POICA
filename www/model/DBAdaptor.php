@@ -63,6 +63,32 @@ class DBAdaptor
 
         return $res[0];
     }
+
+    /**
+     * Interface to obtain user credential with suica idm code.
+     *
+     * @param string $code suica idm code.
+     * @return string user id for the specified idm code.
+     * @throws RecordNotFoundException throw when credential not found.
+     */
+    public static function obtain_suica(string $code): string
+    {
+        try {
+            $con = self::create_connection();
+        } catch (\Throwable $th) {
+            throw new Exception("Fail to connect to db server.", 0, $th);
+        }
+
+        $res = pg_fetch_array(
+            pg_query($con, "SELECT Usership.obtain_suica('$code')")
+        );
+
+        if (empty($res[0])) {
+            throw new RecordNotFoundException("Fail to obtain credential with suica id [{$code}]");
+        }
+
+        return $res[0];
+    }
 }
 
 /**

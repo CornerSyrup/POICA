@@ -9,7 +9,6 @@ namespace controller;
 require_once 'model/Authenticator.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
-require_once 'model/Validator.php';
 
 session_start();
 session_destroy();

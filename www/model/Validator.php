@@ -18,6 +18,10 @@ class Validator
     {
         return preg_match('/^.+$/', $password);
     }
+
+    public static function validate_suica(string $idm):bool {
+        return preg_match('/^\d{16}$/', $idm);
+    }
 }
 
 /**

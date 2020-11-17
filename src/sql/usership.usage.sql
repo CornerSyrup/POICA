@@ -9,3 +9,16 @@ AS $$
         u.studentID = sid
     LIMIT 1;
 $$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION Usership.obtain_suica(idm CHAR(16))
+    RETURNS CHAR(5)
+AS $$
+    SELECt
+        u.studentid
+    FROM
+        Usership.Users u
+    WHERE
+        u.suica = idm
+    LIMIT
+        1;
+$$ LANGUAGE SQL;

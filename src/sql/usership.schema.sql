@@ -29,7 +29,8 @@ CREATE TABLE Usership.Users(
     gradMonth DATE,
     phone CHAR(10),
     suica CHAR(20),
-    CONSTRAINT PK_User PRIMARY KEY (userID)
+    CONSTRAINT PK_User PRIMARY KEY (userID),
+    CONSTRAINT UQ_Suica UNIQUE (suica)
 );
 
 -- access control, logging
