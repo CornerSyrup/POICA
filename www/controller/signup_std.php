@@ -7,7 +7,7 @@
 namespace controller;
 
 use model\Authenticator;
-use model\Validation as valid;
+use model\validation as valid;
 
 require_once 'model/Authenticator.php';
 require_once 'model/Localizer.php';

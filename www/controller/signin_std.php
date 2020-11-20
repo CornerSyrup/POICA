@@ -10,7 +10,7 @@ require_once 'model/Authenticator.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
-use model\Validation as valid;
+use model\validation as valid;
 
 session_start();
 session_destroy();

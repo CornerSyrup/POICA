@@ -4,7 +4,7 @@
  * Data and value validation service provider, including validation of GET/POST values.
  */
 
-namespace model\Validation;
+namespace model\validation;
 
 function validate_sid(string $sid): bool
 {

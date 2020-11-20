@@ -1,12 +1,12 @@
 <?php
 
-namespace model;
+namespace model\authentication;
 
 require 'DBAdaptor.php';
 require 'Logger.php';
 require 'Validator.php';
 
-use model\Validation as valid;
+use model\validation as valid;
 
 /**
  * Internal authentication service provider.
