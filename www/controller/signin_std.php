@@ -10,6 +10,7 @@ require_once 'model/Authenticator.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
+use model\authentication as auth;
 use model\validation as valid;
 
 session_start();
@@ -26,7 +27,7 @@ try {
         $_POST = \model\Localizer::LocalizeArray($_POST);
     }
 
-    if (\model\Authenticator::authenticate($_POST['sid'], $_POST['pwd'])) {
+    if (auth\authenticate($_POST['sid'], $_POST['pwd'])) {
         // auth success
         $_SESSION['user'] = $_POST['sid'];
         $_SESSION['log_in'] = true;

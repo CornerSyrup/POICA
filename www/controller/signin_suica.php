@@ -7,6 +7,9 @@ require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
 require_once 'model/Validator.php';
 
+use model\authentication as auth;
+use model\validation as valid;
+
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -23,8 +26,8 @@ try {
     } else {
         $_POST = \model\Localizer::LocalizeArray($_POST);
 
-        if (!\model\Validator::validate_suica($_POST['idm'])) {
-            throw new \model\ExpressionMismatchException('idm', $_POST['idm']);
+        if (!valid\validate_suica($_POST['idm'])) {
+            throw new valid\ExpressionMismatchException('idm', $_POST['idm']);
         }
     }
 
@@ -33,7 +36,7 @@ try {
     $logger->appendRecord("[{$_POST['idm']}] logged in with suica successfully.");
 
     http_response_code(200);
-} catch (\model\ExpressionMismatchException $eme) {
+} catch (valid\ExpressionMismatchException $eme) {
     $logger->appendError(error_template($eme));
 } catch (\model\RecordNotFoundException $rnf) {
     $logger->appendError(error_template($rnf));

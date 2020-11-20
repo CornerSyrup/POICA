@@ -6,7 +6,7 @@
 
 namespace controller;
 
-use model\Authenticator;
+use model\authentication as auth;
 use model\validation as valid;
 
 require_once 'model/Authenticator.php';
@@ -23,7 +23,7 @@ try {
         throw new \Exception("`{$_POST['sid']}` attempt to sign up, but fail on validation");
     }
 
-    if (Authenticator::enrolment($_POST)){
+    if (auth\enrolment($_POST)){
         $logger->appendRecord("success of enrolment");
     } else {
         http_response_code(400);
