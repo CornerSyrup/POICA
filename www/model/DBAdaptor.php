@@ -2,8 +2,6 @@
 
 namespace model;
 
-use Exception;
-
 /**
  * adaptor to database and provide insertion and query services
  */
@@ -31,7 +29,7 @@ class DBAdaptor
             $con = pg_connect($cstring);
 
             if (!$con) {
-                throw new Exception('Connection fail');
+                throw new \Exception('Connection fail');
             }
         } else {
             return $con;
@@ -50,7 +48,7 @@ class DBAdaptor
         try {
             $con = self::create_connection();
         } catch (\Throwable $th) {
-            throw new Exception("Fail to connect to db server.", 0, $th);
+            throw new \Exception("Fail to connect to db server.", 0, $th);
         }
 
         $res = pg_fetch_array(
@@ -58,7 +56,7 @@ class DBAdaptor
         );
 
         if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with student ID [${sid}].");
+            throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
         }
 
         return $res[0];
@@ -76,7 +74,7 @@ class DBAdaptor
         try {
             $con = self::create_connection();
         } catch (\Throwable $th) {
-            throw new Exception("Fail to connect to db server.", 0, $th);
+            throw new \Exception("Fail to connect to db server.", 0, $th);
         }
 
         $res = pg_fetch_array(
@@ -89,12 +87,26 @@ class DBAdaptor
 
         return $res[0];
     }
+
+    public static function insert_credential(array $data)
+    {
+        try {
+            $con = self::create_connection();
+        } catch (\Throwable $th) {
+            throw new \Exception("Fail to connect to db server.", 0, $th);
+        }
+
+        // suppress warning message manually
+        if (!@pg_query($con, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
+            throw new RecordInsertException(pg_errormessage($con));
+        }
+    }
 }
 
 /**
  * Exception representing record not found in database.
  */
-class RecordNotFoundException extends Exception
+class RecordNotFoundException extends \Exception
 {
     /**
      * Constructor of record not found exception.
@@ -103,7 +115,15 @@ class RecordNotFoundException extends Exception
      * @param integer $code error code.
      * @param Exception $innerException internal exception which raised this exception indirectly.
      */
-    public function __construct(string $message, int $code = 0, Exception $innerException = null)
+    public function __construct(string $message, int $code = 0, \Exception $innerException = null)
+    {
+        parent::__construct($message, $code, $innerException);
+    }
+}
+
+class RecordInsertException extends \Exception
+{
+    public function __construct(string $message, int $code = 0, \Exception $innerException = null)
     {
         parent::__construct($message, $code, $innerException);
     }

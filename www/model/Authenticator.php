@@ -40,6 +40,22 @@ class Authenticator
         return $ret;
     }
 
+    public static function enrolment(array $data): bool
+    {
+        $logger = new Logger('auth');
+
+        $data['yr'] = substr(date('Y'), 0, 2);
+        try {
+            DBAdaptor::insert_credential($data);
+            $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
+        } catch (\Throwable $th) {
+            $logger->appendError($th);
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Get password hash.
      *

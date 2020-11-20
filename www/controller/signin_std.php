@@ -14,7 +14,7 @@ session_start();
 session_destroy();
 
 $logger = new \model\Logger('auth');
-$view = 'signin_form.php';
+$view = 'signin_form';
 $errmsg = '';
 
 try {

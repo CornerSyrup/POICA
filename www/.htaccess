@@ -17,9 +17,10 @@
         RewriteRule ^controller/ / [R=404]
 
     # service
-        RewriteRule ^apply/(\d+)/$ /view/home.php?a=$1 [END,QSA] # for test
-        RewriteRule ^signin/$ /controller/signin_std.php [END]
-        RewriteRule ^signin/suica/$ /controller/signin_suica.php [END]
+        RewriteRule ^apply/(\d+)/$ /view/home.php?a=$1 [NC,END,QSA] # for test
+        RewriteRule ^signin/$ /controller/signin_std.php [NC,END]
+        RewriteRule ^signin/suica/$ /controller/signin_suica.php [NC,END]
+        RewriteRule ^signup/$ /controller/signup_std.php [NC,END]
 
     # direct
         RewriteRule ^(.+)/$ /view/$1.php [END]
