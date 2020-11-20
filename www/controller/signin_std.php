@@ -10,6 +10,8 @@ require_once 'model/Authenticator.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
+use model\Validation as valid;
+
 session_start();
 session_destroy();
 
@@ -34,7 +36,7 @@ try {
         // auth failed
         $logger->appendRecord("[{$_POST['sid']}] attempted to login, but failed.");
     }
-} catch (\model\ExpressionMismatchException $eme) {
+} catch (valid\ExpressionMismatchException $eme) {
     if ($eme->var == 'sid') {
         $logger->appendError(new \Exception("[{$_POST['sid']}] attempted to log in, but invalid student id supplied.", 0, $eme));
         $errmsg = "Please check student id and try again.";

@@ -6,6 +6,8 @@ require 'DBAdaptor.php';
 require 'Logger.php';
 require 'Validator.php';
 
+use model\Validation as valid;
+
 /**
  * Internal authentication service provider.
  */
@@ -22,12 +24,12 @@ class Authenticator
      */
     public static function authenticate(string $sid, string $password): bool
     {
-        if (!Validator::validate_sid($sid)) {
-            throw new ExpressionMismatchException('sid', $sid);
+        if (!valid\validate_sid($sid)) {
+            throw new valid\ExpressionMismatchException('sid', $sid);
         }
 
-        if (!Validator::validate_pwd($password)) {
-            throw new ExpressionMismatchException('pwd', $password);
+        if (!valid\validate_pwd($password)) {
+            throw new valid\ExpressionMismatchException('pwd', $password);
         }
 
         try {
@@ -45,6 +47,8 @@ class Authenticator
         $logger = new Logger('auth');
 
         $data['yr'] = substr(date('Y'), 0, 2);
+        $data['pwd'] = self::get_password_hash($data['pwd']);
+
         try {
             DBAdaptor::insert_credential($data);
             $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
