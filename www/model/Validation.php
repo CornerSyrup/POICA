@@ -94,7 +94,17 @@ class ExpressionMismatchException extends \Exception
     {
         $this->var = $varName;
 
-        $message = "variable [${varName}] revived unexpected value of [${value}] mismatching its expected expression rule.";
+        parent::__construct("Variable [${varName}] revived unexpected value of [${value}] mismatching its expected expression rule.", $code, $innerException);
+    }
+}
+
+/**
+ * Exception representing validation failure.
+ */
+class ValidationException extends \Exception
+{
+    public function __construct(string $message = '', int $code = 0, \Exception $innerException = null)
+    {
         parent::__construct($message, $code, $innerException);
     }
 }
