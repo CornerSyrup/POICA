@@ -39,7 +39,6 @@ function validate_jkana(string $kana): bool
  * @param string $sid student id of the user.
  * @param string $password password of the user.
  * @return boolean
- * @throws ExpressionMismatchException throw when sid or password is invalid; variable name as `sid` and `pwd`.
  */
 function validate_signin_form(string $sid, string $password): bool
 {
@@ -47,14 +46,7 @@ function validate_signin_form(string $sid, string $password): bool
         return false;
     }
 
-    if (!validate_sid($sid)) {
-        throw new ExpressionMismatchException('sid', $sid);
-    }
-
-    if (!validate_pwd($password)) {
-        throw new ExpressionMismatchException('pwd', $password);
-    }
-    return true;
+    return validate_sid($sid) && validate_pwd($password);
 }
 
 /**
