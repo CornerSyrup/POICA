@@ -2,7 +2,7 @@
 
 namespace model;
 
-require 'Global.php';
+require_once 'Global.php';
 
 class Logger
 {
