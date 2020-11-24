@@ -4,10 +4,10 @@
 
 ### Authentication
 
-| Exception | Location           | Code  | Message                                             | Inner Exception |
-| :-------: | ------------------ | :---: | --------------------------------------------------- | :-------------: |
-| Exception | authenticate       |   0   | Credential for student id [sid] was not registered. | RecordNotFound  |
-| Exception | authenticate_suica |   0   | Suica [idm] was not registered.                     | RecordNotFound  |
+| Exception | Location           | Code  | Message                                                         | Inner Exception |
+| :-------: | ------------------ | :---: | --------------------------------------------------------------- | :-------------: |
+| Exception | authenticate       |   0   | Authentication failed, for student id [sid] was not registered. | RecordNotFound  |
+| Exception | authenticate_suica |   0   | Authentication failed, for suica [idm] was not registered.      | RecordNotFound  |
 
 ### DBAdapter
 

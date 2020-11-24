@@ -18,14 +18,14 @@ use model;
  * @param string $sid student id of the user.
  * @param string $password password of the user as plain string.
  * @return boolean
- * @throws RecordNotFoundException throw when credential cannot fround in database.
+ * @throws AuthenticationException throw when credential cannot fround in database.
  */
-function authenticate(string $sid, string $password): bool
+function authenticate_form(string $sid, string $password): bool
 {
     try {
         $hash = (new model\DBAdaptor())->obtain_credential($sid);
-    } catch (\model\RecordNotFoundException $rnf) {
-        throw new \Exception("Credential for student id [{$sid}] was not registered.", 0, $rnf);
+    } catch (model\RecordNotFoundException $rnf) {
+        throw new AuthenticationException("student id [{$sid}] was not registered", 0, $rnf);
     }
 
     return verify_password($password, $hash);
@@ -37,14 +37,14 @@ function authenticate(string $sid, string $password): bool
  * @param string $sid student id of the user.
  * @param string $idm idm code of the suica card.
  * @return boolean
- * @throws RecordNotFoundException throw when suica card data cannot found in database.
+ * @throws AuthenticationException throw when suica card data cannot found in database.
  */
 function authenticate_suica(string $sid, string $idm): bool
 {
     try {
         $uid = (new model\DBAdaptor())->obtain_suica($idm);
     } catch (model\RecordNotFoundException $rnf) {
-        throw new \Exception("Suica [{$idm}] was not registered.", 0, $rnf);
+        throw new AuthenticationException("suica [{$idm}] was not registered", 0, $rnf);
     }
 
     return $sid == $uid;
@@ -95,4 +95,12 @@ function get_password_hash(string $password): string
 function verify_password(string $input, string $pwd_hash): bool
 {
     return password_verify($input, $pwd_hash);
+}
+
+class AuthenticationException extends \Exception
+{
+    public function __construct(string $reason, int $code = 0, \Exception $innerException = null)
+    {
+        parent::__construct("Authentication process failed, for {$reason}.", $code, $innerException);
+    }
 }
