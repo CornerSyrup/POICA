@@ -25,13 +25,13 @@ class DBAdaptor
         $cstring = sprintf('host=%s dbname=%s user=%s password=%s', self::HOST, self::DATA, self::USER, self::PASS);
 
         // try connect
-        self::$connection = pg_connect($cstring);
+        $this->connection = pg_connect($cstring);
 
-        if (!self::$connection) {
+        if (!$this->connection) {
             // retry of connect
-            self::$connection = pg_connect($cstring);
+            $this->connection = pg_connect($cstring);
 
-            if (!self::$connection) {
+            if (!$this->connection) {
                 // fail twice
                 throw new \Exception('Fail to connect to database for unknown reason.');
             }
@@ -48,7 +48,7 @@ class DBAdaptor
     public function obtain_credential(string $sid): string
     {
         $res = pg_fetch_array(
-            pg_query(self::$connection, "SELECT Usership.obtain_pwd('${sid}');")
+            pg_query($this->connection, "SELECT Usership.obtain_pwd('${sid}');")
         );
 
         if (empty($res[0])) {
@@ -68,7 +68,7 @@ class DBAdaptor
     public function obtain_suica(string $code): string
     {
         $res = pg_fetch_array(
-            pg_query(self::$connection, "SELECT Usership.obtain_suica('$code')")
+            pg_query($this->connection, "SELECT Usership.obtain_suica('$code')")
         );
 
         if (empty($res[0])) {
@@ -88,8 +88,8 @@ class DBAdaptor
     public function insert_credential(array $data)
     {
         // suppress warning message manually
-        if (!@pg_query(self::$connection, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
-            throw new RecordInsertException(pg_errormessage(self::$connection));
+        if (!@pg_query($this->connection, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
+            throw new RecordInsertException(pg_errormessage($this->connection));
         }
     }
 }
