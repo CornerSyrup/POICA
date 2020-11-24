@@ -18,19 +18,18 @@
 
 namespace controller;
 
-require_once 'model/DBAdaptor.php';
+require_once 'model/Authentication.php';
 require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
 require_once 'model/Validation.php';
 
-use model;
 use model\authentication as auth;
 use model\validation as valid;
 
 session_start();
 session_destroy();
 
-$logger = new \model\Logger('Sign in (suica)');
+$logger = new \model\Logger('Sign in (suica)', 'signin');
 $_POST = json_decode(file_get_contents('php://input'), true);
 $res = [];
 

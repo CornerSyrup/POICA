@@ -17,6 +17,7 @@ namespace controller;
 require_once 'model/Authentication.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
+require_once 'model/Validation.php';
 
 use model\authentication as auth;
 use model\validation as valid;
