@@ -1,7 +1,15 @@
 <?php
 
 /**
- * standard sign in process with student id and password
+ * sign in process with student id and password.
+ * 
+ * take POST data:
+ * sid: student id of user.
+ * pwd: password of user.
+ * 
+ * use session data:
+ * user: user id.
+ * log_in: is logged in.
  */
 
 namespace controller;
@@ -13,44 +21,57 @@ require_once 'model/Localizer.php';
 use model\authentication as auth;
 use model\validation as valid;
 
+// clear previous login status
 session_start();
 session_destroy();
 
-$logger = new \model\Logger('auth');
+$logger = new \model\Logger('Sign in (form)', 'signin');
 $view = 'signin_form';
 $errmsg = '';
 
 try {
-    if (empty($_POST['sid']) || empty($_POST['pwd'])) {
-        throw new \Exception("Insufficient data for sign in received.");
-    } else {
-        $_POST = \model\Localizer::LocalizeArray($_POST);
+    // repel http request method
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        throw new \RequestMethodException('POST', $_SERVER['REQUEST_METHOD']);
     }
 
-    if (auth\authenticate($_POST['sid'], $_POST['pwd'])) {
-        // auth success
+    // localize input
+    $_POST = \model\Localizer::LocalizeArray($_POST);
+
+    // valid input
+    if (!valid\validate_signin_form($_POST['sid'], $_POST['pwd'])) {
+        throw new valid\ValidationException('Sign in form data is invalid.');
+    }
+
+    session_start();
+
+    // auth success
+    if (auth\authenticate_form($_POST['sid'], $_POST['pwd'])) {
         $_SESSION['user'] = $_POST['sid'];
         $_SESSION['log_in'] = true;
-        $logger->appendRecord("[{$_POST['sid']}] logged in successfully.");
+        $logger->appendRecord("[{$_POST['sid']}] logged in successfully from form.");
         $view = 'signin_success';
-    } else {
-        // auth failed
-        $logger->appendRecord("[{$_POST['sid']}] attempted to login, but failed.");
     }
-} catch (valid\ExpressionMismatchException $eme) {
-    if ($eme->var == 'sid') {
-        $logger->appendError(new \Exception("[{$_POST['sid']}] attempted to log in, but invalid student id supplied.", 0, $eme));
-        $errmsg = "Please check student id and try again.";
-    } elseif ($eme->var == 'pwd') {
-        $logger->appendError(new \Exception("[{$_POST['sid']}] attempted to log in, but invalid password supplied.", 0, $eme));
-        $errmsg = "Please check password and try again.";
+    // auth fail
+    else {
+        $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login from form.");
     }
-} catch (\model\RecordNotFoundException $rnf) {
-    $logger->appendError(new \Exception("[{$_POST['sid']}] attempted to log in, but invalid sid provided.", 0, $rnf));
+} catch (\RequestMethodException $re) {
+    // inappropriate request method
+    $logger->appendError($re);
+    $errmsg = '';
+} catch (valid\ValidationException $ve) {
+    // invalid input
+    $logger->appendError($ve);
+    $errmsg = 'Please check your input and try again.';
+} catch (auth\AuthenticationException $ae) {
+    // no registration found
+    $logger->appendError($ae);
     $errmsg = "Account not found, please <a href=\"/signup/\">create a new account</a>.";
 } catch (\Throwable $th) {
     $logger->appendError($th);
-} finally {
-    session_start();
-    include "view/{$view}.php";
 }
+
+ob_start();
+include "view/{$view}.php";
+ob_end_flush();
