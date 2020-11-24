@@ -33,15 +33,32 @@ function authenticate(string $sid, string $password): bool
     }
 
     try {
-        $adapter = new model\DBAdaptor();
-
-        $hash = $adapter->obtain_credential($sid);
-        $ret = verify_password($password, $hash);
+        $hash = (new model\DBAdaptor())->obtain_credential($sid);
     } catch (\Throwable $th) {
         throw $th;
     }
 
-    return $ret;
+    return verify_password($password, $hash);
+}
+
+function authenticate_suica(string $sid, string $idm): bool
+{
+    if (!valid\validate_sid($sid)) {
+        throw new valid\ExpressionMismatchException('sid', $sid);
+    }
+    if (!valid\validate_suica($idm)) {
+        throw new valid\ExpressionMismatchException('idm', $idm);
+    }
+
+    try {
+        $uid = (new model\DBAdaptor())->obtain_suica($idm);
+    } catch (model\RecordNotFoundException $rnf) {
+        throw new \Exception("Suica [{$idm}] was not registered.", 0, $rnf);
+    } catch (\Throwable $th) {
+        throw new $th;
+    }
+
+    return $sid == $uid;
 }
 
 function enrol(array $data): bool
