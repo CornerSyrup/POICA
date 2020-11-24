@@ -34,15 +34,31 @@ function validate_jkana(string $kana): bool
 }
 
 /**
+ * Validate whether the sign in info for from sign in is valid.
+ *
+ * @param string $sid student id of the user.
+ * @param string $password password of the user.
+ * @return boolean
+ */
+function validate_signin_form(string $sid, string $password): bool
+{
+    if (empty($sid) || empty($password)) {
+        return false;
+    }
+
+    return validate_sid($sid) &&  validate_pwd($password);
+}
+
+/**
  * Validate whether the sign in info for suica sign in is valid.
  *
  * @param string $sid student id of the user.
  * @param string $idm idm code of the suica card.
  * @return boolean
  */
-function validate_suica_signin(string $sid, string $idm): bool
+function validate_signin_suica(string $sid, string $idm): bool
 {
-    if (empty($sid) && empty($idm)) {
+    if (empty($sid) || empty($idm)) {
         return false;
     }
 
