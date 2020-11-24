@@ -50,17 +50,23 @@ class Logger
      */
     public function appendError(\Throwable $error): bool
     {
-        $msg = "[{$this->tag}]\tError caught\n\tError:\t{$error->getMessage()}";
+        $msg = "[{$this->tag}]\tError caught{${PHP_EOL}}\tError:\t{$error->getMessage()}";
 
         if ($error->getPrevious() !== null) {
-            $msg .= "\n\tIntErr:\t{$error->getPrevious()->getMessage()}";
+            $msg .= "{${PHP_EOL}}\tIntErr:\t{$error->getPrevious()->getMessage()}";
         }
 
         return $this->append($msg);
     }
 
-    private function append(string $data): bool
+    /**
+     * Append record to log file.
+     *
+     * @param string $msg string of message
+     * @return boolean true on success; false on failure.
+     */
+    private function append(string $msg): bool
     {
-        return (bool) file_put_contents(join_path($this->dirPath, $this->fileName), $data . PHP_EOL, FILE_APPEND);
+        return (bool) file_put_contents(join_path($this->dirPath, $this->fileName), $msg . PHP_EOL, FILE_APPEND);
     }
 }
