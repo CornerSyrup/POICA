@@ -50,10 +50,10 @@ class Logger
      */
     public function appendError(\Throwable $error): bool
     {
-        $msg = "[{$this->tag}]\tError caught\nError\t: {$error->getMessage()}";
+        $msg = "[{$this->tag}]\tError caught\n\tError:\t{$error->getMessage()}";
 
         if ($error->getPrevious() !== null) {
-            $msg .= "\nIntErr\t: {$error->getPrevious()->getMessage()}";
+            $msg .= "\n\tIntErr:\t{$error->getPrevious()->getMessage()}";
         }
 
         return $this->append($msg);
