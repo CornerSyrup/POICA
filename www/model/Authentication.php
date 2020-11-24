@@ -24,18 +24,10 @@ use model\validation as valid;
  */
 function authenticate(string $sid, string $password): bool
 {
-    if (!valid\validate_sid($sid)) {
-        throw new valid\ExpressionMismatchException('sid', $sid);
-    }
-
-    if (!valid\validate_pwd($password)) {
-        throw new valid\ExpressionMismatchException('pwd', $password);
-    }
-
     try {
         $hash = (new model\DBAdaptor())->obtain_credential($sid);
-    } catch (\Throwable $th) {
-        throw $th;
+    } catch (\model\RecordNotFoundException $rnf) {
+        throw new \Exception("Credential for student id [{$sid}] was not registered.", 0, $rnf);
     }
 
     return verify_password($password, $hash);
@@ -43,19 +35,10 @@ function authenticate(string $sid, string $password): bool
 
 function authenticate_suica(string $sid, string $idm): bool
 {
-    if (!valid\validate_sid($sid)) {
-        throw new valid\ExpressionMismatchException('sid', $sid);
-    }
-    if (!valid\validate_suica($idm)) {
-        throw new valid\ExpressionMismatchException('idm', $idm);
-    }
-
     try {
         $uid = (new model\DBAdaptor())->obtain_suica($idm);
     } catch (model\RecordNotFoundException $rnf) {
         throw new \Exception("Suica [{$idm}] was not registered.", 0, $rnf);
-    } catch (\Throwable $th) {
-        throw new $th;
     }
 
     return $sid == $uid;
