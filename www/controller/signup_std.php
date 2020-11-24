@@ -9,10 +9,10 @@ namespace controller;
 use model\authentication as auth;
 use model\validation as valid;
 
-require_once 'model/Authenticator.php';
+require_once 'model/Authentication.php';
 require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
-require_once 'model/Validator.php';
+require_once 'model/Validation.php';
 
 $logger = new \model\Logger('auth');
 $view = 'signup_form';
@@ -23,7 +23,7 @@ try {
         throw new \Exception("`{$_POST['sid']}` attempt to sign up, but fail on validation");
     }
 
-    if (auth\enrolment($_POST)){
+    if (auth\enrol($_POST)) {
         $logger->appendRecord("success of enrolment");
     } else {
         http_response_code(400);

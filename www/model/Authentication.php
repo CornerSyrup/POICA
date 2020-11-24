@@ -44,7 +44,7 @@ function authenticate(string $sid, string $password): bool
     return $ret;
 }
 
-function enrolment(array $data): bool
+function enrol(array $data): bool
 {
     $logger = new model\Logger('auth');
 

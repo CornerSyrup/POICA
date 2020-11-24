@@ -5,7 +5,7 @@ namespace controller;
 require_once 'model/DBAdaptor.php';
 require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
-require_once 'model/Validator.php';
+require_once 'model/Validation.php';
 
 use model;
 use model\validation as valid;

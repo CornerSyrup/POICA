@@ -6,7 +6,7 @@
 
 namespace controller;
 
-require_once 'model/Authenticator.php';
+require_once 'model/Authentication.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
