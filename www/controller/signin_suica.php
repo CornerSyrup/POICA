@@ -7,7 +7,7 @@ require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
 require_once 'model/Validator.php';
 
-use model\authentication as auth;
+use model;
 use model\validation as valid;
 
 session_start();
@@ -31,7 +31,7 @@ try {
         }
     }
 
-    $_SESSION['user'] = \model\DBAdaptor::obtain_suica($_POST['idm']);
+    $_SESSION['user'] = (new model\DBAdaptor())->obtain_suica($_POST['idm']);
     $_SESSION['log_in'] = true;
     $logger->appendRecord("[{$_POST['idm']}] logged in with suica successfully.");
 

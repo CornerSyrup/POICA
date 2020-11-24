@@ -33,7 +33,9 @@ function authenticate(string $sid, string $password): bool
     }
 
     try {
-        $hash = model\DBAdaptor::obtain_credential($sid);
+        $adapter = new model\DBAdaptor();
+
+        $hash = $adapter->obtain_credential($sid);
         $ret = verify_password($password, $hash);
     } catch (\Throwable $th) {
         throw $th;
@@ -50,7 +52,7 @@ function enrolment(array $data): bool
     $data['pwd'] = get_password_hash($data['pwd']);
 
     try {
-        model\DBAdaptor::insert_credential($data);
+        (new model\DBAdaptor())->insert_credential($data);
         $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
     } catch (\Throwable $th) {
         $logger->appendError($th);

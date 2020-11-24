@@ -12,27 +12,29 @@ class DBAdaptor
     const USER = "mekizxwyldndzk";
     const PASS = "f3e23c643a8d0cda95acbd4884f0adbbc6dde213da7711e70c64e55c172e1060";
 
+    var $connection;
+
     /**
-     * Create and return connection to PostgreSQL.
+     * Instance Database Adapter with connection creation
      *
      * @throws Exception throw when connection fail after trying twice
      * @return resource database connection.
      */
-    private static function create_connection()
+    public function __construct()
     {
         $cstring = sprintf('host=%s dbname=%s user=%s password=%s', self::HOST, self::DATA, self::USER, self::PASS);
 
-        $con = pg_connect($cstring);
+        // try connect
+        self::$connection = pg_connect($cstring);
 
-        // try twice
-        if (!$con) {
-            $con = pg_connect($cstring);
+        if (!self::$connection) {
+            // retry of connect
+            self::$connection = pg_connect($cstring);
 
-            if (!$con) {
+            if (!self::$connection) {
+                // fail twice
                 throw new \Exception('Connection fail');
             }
-        } else {
-            return $con;
         }
     }
 
@@ -43,16 +45,10 @@ class DBAdaptor
      * @return string password hash.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public static function obtain_credential(string $sid): string
+    public function obtain_credential(string $sid): string
     {
-        try {
-            $con = self::create_connection();
-        } catch (\Throwable $th) {
-            throw new \Exception("Fail to connect to db server.", 0, $th);
-        }
-
         $res = pg_fetch_array(
-            pg_query($con, "SELECT Usership.obtain_pwd('${sid}');")
+            pg_query(self::$connection, "SELECT Usership.obtain_pwd('${sid}');")
         );
 
         if (empty($res[0])) {
@@ -69,16 +65,10 @@ class DBAdaptor
      * @return string user id for the specified idm code.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public static function obtain_suica(string $code): string
+    public function obtain_suica(string $code): string
     {
-        try {
-            $con = self::create_connection();
-        } catch (\Throwable $th) {
-            throw new \Exception("Fail to connect to db server.", 0, $th);
-        }
-
         $res = pg_fetch_array(
-            pg_query($con, "SELECT Usership.obtain_suica('$code')")
+            pg_query(self::$connection, "SELECT Usership.obtain_suica('$code')")
         );
 
         if (empty($res[0])) {
@@ -88,17 +78,12 @@ class DBAdaptor
         return $res[0];
     }
 
-    public static function insert_credential(array $data)
+    public function insert_credential(array $data)
     {
-        try {
-            $con = self::create_connection();
-        } catch (\Throwable $th) {
-            throw new \Exception("Fail to connect to db server.", 0, $th);
-        }
-
         // suppress warning message manually
-        if (!@pg_query($con, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
-            throw new RecordInsertException(pg_errormessage($con));
+        if (!@pg_query(self::$connection, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
+            throw new RecordInsertException(pg_errormessage(self::$connection));
+            // TODO: add resolve error in every functions
         }
     }
 }
