@@ -11,16 +11,14 @@ require 'Logger.php';
 require 'Validator.php';
 
 use model;
-use model\validation as valid;
 
 /**
- * Authenticate user whether he is legal.
+ * Authenticate user with password.
  *
- * @param string $sid student id.
- * @param string $password password string.
+ * @param string $sid student id of the user.
+ * @param string $password password of the user as plain string.
  * @return boolean
- * @throws ExpressionMismatchException throw when student id (sid) or password (pwd) found invalid.
- * @throws RecordNotFoundException throw then credential not fround from database.
+ * @throws RecordNotFoundException throw when credential cannot fround in database.
  */
 function authenticate(string $sid, string $password): bool
 {
@@ -33,6 +31,14 @@ function authenticate(string $sid, string $password): bool
     return verify_password($password, $hash);
 }
 
+/**
+ * Authenticate user with suica card.
+ *
+ * @param string $sid student id of the user.
+ * @param string $idm idm code of the suica card.
+ * @return boolean
+ * @throws RecordNotFoundException throw when suica card data cannot found in database.
+ */
 function authenticate_suica(string $sid, string $idm): bool
 {
     try {
@@ -44,6 +50,12 @@ function authenticate_suica(string $sid, string $idm): bool
     return $sid == $uid;
 }
 
+/**
+ * Validate and store credential to database.
+ *
+ * @param array $data array of basic credential of user.
+ * @return boolean true on success, false on fail.
+ */
 function enrol(array $data): bool
 {
     $logger = new model\Logger('auth');
@@ -54,8 +66,8 @@ function enrol(array $data): bool
     try {
         (new model\DBAdaptor())->insert_credential($data);
         $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
-    } catch (\Throwable $th) {
-        $logger->appendError($th);
+    } catch (model\RecordInsertException $rie) {
+        $logger->appendError($rie);
         return false;
     }
 
@@ -65,7 +77,7 @@ function enrol(array $data): bool
 /**
  * Get password hash.
  *
- * @param string $password password string to be hashed.
+ * @param string $password plain password string to be hashed.
  * @return string hash of password.
  */
 function get_password_hash(string $password): string
@@ -74,10 +86,10 @@ function get_password_hash(string $password): string
 }
 
 /**
- * Verify whether password input is valid.
+ * Verify whether password is correct.
  *
  * @param string $input password received.
- * @param string $pwd_hash password hash obtained from db.
+ * @param string $pwd_hash password hash obtained from database.
  * @return boolean
  */
 function verify_password(string $input, string $pwd_hash): bool
