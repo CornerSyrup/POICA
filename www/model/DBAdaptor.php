@@ -33,7 +33,7 @@ class DBAdaptor
 
             if (!self::$connection) {
                 // fail twice
-                throw new \Exception('Connection fail');
+                throw new \Exception('Fail to connect to database for unknown reason.');
             }
         }
     }
@@ -72,18 +72,24 @@ class DBAdaptor
         );
 
         if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with suica id [{$code}]");
+            throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$code}].");
         }
 
         return $res[0];
     }
 
+    /**
+     * Interface to insert user credential to database.
+     *
+     * @param array $data array of user credential.
+     * @return void
+     * @throws RecordInsertException throw when insertion fail
+     */
     public function insert_credential(array $data)
     {
         // suppress warning message manually
         if (!@pg_query(self::$connection, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
             throw new RecordInsertException(pg_errormessage(self::$connection));
-            // TODO: add resolve error in every functions
         }
     }
 }
@@ -106,8 +112,18 @@ class RecordNotFoundException extends \Exception
     }
 }
 
+/**
+ * Exception representing record insertion failure.
+ */
 class RecordInsertException extends \Exception
 {
+    /**
+     * Constructor of record insert exception.
+     *
+     * @param string $message message of insertion failure.
+     * @param integer $code error code
+     * @param Exception $innerException internal exception which raised this exception indirectly.
+     */
     public function __construct(string $message, int $code = 0, \Exception $innerException = null)
     {
         parent::__construct($message, $code, $innerException);
