@@ -8,7 +8,7 @@ namespace model\authentication;
 
 require 'DBAdaptor.php';
 require 'Logger.php';
-require 'Validator.php';
+require 'Validation.php';
 
 use model;
 
