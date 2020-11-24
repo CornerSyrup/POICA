@@ -21,14 +21,32 @@ function validate_suica(string $idm): bool
     return preg_match('/^\d{16}$/', $idm);
 }
 
-function validate_jname(string $name): bool {
+function validate_jname(string $name): bool
+{
     // TODo: add validation rule
     return true;
 }
 
-function validate_jkana(string $kana): bool {
+function validate_jkana(string $kana): bool
+{
     // TODO: add validation rule
     return true;
+}
+
+/**
+ * Validate whether the sign in info for suica sign in is valid.
+ *
+ * @param string $sid student id of the user.
+ * @param string $idm idm code of the suica card.
+ * @return boolean
+ */
+function validate_suica_signin(string $sid, string $idm): bool
+{
+    if (empty($sid) && empty($idm)) {
+        return false;
+    }
+
+    return validate_sid($sid) && validate_suica($idm);
 }
 
 function validate_signup_form(array $form): bool
