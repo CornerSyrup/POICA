@@ -31,7 +31,7 @@ CREATE TABLE Usership.Users(
     suica CHAR(20),
     CONSTRAINT PK_User PRIMARY KEY (userID),
     CONSTRAINT UQ_Suica UNIQUE (suica)
-    CONSTRAINT UN_Student UNIQUE (studentID, studentYear)
+    CONSTRAINT UQ_Student UNIQUE (studentID, studentYear)
 );
 
 -- access control, logging
