@@ -67,6 +67,14 @@ function validate_signin_suica(string $sid, string $idm): bool
 
 function validate_signup_form(array $form): bool
 {
+    if (
+        empty($form['sid']) || empty($form['pwd']) ||
+        empty($form['jfn']) || empty($form['jln']) ||
+        empty($form['jfk']) || empty($form['jlk'])
+    ) {
+        return false;
+    }
+
     return validate_sid($form['sid']) &&
         validate_pwd($form['pwd']) &&
         validate_jname($form['jfn']) &&
