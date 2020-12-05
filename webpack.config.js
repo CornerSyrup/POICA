@@ -6,7 +6,7 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "www", "view", "js"),
+    path: path.resolve(__dirname, "www", "js"),
   },
   module: {
     rules: [

@@ -24,8 +24,8 @@
         RewriteRule ^apply/form/(\d+)/$ /controller/apply/app_entry.php?id=$1 [NC,END,QSA]
 
     # cdn
-        RewriteRule ^cdn/(.+).js$ /view/js/$1.js [END]
-        RewriteRule ^cdn/(.+).css$ /view/css/$1.css [END]
+        RewriteRule ^cdn/(.+).js$ /js/$1.js [END]
+        RewriteRule ^cdn/(.+).css$ /css/$1.css [END]
 
     # direct
         RewriteRule ^(.+)/$ /view/$1.php [END]
