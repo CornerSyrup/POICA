@@ -60,7 +60,7 @@ class Localizer
      * @param string $data string to be processed.
      * @return void
      */
-    private static function Encode(string &$data): string
+    private static function Encode(string $data): string
     {
         $data = mb_convert_encoding($data, 'UTF-8', ['Shift_JIS', 'UTF-8', 'auto']);
 
