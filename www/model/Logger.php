@@ -13,18 +13,29 @@ class Logger
     /**
      * Initiate an instance of logger.
      *
-     * @param string $tag tag for the log record.
+     * @param string $tag tag for the log record, which should be no longer than 5 letters.
      * @param string $file file name of the log without extension.
      */
     public function __construct(string $tag, string $file = null)
     {
-        $this->tag = ucfirst($tag);
+        $this->SetTag($tag);
         $this->dirPath = join_path(dirname(__DIR__), 'logs');
         $this->fileName = is_null($file) ? $tag . '.log' : $file . '.log';
 
         if (!file_exists($this->dirPath)) {
             mkdir($this->dirPath);
         }
+    }
+
+    /**
+     * Setter of logging tag.
+     *
+     * @param string $tag tag for the log record, which should be no longer than 5 letters.
+     * @return void
+     */
+    public function SetTag(string $tag)
+    {
+        $this->tag = ucfirst($tag);
     }
 
     /**
@@ -50,7 +61,7 @@ class Logger
      */
     public function appendError(\Throwable $error): bool
     {
-        $msg = "[{$this->tag}]\n\tError:\t{$error->getMessage()}";
+        $msg = "[{$this->tag}]\tError:\t{$error->getMessage()}";
 
         if ($error->getPrevious() !== null) {
             $msg .= "\n\tIntErr:\t{$error->getPrevious()->getMessage()}";

@@ -51,11 +51,14 @@ class RequestMethodException extends \Exception
      * @param integer $code exception code for exception instance.
      * @param \Exception $innerException inner exception of instance.
      */
-    public function __construct(string $expected, string $actual, int $code = 0, \Exception $innerException = null)
+    public function __construct(string $expected = '', string $actual, int $code = 0, \Exception $innerException = null)
     {
         $this->actual = $actual;
         $this->expected = $expected;
 
-        parent::__construct("Request method expected [{$expected}] instead of [{$actual}].", $code, $innerException);
+        $msg = empty($expected) ?
+            "Request method expected instead of [{$actual}]." :
+            "Request method expected [{$expected}] instead of [{$actual}].";
+        parent::__construct($msg, $code, $innerException);
     }
 }

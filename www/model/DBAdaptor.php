@@ -12,7 +12,7 @@ class DBAdaptor
     const USER = "mekizxwyldndzk";
     const PASS = "f3e23c643a8d0cda95acbd4884f0adbbc6dde213da7711e70c64e55c172e1060";
 
-    var $connection;
+    private $connection;
 
     /**
      * Instance Database Adapter with connection creation
@@ -38,6 +38,7 @@ class DBAdaptor
         }
     }
 
+    #region credential
     /**
      * Interface to obtain user credential from database.
      *
@@ -47,9 +48,16 @@ class DBAdaptor
      */
     public function obtain_credential(string $sid): string
     {
-        $res = pg_fetch_array(
-            pg_query($this->connection, "SELECT Usership.obtain_pwd('${sid}');")
-        );
+        $res = pg_query_params($this->connection, "SELECT Usership.obtain_pwd($1);", array($sid));
+
+        if (!$res) {
+            throw new RecordNotFoundException(
+                "Fail to obtain credential with student ID [{$sid}].",
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+        $res = pg_fetch_row($res);
 
         if (empty($res[0])) {
             throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
@@ -67,9 +75,16 @@ class DBAdaptor
      */
     public function obtain_suica(string $code): string
     {
-        $res = pg_fetch_array(
-            pg_query($this->connection, "SELECT Usership.obtain_suica('$code')")
-        );
+        $res = pg_query_params($this->connection, "SELECT Usership.obtain_suica($1)", array($code));
+
+        if (!$res) {
+            throw new RecordNotFoundException(
+                "Fail to obtain credential with suica ID [{$code}].",
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+        $res = pg_fetch_row($res);
 
         if (empty($res[0])) {
             throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$code}].");
@@ -88,10 +103,89 @@ class DBAdaptor
     public function insert_credential(array $data)
     {
         // suppress warning message manually
-        if (!@pg_query($this->connection, "CALL Usership.insert_cre('{$data['sid']}','{$data['yr']}','{$data['pwd']}','{$data['jfn']}','{$data['jln']}','{$data['jfk']}','{$data['jlk']}')")) {
+        if (!@pg_query_params(
+            $this->connection,
+            "CALL Usership.insert_cre($1, $2, $3, $4, $5, $6, $7)",
+            array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
+        )) {
             throw new RecordInsertException(pg_errormessage($this->connection));
         }
     }
+    #endregion
+
+    #region application form
+    /**
+     * Interface to obtain form data with entry id.
+     *
+     * @param integer $id form data entry id.
+     * @return string form data as json string.
+     * @throws RecordNotFoundException throw when form data not found with supplied entry id and user id.
+     */
+    public function obtain_form(int $entry, int $user): string
+    {
+        // TODO: create db function to replace
+        $res = @pg_query_params(
+            $this->connection,
+            "SELECT a.formdata FROM applic.applications a WHERE a.appid=$1 AND a.applyuser in (select u.userid from usership.users u where studentid=$2 limit 1);",
+            array($entry, $user)
+        );
+
+        if (!$res) {
+            throw new RecordNotFoundException(
+                "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]",
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+        $res = pg_fetch_row($res);
+
+        if (empty($res[0])) {
+            throw new RecordNotFoundException("Fail to obtain form data with entry id [{$entry}] and user id [{$user}]");
+        }
+
+        return $res[0];
+    }
+
+    /**
+     * Interface to insert new application form data to database.
+     *
+     * @param AppForm $form form data to be insert to database.
+     * @return void
+     * @throws RecordInsertException throw when insertion fail.
+     */
+    public function insert_form(int $user, app_form\AppForm $form)
+    {
+        // TODO: create db function to replace
+        // suppress warning message manually
+        if (!@pg_query_params(
+            $this->connection,
+            "INSERT INTO Applic.Applications (applyUser, formData) VALUES ($1, $2)",
+            array($user, $form->Serialize())
+        )) {
+            throw new RecordInsertException(pg_errormessage($this->connection));
+        }
+    }
+
+    public function obtain_catalogue(int $user)
+    {
+        // TODO: create db function to replace
+        $res = @pg_query_params(
+            $this->connection,
+            "SELECT * FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
+            array((string)$user)
+        );
+
+        if (!$res) {
+            throw new RecordLookUpException(
+                "Fail to obtain applied form list with [{$user}]",
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+
+        return pg_fetch_all($res);
+    }
+    #endregion
 }
 
 /**
@@ -127,5 +221,24 @@ class RecordInsertException extends \Exception
     public function __construct(string $message, int $code = 0, \Exception $innerException = null)
     {
         parent::__construct($message, $code, $innerException);
+    }
+}
+
+/**
+ * Exception representing error encountered in record look up procedure.
+ */
+class RecordLookUpException extends \Exception
+{
+
+    /**
+     * Constructor of record look up exception.
+     *
+     * @param string $message error or warning message from database.
+     * @param integer $code error code.
+     * @param \Exception $innerException internal exception which raised this exception indirectly.
+     */
+    public function __construct(string $message, int $code = 0, \Exception $innerException = null)
+    {
+        parent::__construct("Fail to lookup record with following message:\n\t" . $message, $code, $innerException);
     }
 }

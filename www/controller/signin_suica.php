@@ -4,21 +4,22 @@
  * sign in process with suica card.
  * 
  * take POST data:
- * sid: student id of user.
- * idm: registered suica card idm code.
+ * sid:     student id of user.
+ * idm:     registered suica card idm code.
  * 
  * use session data:
- * user: user id.
- * log_in: is logged in.
+ * user:    user id.
+ * log_in:  is logged in.
  * 
- * respond:
- * status: 1 for logged in, 0 for logged out.
- * error: `message` for error message, `code` for error code.
+ * respond in json:
+ * status:  1 for logged in, 0 for logged out.
+ * error:   `message` for error message, `code` for error code.
  */
 
 namespace controller;
 
 require_once 'model/Authentication.php';
+require_once 'model/Global.php';
 require_once 'model/Localizer.php';
 require_once 'model/Logger.php';
 require_once 'model/Validation.php';
@@ -26,14 +27,19 @@ require_once 'model/Validation.php';
 use model\authentication as auth;
 use model\validation as valid;
 
+// clear previous login status
 session_start();
 session_destroy();
 
-$logger = new \model\Logger('Sign in (suica)', 'signin');
-$_POST = json_decode(file_get_contents('php://input'), true);
+$logger = new \model\Logger('suica', 'signin');
+/**
+ * Respond data set.
+ */
 $res = [];
 
 try {
+    $_POST = json_decode(file_get_contents('php://input'), true);
+
     // repel http request method
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         throw new \RequestMethodException('POST', $_SERVER['REQUEST_METHOD']);
@@ -88,6 +94,5 @@ try {
     $logger->appendError($th);
 }
 
-ob_start();
+header("Content-Type: application/json");
 echo json_encode($res);
-ob_end_flush();

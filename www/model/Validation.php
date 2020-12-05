@@ -6,9 +6,25 @@
 
 namespace model\validation;
 
+#region authentication
 function validate_sid(string $sid): bool
 {
     return preg_match('/^\d{5}$/', $sid);
+}
+
+/**
+ * Validate teacher id.
+ *
+ * @param string $tid
+ * @return boolean
+ */
+function validate_tid(string $tid): bool
+{
+    if (empty($tid)) {
+        return false;
+    }
+
+    return preg_match('/^\d{6}$/', $tid);
 }
 
 function validate_pwd(string $password): bool
@@ -32,7 +48,29 @@ function validate_jkana(string $kana): bool
     // TODO: add validation rule
     return true;
 }
+#endregion
 
+#region applications
+function validate_class_code(string $code): bool
+{
+    if (empty($code)) {
+        return false;
+    }
+
+    return preg_match('/^\w{2}\d{2}\w\d{3}$/', $code);
+}
+
+function validate_resident_card(string $code): bool
+{
+    if (empty($code)) {
+        return false;
+    }
+
+    return preg_match('/^\w{2}\d{8}\w{2}$/', $code);
+}
+#endregion
+
+#region array validation
 /**
  * Validate whether the sign in info for from sign in is valid.
  *
@@ -82,6 +120,7 @@ function validate_signup_form(array $form): bool
         validate_jkana($form['jfk']) &&
         validate_jkana($form['jlk']);
 }
+#endregion
 
 /**
  * Exception representing some string do not match an expression rule.

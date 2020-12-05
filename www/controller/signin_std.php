@@ -4,17 +4,18 @@
  * sign in process with student id and password.
  * 
  * take POST data:
- * sid: student id of user.
- * pwd: password of user.
+ * sid:     student id of user.
+ * pwd:     password of user.
  * 
  * use session data:
- * user: user id.
- * log_in: is logged in.
+ * user:    user id.
+ * log_in:  is logged in.
  */
 
 namespace controller;
 
 require_once 'model/Authentication.php';
+require_once 'model/Global.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 require_once 'model/Validation.php';
@@ -26,7 +27,7 @@ use model\validation as valid;
 session_start();
 session_destroy();
 
-$logger = new \model\Logger('Sign in (form)', 'signin');
+$logger = new \model\Logger('form', 'signin');
 $view = 'signin_form';
 $errmsg = '';
 
@@ -56,21 +57,25 @@ try {
     // auth fail
     else {
         $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login from form.");
+        $view = 'signin_form';
     }
 } catch (\RequestMethodException $re) {
     // inappropriate request method
     $logger->appendError($re);
     $errmsg = '';
+    $view = 'signin_form';
 } catch (valid\ValidationException $ve) {
     // invalid input
     $logger->appendError($ve);
     $errmsg = 'Please check your input and try again.';
+    $view = 'signin_form';
 } catch (auth\AuthenticationException $ae) {
     // no registration found
     $logger->appendError($ae);
     $errmsg = "Account not found, please <a href=\"/signup/\">create a new account</a>.";
 } catch (\Throwable $th) {
     $logger->appendError($th);
+    $view = 'signin_form';
 }
 
 ob_start();
