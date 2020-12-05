@@ -81,7 +81,7 @@ class AppForm
 /**
  * Exception representing form incompleteness.
  */
-class FormIncompleteException  extends \Exception
+class FormIncompleteException extends \Exception
 {
     /**
      * Constructor of form incomplete exception.

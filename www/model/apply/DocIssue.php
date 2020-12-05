@@ -15,14 +15,14 @@ require_once 'model/apply/AppForm.php';
 class DocIssue extends AppForm
 {
     /**
+     * Unix timestamp of date of birth, set with function setter SetDateOfBirth.
+     */
+    private int $dob;
+    /**
      * Status of the applicant.
      * 1 as 在校生, 2 as 卒業生, 3 as 休学者, 4 as 退学者
      */
     public int $status;
-    /**
-     * Unix timestamp of date of birth, set with function setter SetDateOfBirth.
-     */
-    private int $dob;
     /**
      * Purpose of apply.
      * 1 as 進学, 2 as 国家試験, 3 as Visa申請手続, 4 as 旅行
@@ -58,6 +58,16 @@ class DocIssue extends AppForm
     public GraduatesSubForm $gradSub;
 
     /**
+     * Getter for date of birth.
+     *
+     * @return int
+     */
+    public function GetDateOfBirth(): int
+    {
+        return $this->dob;
+    }
+
+    /**
      * Setter for date of birth.
      *
      * @param int $year
@@ -68,16 +78,6 @@ class DocIssue extends AppForm
     public function SetDateOfBirth(int $year, int $month, int $day): void
     {
         $this->dob = mktime(null, null, null, $month, $day, $year);
-    }
-
-    /**
-     * Getter for date of birth.
-     *
-     * @return int
-     */
-    public function GetDateOfBirth(): int
-    {
-        return $this->dob;
     }
 
     /**
