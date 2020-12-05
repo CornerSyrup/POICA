@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    signin: path.join(path.resolve(__dirname, "src", "script"), "signin.tsx"),
+    apply: path.join(path.resolve(__dirname, "src", "script"), "apply.tsx"), // for apply dashboard
   },
   output: {
     filename: "[name].bundle.js",
