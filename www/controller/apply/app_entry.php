@@ -70,6 +70,8 @@ try {
             throw new \RequestMethodException('', $_SERVER['REQUEST_METHOD']);
             break;
     }
+
+    $logger->SetTag('entry');
 } catch (\RequestMethodException $ex) {
     $logger->appendError($ex);
     $res['status'] = -1;
