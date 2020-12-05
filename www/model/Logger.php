@@ -6,7 +6,7 @@ require_once 'Global.php';
 
 class Logger
 {
-    public $tag;
+    private $tag;
     public $dirPath;
     public $fileName;
 
