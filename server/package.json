@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "pretest": "start tsc --watch",
-    "test": "start npx nodemon server.js"
+    "pretest": "tsc",
+    "test": "node server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
