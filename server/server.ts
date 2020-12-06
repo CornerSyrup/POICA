@@ -4,15 +4,17 @@ import express from "express";
 const PORT = 80;
 let server = express();
 
-server.get("/", (req, res) => {
+//#region  generic auth service
+server.get("/auth/", (req, res) => {
   let respond = {
     status: 200,
-    body: "Hello World",
+    body: "Auth Service",
   };
 
   res.header("Content-Type", "application/json");
   res.send(JSON.stringify(respond));
 });
+//#endregion
 
 // ignite
 server.listen(PORT, () => {
