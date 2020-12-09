@@ -1,10 +1,10 @@
 import express from "express";
-import nodemailer, { TestAccount } from "nodemailer";
+import nodemailer from "nodemailer";
 
-import MailAccount from "./MailAccount";
+import MailAccount from "./src/MailAccount";
 
 // general config
-const PORT = 80;
+const PORT = process.env.PORT || 8888;
 let server = express();
 
 //#region  generic auth service
@@ -23,7 +23,7 @@ server.get("/auth/", (req, res) => {
 const mailer = nodemailer.createTransport({
   // dev env with MailTrap
   host: "smtp.mailtrap.io",
-  port: 587 ,
+  port: 587,
   auth: {
     user: "142de77bed440f",
     pass: "a12f9f2c00546c",
@@ -31,13 +31,18 @@ const mailer = nodemailer.createTransport({
   pool: true,
   maxConnections: 1,
 });
-
 const sender: MailAccount = new MailAccount(
   "IH12A092 Group 5",
   "service@group5-ih12a092.com"
 );
 
 server.post("/mail/", (req, res) => {
+  let msg = {
+    code: 0,
+    info: null,
+    err: null,
+  };
+  
   mailer
     .sendMail({
       from: sender.AccountString,
@@ -47,21 +52,24 @@ server.post("/mail/", (req, res) => {
     })
     .then(
       (info) => {
-        console.log(`Mail sent Successfully, with sending info:`);
-        console.log(JSON.stringify(info, null, 2));
+        res.statusCode = 200;
+        msg.code = 1;
+        msg.info = info;
+        res.send(msg);
       },
       (reason) => {
-        console.warn(`Mail sent Failingly, with reason:`);
-        console.log(JSON.stringify(reason, null, 2));
+        res.statusCode = 500;
+        msg.code = 0;
+        msg.err = reason;
+        res.send(msg);
       }
     )
     .catch((reason) => {
-      console.error(`Mail sent Failingly, with error:`);
-      console.log(JSON.stringify(reason, null, 2));
+      res.statusCode = 500;
+      msg.code = -1;
+      msg.err = reason;
+      res.send(msg);
     });
-
-  res.statusCode = 200;
-  res.send();
 });
 //#endregion
 
