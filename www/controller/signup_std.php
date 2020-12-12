@@ -28,7 +28,7 @@ session_start();
 session_destroy();
 
 $logger = new \model\Logger('form', 'signup');
-$view = 'signup_form';
+$view = 'signup';
 $errmsg = '';
 
 try {
@@ -53,18 +53,18 @@ try {
     // enrol fail
     else {
         $logger->appendRecord("Fail to enrol user with student id [{$_POST['sid']}]");
-        $view = 'signup_form';
+        $view = 'signup';
     }
 } catch (\RequestMethodException $re) {
     // inappropriate request method
     $logger->appendError($re);
     $errmsg = '';
-    $view = 'signup_form';
+    $view = 'signup';
 } catch (valid\ValidationException $ve) {
     // invalid input
     $logger->appendError($ve);
     $errmsg = 'Please check your input and try again.';
-    $view = 'signup_form';
+    $view = 'signup';
 } catch (\Throwable $th) {
     $logger->appendError($th);
 }

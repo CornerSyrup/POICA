@@ -1,0 +1,22 @@
+extends includes/layout
+
+block title
+    title Sign Up - IH12A Group 5
+
+block main
+    form(action="/signup", method="post")
+        label(for="sid") Student ID
+        input#id(type="number", name="sid")
+        label(for="pwd") Password
+        input#pwd(type="password", name="pwd", autocomplete="new-password")
+        label(for="jfn") Japanese First Name
+        input#jfn(type="text", name="jfn")
+        label(for="jln") Japanese Last Name
+        input#jln(type="text", name="jln")
+        label(for="jfk") Japanese First Name Kana
+        input#jfk(type="text", name="jfk")
+        label(for="jlk") Japanese Last Kana
+        input#jlk(type="text", name="jlk")
+
+block script
+    script(src='/cdn/signup.js')
