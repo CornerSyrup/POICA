@@ -19,6 +19,29 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(pug)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].php",
+            },
+          },
+          {
+            loader: "extract-loader",
+          },
+          {
+            loader: "html-loader",
+          },
+          {
+            loader: "pug-html-loader",
+            options: {
+              pretty: true,
+            },
+          },
+        ],
+      },
     ],
   },
   target: "web",
