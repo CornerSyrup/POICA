@@ -42,6 +42,20 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(less)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].css",
+            },
+          },
+          {
+            loader: "less-loader",
+          },
+        ],
+      },
     ],
   },
   target: "web",
