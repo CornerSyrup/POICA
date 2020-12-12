@@ -1,7 +1,7 @@
 import express from "express";
 import nodemailer from "nodemailer";
 
-import MailAccount from "./src/MailAccount";
+import MailAccount from "./model/MailAccount";
 
 // general config
 const PORT = process.env.PORT || 8888;
