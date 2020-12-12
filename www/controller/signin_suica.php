@@ -41,8 +41,8 @@ try {
     $_POST = json_decode(file_get_contents('php://input'), true);
 
     // repel http request method
-    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-        throw new \RequestMethodException('POST', $_SERVER['REQUEST_METHOD']);
+    if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
+        throw new \RequestMethodException('POST', strtoupper($_SERVER['REQUEST_METHOD']));
     }
 
     // localize input

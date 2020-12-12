@@ -48,7 +48,7 @@ try {
         throw new auth\UnauthorizeException();
     }
 
-    switch ($_SERVER['REQUEST_METHOD']) {
+    switch (strtoupper(strtoupper($_SERVER['REQUEST_METHOD']))) {
         case 'GET':
             // id 0 for catalogue request, see also .htaccess
             if ($_REQUEST['id'] == 0) {
@@ -70,7 +70,7 @@ try {
             require_once 'app_delete.php';
             break;
         default:
-            throw new \RequestMethodException('', $_SERVER['REQUEST_METHOD']);
+            throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
             break;
     }
 
