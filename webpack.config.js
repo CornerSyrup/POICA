@@ -59,5 +59,7 @@ module.exports = {
     ],
   },
   target: "web",
-  externals: ["react"],
+  externals: {
+    React: "react",
+  },
 };
