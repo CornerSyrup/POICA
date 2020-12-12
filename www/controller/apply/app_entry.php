@@ -58,12 +58,15 @@ try {
             }
             break;
         case 'POST':
+            // TODO: create post handler for application
             require_once 'app_post.php';
             break;
         case 'PUT':
+            // TODO: create put handler for application
             require_once 'app_put.php';
             break;
         case 'DELETE':
+            // TODO: create delete handler for application
             require_once 'app_delete.php';
             break;
         default:
