@@ -21,6 +21,7 @@ module.exports = {
       },
       {
         test: /\.(pug)$/,
+        exclude: /\.(css)$/,
         use: [
           {
             loader: "file-loader",
