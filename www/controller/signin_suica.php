@@ -29,7 +29,7 @@ use model\validation as valid;
 
 // clear previous login status
 session_start();
-session_destroy();
+session_regenerate_id(true);
 
 $logger = new \model\Logger('suica', 'signin');
 /**
@@ -52,8 +52,6 @@ try {
     if (!valid\validate_signin_suica($_POST['sid'], $_POST['idm'])) {
         throw new valid\ValidationException('Sign in suica data is invalid');
     }
-
-    session_start();
 
     // auth success
     if (auth\authenticate_suica($_POST['sid'], $_POST['idm'])) {

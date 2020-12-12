@@ -25,7 +25,7 @@ use model\validation as valid;
 
 // clear previous login status
 session_start();
-session_destroy();
+session_regenerate_id(true);
 
 $logger = new \model\Logger('form', 'signin');
 $view = 'signin';
@@ -44,8 +44,6 @@ try {
     if (!valid\validate_signin_form($_POST['sid'], $_POST['pwd'])) {
         throw new valid\ValidationException('Sign in form data is invalid.');
     }
-
-    session_start();
 
     // auth success
     if (auth\authenticate_form($_POST['sid'], $_POST['pwd'])) {

@@ -41,9 +41,9 @@ $logger = new \model\Logger('entry', 'app');
  */
 $res = [];
 
-try {
-    session_start();
+session_start();
 
+try {
     if (!auth\authenticate()) {
         throw new auth\UnauthorizeException();
     }

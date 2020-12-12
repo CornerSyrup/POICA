@@ -25,7 +25,7 @@ use model\validation as valid;
 
 // clear previous login status
 session_start();
-session_destroy();
+session_regenerate_id();
 
 $logger = new \model\Logger('form', 'signup');
 $view = 'signup';
