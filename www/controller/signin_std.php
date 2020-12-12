@@ -28,7 +28,7 @@ session_start();
 session_destroy();
 
 $logger = new \model\Logger('form', 'signin');
-$view = 'signin_form';
+$view = 'signin';
 $errmsg = '';
 
 try {
@@ -52,30 +52,30 @@ try {
         $_SESSION['user'] = $_POST['sid'];
         $_SESSION['log_in'] = true;
         $logger->appendRecord("[{$_POST['sid']}] logged in successfully from form.");
-        $view = 'signin_success';
+        $view = 'signin';
     }
     // auth fail
     else {
         $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login from form.");
-        $view = 'signin_form';
+        $view = 'signin';
     }
 } catch (\RequestMethodException $re) {
     // inappropriate request method
     $logger->appendError($re);
     $errmsg = '';
-    $view = 'signin_form';
+    $view = 'signin';
 } catch (valid\ValidationException $ve) {
     // invalid input
     $logger->appendError($ve);
     $errmsg = 'Please check your input and try again.';
-    $view = 'signin_form';
+    $view = 'signin';
 } catch (auth\AuthenticationException $ae) {
     // no registration found
     $logger->appendError($ae);
     $errmsg = "Account not found, please <a href=\"/signup/\">create a new account</a>.";
 } catch (\Throwable $th) {
     $logger->appendError($th);
-    $view = 'signin_form';
+    $view = 'signin';
 }
 
 ob_start();
