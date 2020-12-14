@@ -186,6 +186,26 @@ class DBAdaptor
         return pg_fetch_all($res);
     }
     #endregion
+
+    #region enrolments
+    /**
+     * Interface to update suica idm code for user.
+     *
+     * @param integer $user student id.
+     * @param string $idm idm code for suica card.
+     * @return void
+     */
+    public function update_suica(int $user, string $idm)
+    {
+        if (!@pg_query_params(
+            $this->connection,
+            "UPDATE usership.users u SET suica=$1 WHERE u.studentid=$2",
+            array($user, $idm)
+        )) {
+            throw new RecordInsertException(pg_errormessage($this->connection));
+        }
+    }
+    #endregion
 }
 
 /**

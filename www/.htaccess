@@ -20,8 +20,9 @@
         RewriteRule ^signin/$ /controller/signin_std.php [NC,END]
         RewriteRule ^signin/suica/$ /controller/signin_suica.php [NC,END]
         RewriteRule ^signup/$ /controller/signup_std.php [NC,END]
-        RewriteRule ^apply/form/$ /controller/apply/app_entry.php?id=0 [NC,END,QSA]
-        RewriteRule ^apply/form/(\d+)/$ /controller/apply/app_entry.php?id=$1 [NC,END,QSA]
+        RewriteRule ^apply/form/$ /controller/app_entry.php?id=0 [NC,END,QSA]
+        RewriteRule ^apply/form/(\d+)/$ /controller/app_entry.php?id=$1 [NC,END,QSA]
+        RewriteRule ^regis/suica/$ /controller/suica_entry.php [NC,END]
 
     # cdn
         RewriteRule ^cdn/(.+).js$ /view/$1.js [END]

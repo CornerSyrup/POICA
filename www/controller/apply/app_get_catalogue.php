@@ -4,7 +4,7 @@
  * applied form catalogue GET method sub-handler.
  * 
  * use session data:
- * user:    user id.
+ * user:    student id.
  * 
  * set $res from invoker:
  * cat:     array of applied form.

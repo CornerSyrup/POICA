@@ -8,7 +8,7 @@
  * pwd:     password of user.
  * 
  * use session data:
- * user:    user id.
+ * user:    student id.
  * log_in:  is logged in.
  * 
  * respond in json:
@@ -153,7 +153,3 @@ else {
     include "view/{$view}.php";
     ob_end_flush();
 }
-
-ob_start();
-include "view/{$view}.php";
-ob_end_flush();

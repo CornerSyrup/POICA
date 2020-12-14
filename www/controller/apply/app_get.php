@@ -7,7 +7,7 @@
  * id:      application form data entry id.
  * 
  * use session data:
- * user:    user id.
+ * user:    student id.
  * 
  * set $res from invoker:
  * frm:     form data.

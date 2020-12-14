@@ -8,7 +8,7 @@
  * idm:     registered suica card idm code.
  * 
  * use session data:
- * user:    user id.
+ * user:    student id.
  * log_in:  is logged in.
  * 
  * respond in json:
