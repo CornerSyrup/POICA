@@ -1,6 +1,5 @@
 import React from "react";
 
-import { StatusMessage } from "../signin";
 import { session as ReadIdm, sleep } from "../model/felica";
 
 interface SuicaButtonProps {
@@ -11,7 +10,7 @@ interface SuicaButtonProps {
    * @param message error message.
    */
   errorHandler(code: number, message?: string): void;
-  updateMessage(msg: StatusMessage): void;
+  updateMessage(msg: string, warn: boolean): void;
 }
 
 interface SuicaButtonState {
@@ -43,11 +42,8 @@ export default class SuicaButton extends React.Component<
   }
 
   readSuica = async () => {
-    this.props.updateMessage({
-      message: "",
-      warning: false,
-    });
-    
+    this.props.updateMessage("", false);
+
     this.setState({
       isReading: true,
     });

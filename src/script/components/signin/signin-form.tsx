@@ -1,13 +1,11 @@
 import React, { ChangeEvent, KeyboardEvent } from "react";
 
-import { StatusMessage } from "../../signin";
-
 interface SignInFormProps {
   user: string;
   pass: string;
   formDataUpdate(user: string | null, pass: string | null): void;
   formConfirm(): void;
-  updateMessage(msg: StatusMessage): void;
+  updateMessage(msg: string, warn: boolean): void;
 }
 
 interface SignInFormState {
@@ -65,10 +63,7 @@ export default class SignInForm extends React.Component<
     }
     // user id format invalid
     else {
-      this.props.updateMessage({
-        message: "User ID incorrect",
-        warning: true,
-      });
+      this.props.updateMessage("User ID incorrect", true);
     }
   };
 

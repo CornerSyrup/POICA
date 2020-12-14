@@ -8,7 +8,7 @@ import { SignInRespond } from "./model/Respond";
 import "../page/signin.pug";
 import "../style/signin.less";
 
-export interface StatusMessage {
+interface StatusMessage {
   message: string;
   warning: boolean;
 }
@@ -49,11 +49,11 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
     };
   }
 
-  messageUpdate = (msg: StatusMessage) => {
+  messageUpdate = (msg: string, warn: boolean) => {
     this.setState({
       status: {
-        message: msg.message,
-        warning: msg.warning,
+        message: msg,
+        warning: warn,
       },
     });
   };
@@ -85,7 +85,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
 
       return;
     }
-     
+
     fetch("/signin/suica/", {
       method: "POST",
       headers: {
