@@ -124,19 +124,6 @@ try {
     } else {
         $errmsg = "Account not found, please <a href=\"/signup/\">create a new account</a>.";
     }
-
-    // auth success
-    if (auth\authenticate_form($_POST['sid'], $_POST['pwd'])) {
-        $_SESSION['user'] = $_POST['sid'];
-        $_SESSION['log_in'] = true;
-        $logger->appendRecord("[{$_POST['sid']}] logged in successfully from form.");
-        $view = 'signin';
-    }
-    // auth fail
-    else {
-        $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login from form.");
-        $view = 'signin';
-    }
 } catch (\Throwable $th) {
     $logger->appendError($th);
     $view = 'signin';
