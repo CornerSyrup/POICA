@@ -2,7 +2,6 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    apply: path.join(path.resolve(__dirname, "src", "script"), "apply.tsx"), // for apply dashboard
     signin: path.join(path.resolve(__dirname, "src", "script"), "signin.tsx"), // sign in page
   },
   output: {
@@ -21,7 +20,6 @@ module.exports = {
       },
       {
         test: /\.(pug)$/,
-        exclude: /\.(css)$/,
         use: [
           {
             loader: "file-loader",
@@ -58,6 +56,9 @@ module.exports = {
         ],
       },
     ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js", ".pug", ".less"],
   },
   target: "web",
   externals: {

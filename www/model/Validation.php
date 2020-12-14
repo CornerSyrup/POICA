@@ -34,7 +34,7 @@ function validate_pwd(string $password): bool
 
 function validate_suica(string $idm): bool
 {
-    return preg_match('/^\d{16}$/', $idm);
+    return preg_match('/^[A-Za-z0-9]{16}$/', $idm);
 }
 
 function validate_jname(string $name): bool

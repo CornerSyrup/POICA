@@ -38,13 +38,15 @@ $logger = new \model\Logger('suica', 'signin');
 $res = [];
 
 try {
-    $_POST = json_decode(file_get_contents('php://input'), true);
-
     // repel http request method
     if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
         throw new \RequestMethodException('POST', strtoupper($_SERVER['REQUEST_METHOD']));
     }
 
+    // accept js fetch api
+    if (empty($_POST)  && strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json') {
+        $_POST = json_decode(file_get_contents('php://input'), true);
+    }
     // localize input
     $_POST = \model\Localizer::LocalizeArray($_POST);
 
@@ -57,18 +59,19 @@ try {
     if (auth\authenticate_suica($_POST['sid'], $_POST['idm'])) {
         $_SESSION['user'] = $_POST['sid'];
         $_SESSION['log_in'] = true;
-        $logger->appendRecord("[{$_POST['sid']}] logged in successfully with suica.");
+        $logger->appendRecord("[{$_POST['sid']}] logged in successfully.");
         $res['status'] = 1;
     }
     // auth fail
     else {
-        $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login with suica.");
+        $logger->appendRecord("[{$_POST['sid']}] attempted but fail to login.");
+        $res['status'] = 0;
     }
 } catch (\RequestMethodException $re) {
     // inappropriate request method
     $logger->appendError($re);
     $res['error'] = [
-        'message' => 'inappropriate request method.',
+        'message' => '',
         'code' => 1
     ];
     $res['status'] = 0;
