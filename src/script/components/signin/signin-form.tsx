@@ -2,15 +2,10 @@ import React, { ChangeEvent, KeyboardEvent } from "react";
 
 import { StatusMessage } from "../../signin";
 
-export interface SignInFormData {
-  user?: string;
-  pass?: string;
-}
-
 interface SignInFormProps {
   user: string;
   pass: string;
-  formDataUpdate(state: SignInFormData): void;
+  formDataUpdate(user: string | null, pass: string | null): void;
   formConfirm(): void;
   updateMessage(msg: StatusMessage): void;
 }
@@ -34,18 +29,14 @@ export default class SignInForm extends React.Component<
   }
 
   userUpdate = (ev: ChangeEvent<HTMLInputElement>) => {
-    this.props.formDataUpdate({
-      user: ev.target.value,
-    });
+    this.props.formDataUpdate(ev.target.value, null);
     this.setState({
       formSignIn: false,
     });
   };
 
   passUpdate = (ev: ChangeEvent<HTMLInputElement>) => {
-    this.props.formDataUpdate({
-      pass: ev.target.value,
-    });
+    this.props.formDataUpdate(null, ev.target.value);
   };
 
   userIdShortCut = (ev: KeyboardEvent<HTMLElement>) => {
