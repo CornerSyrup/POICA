@@ -28,9 +28,9 @@ CREATE TABLE Usership.Users(
     -- graduate year and month, for graduates
     gradMonth DATE,
     phone CHAR(10),
-    suica CHAR(20),
+    suica CHAR(16),
     CONSTRAINT PK_User PRIMARY KEY (userID),
-    CONSTRAINT UQ_Suica UNIQUE (suica)
+    CONSTRAINT UQ_Suica UNIQUE (suica),
     CONSTRAINT UQ_Student UNIQUE (studentID, studentYear)
 );
 
