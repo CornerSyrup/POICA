@@ -15,7 +15,7 @@ session_regenerate_id();
 
 <body>
     <h1>Welcome, <?= $_SESSION['user'] ?></h1>
-    <button>Register Suica</button>
+    <a href="/setting/">Setting</a>
 </body>
 
 </html>
