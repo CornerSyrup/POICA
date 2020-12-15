@@ -39,6 +39,7 @@ try {
     }
 
     // update attribute of suica
+    // TODO: check if not registered before, return registered if so. 
     (new \model\DBAdaptor())->update_suica($_SESSION['user'], $_POST['idm']);
     $logger->appendRecord("Success to register suica card with idm [{$_POST['idm']}] to user with student id [{$_SESSION['user']}]");
     $res['status'] = 1;
