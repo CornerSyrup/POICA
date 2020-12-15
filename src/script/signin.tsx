@@ -23,6 +23,7 @@ interface SignInState {
    * Status of client side sign in process. E.g. "Signing in ..."
    */
   status: StatusMessage;
+  isReady: boolean;
 }
 
 class SignInPage extends React.Component<SignInProps, SignInState> {
@@ -46,6 +47,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
         message: "",
         warning: false,
       },
+      isReady: true,
     };
   }
 
@@ -67,7 +69,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
 
   idmUpdate = (idmCode: string) => {
     this.setState(
-      { status: { message: "Signing in ...", warning: false } },
+      { status: { message: "Signing in ...", warning: false }, isReady: false },
       () => {
         this.setState({
           felicaIdm: idmCode,
@@ -98,6 +100,10 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
     })
       .then((respond) => respond.json())
       .then((result: SignInRespond) => {
+        this.setState({
+          isReady: true,
+        });
+        
         if (result.status) {
           window.location.href = "/";
           this.setState({
@@ -214,6 +220,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
           updateIdm={this.idmUpdate}
           errorHandler={this.suicaError}
           updateMessage={this.messageUpdate}
+          active={this.state.isReady}
         />
         <br />
         <button disabled>Sign In with Face Recognition</button>

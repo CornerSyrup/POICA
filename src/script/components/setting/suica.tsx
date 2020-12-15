@@ -100,6 +100,7 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
     return (
       <section>
         <h3>Suica Setting</h3>
+        Update Suica
         <Reader
           errorHandler={this.handleReadError}
           updateIdm={this.readIdm}
