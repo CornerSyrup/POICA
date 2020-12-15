@@ -41,16 +41,16 @@ $view = 'signin';
 $errmsg = '';
 
 try {
+    // normal get sign in page
+    if (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
+        ob_start();
+        include "view/{$view}.php";
+        ob_end_flush();
+        exit;
+    }
+
     // repel http request method
     if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
-        // normal get sign in page
-        if (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
-            ob_start();
-            include "view/{$view}.php";
-            ob_end_flush();
-            exit;
-        }
-
         throw new \RequestMethodException('POST', strtoupper($_SERVER['REQUEST_METHOD']));
     }
 
