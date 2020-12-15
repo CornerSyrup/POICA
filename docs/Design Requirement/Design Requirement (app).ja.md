@@ -22,14 +22,6 @@
 - 言語 (日本語・英語)
 - コピー数
 
-### apply_form (page)
+### 申し込み (page)
 
-未定
-
-### apply_confirm (page)
-
-未定
-
-### apply_complete (page)
-
-未定
+完成
