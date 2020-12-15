@@ -16,6 +16,9 @@
         RewriteRule ^view/ / [R=404]
         RewriteRule ^controller/ / [R=404]
 
+    # page
+        RewriteRule ^setting/$ /controller/setting_entry.php [NC,END]
+
     # service
         RewriteRule ^signin/$ /controller/signin_std.php [NC,END]
         RewriteRule ^signin/suica/$ /controller/signin_suica.php [NC,END]
