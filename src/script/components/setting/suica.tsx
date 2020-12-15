@@ -6,6 +6,10 @@ import { SuicaRegisterRespond as Respond } from "../../model/Respond";
 interface SuicaProps {}
 
 interface SuicaState {
+  /**
+   * Ready to read felica card
+   */
+  canRead: boolean;
   status: {
     message: string;
     warning: boolean;
@@ -17,6 +21,7 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
     super(props);
 
     this.state = {
+      canRead: true,
       status: {
         message: "",
         warning: false,
@@ -37,6 +42,7 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
 
   readIdm = (code: string) => {
     this.setState({
+      canRead: false,
       status: {
         message: "Updating your Suica card ...",
         warning: false,
@@ -58,6 +64,10 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
       )
       .then((result: Respond) => {
         console.log(result);
+        this.setState({
+          canRead: true,
+        });
+        
         if (result.status) {
           this.setState({
             status: {
@@ -94,6 +104,7 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
           errorHandler={this.handleReadError}
           updateIdm={this.readIdm}
           updateMessage={this.handleMessage}
+          active={this.state.canRead}
         />
         {this.state.status.message && (
           <p className={this.state.status.warning ? "warning" : ""}>

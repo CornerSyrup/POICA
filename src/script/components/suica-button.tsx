@@ -11,6 +11,10 @@ interface SuicaButtonProps {
    */
   errorHandler(code: number, message?: string): void;
   updateMessage(msg: string, warn: boolean): void;
+  /**
+   * External override button active.
+   */
+  active: boolean;
 }
 
 interface SuicaButtonState {
@@ -98,8 +102,12 @@ export default class SuicaButton extends React.Component<
   render() {
     return this.state.isReading ? (
       <button disabled>Reading Suica Card ...</button>
-    ) : (
+    ) : this.props.active ? (
       <button onClick={this.readSuica}>Click to Read suica card</button>
+    ) : (
+      <button onClick={this.readSuica} disabled>
+        Working ...
+      </button>
     );
   }
 }
