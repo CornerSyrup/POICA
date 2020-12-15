@@ -199,8 +199,8 @@ class DBAdaptor
     {
         if (!@pg_query_params(
             $this->connection,
-            "UPDATE usership.users u SET suica=$1 WHERE u.studentid=$2",
-            array($user, $idm)
+            "UPDATE usership.users u SET suica=$1 WHERE u.studentid=$2;",
+            array($idm, $user)
         )) {
             throw new RecordInsertException(pg_errormessage($this->connection));
         }
