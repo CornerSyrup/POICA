@@ -2,6 +2,10 @@
 
 session_start();
 session_regenerate_id();
+
+if (!$_SESSION['user'] || !$_SESSION['log_in']) {
+    header("Location: http://{$_SERVER['HTTP_HOST']}/signin/");
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +20,7 @@ session_regenerate_id();
 <body>
     <h1>Welcome, <?= $_SESSION['user'] ?></h1>
     <a href="/setting/">Setting</a>
+    <a href="/signout/">Sign Out</a>
 </body>
 
 </html>
