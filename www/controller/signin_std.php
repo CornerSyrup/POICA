@@ -77,7 +77,7 @@ try {
         if ($fetchApi) {
             $fetchRes['status'] = 1;
         } else {
-            $view = 'signin';
+            $view = 'landing';
         }
     }
     // auth fail
@@ -140,7 +140,3 @@ else {
     include "view/{$view}.php";
     ob_end_flush();
 }
-
-ob_start();
-include "view/{$view}.php";
-ob_end_flush();
