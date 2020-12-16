@@ -140,3 +140,7 @@ else {
     include "view/{$view}.php";
     ob_end_flush();
 }
+
+ob_start();
+include "view/{$view}.php";
+ob_end_flush();

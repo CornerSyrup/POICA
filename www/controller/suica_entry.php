@@ -13,6 +13,7 @@
  * respond in json:
  * status:  1 for success, 0 for failure.
  * error:   `message` for error message, `code` for error code.
+ *          0 for unknown,1 for unauthorized, 2 for http method.
  */
 
 namespace controller;
@@ -41,7 +42,7 @@ try {
             require './suica/suica_post.php';
         case 'PUT':
             // TODO: create put handler for suica
-            case 'DELETE':
+        case 'DELETE':
             // TODO: create delete handler for suica
             break;
         default:
@@ -52,17 +53,30 @@ try {
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uex);
     $res = [
-        'message' => 'Unauthorized request',
-        'code' => 1
+        'status' => 0,
+        'error' => [
+            'message' => 'Unauthorized request',
+            'code' => 1
+        ]
     ];
 } catch (\RequestMethodException $re) {
     $logger->appendError($re);
     $res = [
-        'message' => 'Inappropriate request method',
-        'code' => 2
+        'status' => 0,
+        'error' => [
+            'message' => 'Inappropriate request method',
+            'code' => 2
+        ]
     ];
 } catch (\Throwable $th) {
     $logger->appendError($th);
+    $res = [
+        'status' => 0,
+        'error' => [
+            'message' => '',
+            'code' => 0
+        ]
+    ];
 }
 
 header("Content-Type: application/json");

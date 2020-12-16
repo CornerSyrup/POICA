@@ -103,7 +103,7 @@ class SignInPage extends React.Component<SignInProps, SignInState> {
         this.setState({
           isReady: true,
         });
-        
+
         if (result.status) {
           window.location.href = "/";
           this.setState({

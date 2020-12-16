@@ -3,6 +3,9 @@ extends includes/layout
 block title
     title Sign Up - IH12A Group 5
 
+block style
+    link(rel="stylesheet", href="/cdn/signup.css")
+
 block main
     form(action="/signup", method="post")
         label(for="sid") Student ID

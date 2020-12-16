@@ -1,0 +1,122 @@
+@charset "utf-8";
+body, h2, dl, dt, dd, p {
+    margin: 0;
+    padding: 0;
+} 
+
+h2 {
+    text-align: center;
+}
+h3 {
+    color: #2D6EF1;
+    border-bottom: solid 2px #2D6EF1;
+}
+.form_style { /*wrapper設定*/
+	width: 600px;
+	padding: 12px;
+    margin: 0 auto;
+}
+.rabel {
+    text-align: center;
+}
+
+.rabel img {
+    width: 40%;
+    margin-top: 25px;
+}
+.yohaku {
+    margin-left: 73px;
+}
+
+dl {
+	border-bottom: 1px solid #eee;
+	padding: 15px 0;
+    margin: 0;
+}
+dt, dd {
+	display: table-cell; /*セルの横並び*/
+	/* vertical-align: middle; 上下中央並び */
+}
+dt { /*左タイトル*/
+	width: 200px;
+    color: #999;
+}
+.hissu{
+    width: 60px;
+    height: 30px;
+    float: left;
+    margin: 0 6px;
+}
+
+.btn { /*送信ボタン位置設定*/
+    text-align: center;
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+.regist {
+    box-sizing: border-box;
+    width: 40%;
+    padding: 10px;
+    margin: 30px auto;
+    font-weight: bold;
+    color: white;
+    background-color: #2D6EF1;
+    border: none;
+    border-radius: 30px;
+    display: block;
+    font-size: 22px;
+    cursor: pointer; /*カーソルの変更*/
+    outline:none; /*クリック時の枠線を消す*/
+}
+
+/*確認画面へ進むボタンをカーソルした時に色を変える*/
+input[type="submit"]:hover {
+	background: #27a0f0;
+}
+
+input[type=text] {
+    border: 1px solid transparent; /*ボーダーの色を透明にする。*/
+    border-radius: 4px; /*角丸にする。*/
+    line-height: 1.5;   /*行の高さの指定*/
+    background-color: #fff;
+    border-color: #dbdbdb;
+    color: #363636;
+    padding: 5px 10px;
+    font-size: 0.84em; /*emは％と考え方同じ！50%=0.5emと表す。*/
+}
+
+input[type=checkbox], /*「,」を忘れずに！！*/
+input[type=radio] {
+    margin-right: 8px;
+}
+
+.status,
+.type,
+.daytime_subject,
+.night_subject {
+    border: 1px solid transparent; /*透過*/
+    border-radius: 4px; /*角丸にするcss*/
+    line-height: 1.5;
+    background-color: #fff;
+    border-color: #dbdbdb;
+    color: #363636;
+    padding: 5px 10px;
+    font-size: 0.84em;
+}
+
+
+input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #2D6EF1;
+    border: 2px solid #528fcc;
+    -webkit-transition: all .3s;
+	transition: all .3s;
+}
+
+input[type="select"]:focus, textarea:focus {
+    outline: none;
+	border-color: #2D6EF1;
+	border: 1px solid #528fcc;
+}
+
