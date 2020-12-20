@@ -60,6 +60,13 @@ abstract class Handler implements IHandleable
         $this->logger = $logger;
         $this->data = $data ?? json_decode(file_get_contents('php://input'), true);
     }
+
+    public function GetResult(): array
+    {
+        return empty($this->respond)
+            ? null
+            : $this->respond;
+    }
 }
 
 abstract class GetHandler extends Handler
