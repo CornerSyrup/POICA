@@ -32,3 +32,31 @@ try {
     $res['status'] = -3;
     $res['error'] = 'Entry not found in database';
 }
+
+require_once 'model/Handler.php';
+
+class GetHandler extends \model\GetHandler
+{
+    /**
+     * Undocumented function
+     *
+     * @return array
+     * @throws model\RecordNotFoundException throw when specified form not found.
+     */
+    public function Handle(): array
+    {
+        $dba = new model\DBAdaptor();
+
+        $this->respond['frm'] = $dba->obtain_form($this->data['id'], $_SESSION['user']);
+        $this->respond['status'] = 1;
+        
+        $this->logger->appendRecord("[{$_SESSION['user']}] obtained application form entry [{$this->data['id']}].");
+
+        return $this->respond;
+    }
+
+    public function Validate(): bool
+    {
+        return true;
+    }
+}
