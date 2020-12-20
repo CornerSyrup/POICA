@@ -61,3 +61,21 @@ abstract class Handler implements IHandleable
         $this->data = $data ?? json_decode(file_get_contents('php://input'), true);
     }
 }
+
+abstract class GetHandler extends Handler
+{
+    public function __construct(Logger $logger, $data = null)
+    {
+        parent::__construct($logger, $data);
+        $this->logger->SetTag('get');
+    }
+}
+
+abstract class PostHandler extends Handler
+{
+    public function __construct(Logger $logger, $data = null)
+    {
+        parent::__construct($logger, $data);
+        $this->logger->SetTag('post');
+    }
+}
