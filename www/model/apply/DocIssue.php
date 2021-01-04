@@ -362,7 +362,7 @@ class GraduatesSubForm
     /**
      * Postal code of the applicant's address.
      */
-    public int $postCode;
+    public string $postCode;
     /**
      * Address of the applicant in string.
      */
@@ -370,7 +370,7 @@ class GraduatesSubForm
     /**
      * Telephone number of the applicant.
      */
-    public int $telNo;
+    public string $telNo;
 
     /**
      * Serialize form data into json, which must be deserialize with GraduatesSubForm deserialize function.
