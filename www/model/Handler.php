@@ -41,19 +41,19 @@ abstract class Handler implements IHandleable
      *
      * @var array
      */
-    private $data;
+    protected $data;
     /**
      * Logger for handler.
      *
      * @var Logger
      */
-    private $logger;
+    protected $logger;
     /**
      * Respond to the request.
      *
      * @var array
      */
-    private $respond;
+    protected $respond;
 
     public function __construct(Logger $logger, $data = null)
     {
