@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Class represent the document issue application form, aka 証明書発行願.
- */
-
 namespace model\app_form;
 
 require_once 'model/apply/AppForm.php';
@@ -253,8 +249,7 @@ class DocIssue extends AppForm
 }
 
 /**
- * Represent the sub form of result and attendance of international student,
- * aka 留学生学業成績および出席状況調書.
+ * Represent the sub form of result and attendance of international student.
  */
 class ResultAttendanceSubForm
 {
