@@ -37,6 +37,7 @@ try {
     }
 
     $handler = null;
+
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
             if ($_REQUEST['id'] == 0) {
@@ -58,9 +59,7 @@ try {
 
     if (empty($handler)) {
         throw new Exception('Null handler');
-    }
-
-    if ($handler->Validate()) {
+    } else if ($handler->Validate()) {
         $res = $handler->Handle();
     }
 
