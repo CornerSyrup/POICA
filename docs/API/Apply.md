@@ -3,6 +3,12 @@
 Version: 1.0
 Last Edit: 6 Jan 2021
 
+## GET Handler
+
+| name  | description            |  type  |
+| :---: | ---------------------- | :----: |
+|  id   | Entry id of form data. | number |
+
 ## POST Handler
 
 |          name          | description   | Type  |
@@ -117,3 +123,11 @@ Positive for success; Negative for fail.
 |  -2   | Authentication      |
 |  -3   | Fail to obtain      |
 |  -4   | Fail to insert      |
+
+### GET respond
+
+extra fields for GET respond.
+
+| field | description | type  |
+| :---: | ----------- | :---: |
+|  frm  | Form data.  | JSON  |
