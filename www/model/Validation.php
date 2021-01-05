@@ -36,6 +36,7 @@ function validate_suica(string $idm): bool
 {
     return preg_match('/^[A-Za-z0-9]{16}$/', $idm);
 }
+#endregion
 
 function validate_jname(string $name): bool
 {
@@ -48,7 +49,6 @@ function validate_jkana(string $kana): bool
     // TODO: add validation rule
     return true;
 }
-#endregion
 
 #region applications
 function validate_class_code(string $code): bool
