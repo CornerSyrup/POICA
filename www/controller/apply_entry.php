@@ -65,14 +65,14 @@ try {
     }
 
     $logger->SetTag('entry');
+} catch (\RequestMethodException $rme) {
+    $logger->appendError($rme);
+    $res['status'] = -1;
+    $res['error'] = 'Inappropriate request method';
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uax);
     $res['status'] = -2;
     $res['error'] = 'Unauthorized request';
-} catch (\RequestMethodException $ex) {
-    $logger->appendError($ex);
-    $res['status'] = -1;
-    $res['error'] = 'Inappropriate request method';
 } catch (RecordNotFoundException $rnf) {
     $logger->appendError($rnf);
     $res['status'] = -3;
