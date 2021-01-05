@@ -1,14 +1,14 @@
 # Apply
 
 Version: 1.0
-Last Edit: 4 Jan 2021
+Last Edit: 6 Jan 2021
 
 ## POST Handler
 
-|          name          | description         | rule |
-| :--------------------: | ------------------- | ---- |
-| [typ](#post-form-type) | Type of form, enum. |      |
-| [frm](#post-form-data) | Form data, JSON.    |      |
+|          name          | description   | Type  |
+| :--------------------: | ------------- | :---: |
+| [typ](#post-form-type) | Type of form. | Enum  |
+| [frm](#post-form-data) | Form data.    | JSON  |
 
 ### POST form type
 
@@ -86,3 +86,34 @@ Below are common fields:
 |  adm  | Admission data.                      |
 |  exp  | Expiration data of stay.             |
 |  grd  | Expected graduation date.            |
+
+## Respond
+
+in JSON format.
+
+| field  | description         |  Type  |
+| :----: | ------------------- | :----: |
+| status | Status of handling. |  Enum  |
+| error  | Error Message.      | String |
+
+### Status
+
+Positive for success; Negative for fail.
+
+#### success status
+
+| Code  | Action          |
+| :---: | --------------- |
+|   1   | obtain (GET)    |
+|   2   | insert (POST)   |
+|   3   | update (PUT)    |
+|   4   | delete (DELETE) |
+
+#### error status
+
+| Code  | Error               |
+| :---: | ------------------- |
+|  -1   | HTTP request method |
+|  -2   | Authentication      |
+|  -3   | Fail to obtain      |
+|  -4   | Fail to insert      |
