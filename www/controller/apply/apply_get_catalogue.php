@@ -1,25 +1,38 @@
 <?php
 
 /**
- * applied form catalogue GET method sub-handler.
+ * form data catalogue GET method sub-handler.
  * 
  * use session data:
  * user:    student id.
- * 
- * set $res from invoker:
- * cat:     array of applied form.
  */
 
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
+require_once 'model/Handler/php';
 require_once 'model/Logger.php';
+require_once 'model/Validation.php';
 
-use model;
+use model\validation as valid;
 
-$logger->SetTag('get');
+class GetCatalogueHandler extends \model\GetHandler
+{
+    public function Handle(): array
+    {
+        $dba = new \model\DBAdaptor();
 
-$dba = new model\DBAdaptor();
-$res['cat'] = $dba->obtain_catalogue($_SESSION['user']);
-$logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
-$res['status'] = 1;
+        $this->respond['cat'] = $dba->obtain_catalogue($_SESSION['user']);
+        $res['status'] = 1;
+
+        $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
+
+        return $this->respond;
+    }
+
+    public function Validate(): bool
+    {
+        return isset($_SESSION['user'])
+            && valid\validate_sid($_SESSION['user']);
+    }
+}
