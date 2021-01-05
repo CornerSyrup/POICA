@@ -14,6 +14,7 @@
 namespace controller;
 
 require_once 'model/Authentication.php';
+require_once 'model/Global.php';
 require_once 'model/Logger.php';
 
 use Exception;
@@ -64,21 +65,22 @@ try {
     }
 
     $logger->SetTag('entry');
-} catch (\RequestMethodException $rme) {
-    $logger->appendError($rme);
-    $res['status'] = -1;
-    $res['error'] = 'Inappropriate request method';
+
+    header("Content-Type: application/json");
+    echo json_stringify($res);
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uax);
-    $res['status'] = -2;
-    $res['error'] = 'Unauthorized request';
+    $res['status'] = 11;
+} catch (\RequestMethodException $rmx) {
+    $logger->appendError($rmx);
+    $res['status'] = 12;
+} catch (\JsonException $je) {
+    $logger->appendError($je);
+    $res['status'] = 13;
 } catch (RecordNotFoundException $rnf) {
     $logger->appendError($rnf);
-    $res['status'] = -3;
-    $res['error'] = 'Entry not found in database';
+    $res['status'] = 21;
 } catch (\Throwable $th) {
     $logger->appendError($th);
+    $res['status'] = 0;
 }
-
-header("Content-Type: application/json");
-echo json_encode($res);
