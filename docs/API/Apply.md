@@ -32,9 +32,9 @@ Below are common fields:
 |  jfk  | Japanese first name kana.   |
 |  jln  | Japanese last name.         |
 |  jlk  | Japanese last name kana.    |
-|  sid  | Student id.                 |
+|  sid  | Student ID.                 |
 |  clc  | Class code of the student.  |
-|  clt  | Class teacher of the class. |
+|  clt  | Teacher ID of class teacher of the class. |
 
 #### form type: doc
 
