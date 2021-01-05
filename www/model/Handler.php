@@ -3,6 +3,7 @@
 namespace model;
 
 require_once 'model/Logger';
+require_once 'model/Localizer.php';
 
 /**
  * Interface implement to handler request
@@ -65,6 +66,7 @@ abstract class Handler implements IHandleable
     {
         $this->logger = $logger;
         $this->data = $data ?? json_decode(file_get_contents('php://input'), true);
+        $this->data = \model\Localizer::LocalizeArray($data);
     }
 
     public function GetResult(): array
