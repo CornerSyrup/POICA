@@ -97,9 +97,9 @@ Below are common fields:
 
 in JSON format.
 
-| field  | description         |  Type  |
-| :----: | ------------------- | :----: |
-| status | Status of handling. |  Enum  |
+| field  | description         | Type  |
+| :----: | ------------------- | :---: |
+| status | Status of handling. | Enum  |
 
 ### Status
 
@@ -118,6 +118,7 @@ Positive for success; Negative for fail.
 
 | Code  | Error               |
 | :---: | ------------------- |
+|   0   | Unknown error       |
 |  11   | Authentication      |
 |  12   | HTTP request method |
 |  13   | Json encoding       |
