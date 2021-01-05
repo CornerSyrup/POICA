@@ -100,7 +100,6 @@ in JSON format.
 | field  | description         |  Type  |
 | :----: | ------------------- | :----: |
 | status | Status of handling. |  Enum  |
-| error  | Error Message.      | String |
 
 ### Status
 
