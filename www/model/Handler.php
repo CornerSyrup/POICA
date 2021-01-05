@@ -76,10 +76,10 @@ abstract class Handler implements IHandleable
 abstract class GetHandler extends Handler
 {
     /**
-     * Instantiate a new Handler object.
+     * Instantiate a new GET Handler object.
      *
      * @param Logger $logger Logger.
-     * @param array $data Data array, usually POST, GET, REQUEST. If null given, it will parse data from php://input.
+     * @param array $data Data array, usually $_GET. If null given, it will parse data from php://input.
      */
     public function __construct(Logger $logger, $data = null)
     {
@@ -90,6 +90,12 @@ abstract class GetHandler extends Handler
 
 abstract class PostHandler extends Handler
 {
+    /**
+     * Instantiate a new POST Handler object.
+     *
+     * @param Logger $logger Logger.
+     * @param array $data Data array, usually $_POST. If null given, it will parse data from php://input.
+     */
     public function __construct(Logger $logger, $data = null)
     {
         parent::__construct($logger, $data);
