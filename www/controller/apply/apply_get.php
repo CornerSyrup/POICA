@@ -40,6 +40,6 @@ class GetHandler extends \model\GetHandler
      */
     public function Validate(): bool
     {
-        return is_numeric($this->data['id']);
+        return is_numeric($this->data['id']) && isset($_SESSION['user']);
     }
 }
