@@ -3,14 +3,8 @@
 /**
  * form data GET method sub-handler.
  * 
- * take GET data:
- * id:      application form data entry id.
- * 
  * use session data:
  * user:    student id.
- * 
- * set $res from invoker:
- * frm:     form data.
  */
 
 namespace controller\apply;
@@ -22,9 +16,9 @@ require_once 'model/Handler.php';
 class GetHandler extends \model\GetHandler
 {
     /**
-     * Undocumented function
+     * Main handling procedure.
      *
-     * @return array
+     * @return array respond full respond data.
      * @throws model\RecordNotFoundException throw when specified form not found.
      */
     public function Handle(): array
@@ -39,6 +33,11 @@ class GetHandler extends \model\GetHandler
         return $this->respond;
     }
 
+    /**
+     * Validate data to be used.
+     *
+     * @return boolean
+     */
     public function Validate(): bool
     {
         return is_numeric($this->data['id']);
