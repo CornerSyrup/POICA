@@ -41,10 +41,15 @@ try {
         case 'GET':
             if ($_REQUEST['id'] == 0) {
                 require_once './apply/apply_get_catalogue.php';
+                $handler = new apply\GetCatalogueHandler($logger);
             } else {
                 require_once './apply/apply_get.php';
                 $handler = new apply\GetHandler($logger, $_REQUEST);
             }
+            break;
+        case 'POST':
+            require_once './apply/apply_post.php';
+            $handler = new apply\PostHandler($logger);
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
