@@ -131,3 +131,11 @@ extra fields for GET respond.
 | field | description | type  |
 | :---: | ----------- | :---: |
 |  frm  | Form data.  | JSON  |
+
+### GET catalogue respond
+
+extra fields for GET catalogue respond.
+
+| field | description                     | type  |
+| :---: | ------------------------------- | :---: |
+|  cat  | Entry ids of applied form data. | array |
