@@ -18,6 +18,7 @@ require_once 'model/Logger.php';
 
 use Exception;
 use model\authentication as auth;
+use model\RecordNotFoundException;
 
 /**
  * Logger to keep data record.
@@ -67,6 +68,10 @@ try {
     $logger->appendError($ex);
     $res['status'] = -1;
     $res['error'] = 'Inappropriate request method';
+} catch (RecordNotFoundException $rnf) {
+    $logger->appendError($rnf);
+    $res['status'] = -3;
+    $res['error'] = 'Entry not found in database';
 } catch (\Throwable $th) {
     $logger->appendError($th);
 }
