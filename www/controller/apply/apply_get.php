@@ -57,6 +57,6 @@ class GetHandler extends \model\GetHandler
 
     public function Validate(): bool
     {
-        return true;
+        return is_numeric($this->data['id']);
     }
 }
