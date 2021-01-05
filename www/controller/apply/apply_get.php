@@ -10,8 +10,11 @@
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
-require_once 'model/Logger.php';
 require_once 'model/Handler.php';
+require_once 'model/Logger.php';
+require_once 'model/Validation.php';
+
+use model\validation as valid;
 
 class GetHandler extends \model\GetHandler
 {
@@ -40,6 +43,8 @@ class GetHandler extends \model\GetHandler
      */
     public function Validate(): bool
     {
-        return is_numeric($this->data['id']) && isset($_SESSION['user']);
+        return is_numeric($this->data['id'])
+            && isset($_SESSION['user'])
+            && valid\validate_sid($_SESSION['user']);
     }
 }
