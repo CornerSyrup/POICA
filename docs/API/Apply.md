@@ -40,7 +40,7 @@ Below are common fields:
 
 | field | description                                              |
 | :---: | -------------------------------------------------------- |
-|  db   | Date of birth.                                           |
+|  db   | Date of birth. As unix timestamp.                        |
 |  st   | Status of the applicant.                                 |
 |  pp   | Purpose of apply.                                        |
 |  dc   | Copies of documents to apply.                            |
