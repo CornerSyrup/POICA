@@ -39,7 +39,7 @@ class AppForm
     /**
      * Teacher employee code of the applicant class teacher.
      */
-    public int $classTeacher;
+    public string $classTeacher;
 
     /**
      * Serialize form data into json, which must be deserialize with AppForm deserialize function.
