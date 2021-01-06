@@ -42,15 +42,15 @@ try {
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
             if ($_REQUEST['id'] == 0) {
-                require_once './apply/apply_get_catalogue.php';
+                require_once './apply/get_catalogue.php';
                 $handler = new apply\GetCatalogueHandler($logger);
             } else {
-                require_once './apply/apply_get.php';
+                require_once './apply/get.php';
                 $handler = new apply\GetHandler($logger, $_REQUEST);
             }
             break;
         case 'POST':
-            require_once './apply/apply_post.php';
+            require_once './apply/post.php';
             $handler = new apply\PostHandler($logger);
             break;
         default:
