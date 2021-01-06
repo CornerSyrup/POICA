@@ -30,7 +30,7 @@ class PostHandler extends \model\PostHandler
         parent::__construct($logger);
         switch ($this->data['typ']) {
             case 'doc':
-                require_once './post_DocIssue.php';
+                require_once 'post_DocIssue.php';
                 $this->model = new DocIssuePostHandler($this->data);
                 break;
             default:
