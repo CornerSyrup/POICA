@@ -33,9 +33,9 @@ $res = [];
 session_start();
 
 try {
-    if (!auth\authenticate()) {
-        throw new auth\UnauthorizeException();
-    }
+    // if (!auth\authenticate()) {
+    //     throw new auth\UnauthorizeException();
+    // }
 
     $handler = null;
 
@@ -65,9 +65,6 @@ try {
     }
 
     $logger->SetTag('entry');
-
-    header("Content-Type: application/json");
-    echo json_stringify($res);
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uax);
     $res['status'] = 11;
@@ -84,3 +81,6 @@ try {
     $logger->appendError($th);
     $res['status'] = 0;
 }
+
+header("Content-Type: application/json");
+echo json_encode($res);
