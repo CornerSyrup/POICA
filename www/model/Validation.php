@@ -40,12 +40,20 @@ function validate_suica(string $idm): bool
 
 function validate_jname(string $name): bool
 {
+    if (empty($name)) {
+        return false;
+    }
+
     // TODo: add validation rule
     return true;
 }
 
 function validate_jkana(string $kana): bool
 {
+    if (empty($kana)) {
+        return false;
+    }
+
     // TODO: add validation rule
     return true;
 }
