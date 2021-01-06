@@ -31,7 +31,7 @@ class AppForm
     /**
      * Student ID of the applicant.
      */
-    public int $studentID;
+    public string $studentID;
     /**
      * Class code which the applicant affiliated.
      */
