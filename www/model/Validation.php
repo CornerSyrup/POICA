@@ -59,6 +59,12 @@ function validate_jkana(string $kana): bool
 }
 
 #region applications
+/**
+ * Check whether class code is valid.
+ *
+ * @param string $code Format ih12a092, non case sensitive, class room number required.
+ * @return boolean
+ */
 function validate_class_code(string $code): bool
 {
     if (empty($code)) {
