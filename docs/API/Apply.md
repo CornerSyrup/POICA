@@ -26,40 +26,40 @@ Last Edit: 6 Jan 2021
 
 Below are common fields:
 
-| field | description                 |
-| :---: | --------------------------- |
-|  jfn  | Japanese first name.        |
-|  jfk  | Japanese first name kana.   |
-|  jln  | Japanese last name.         |
-|  jlk  | Japanese last name kana.    |
-|  sid  | Student ID.                 |
-|  clc  | Class code of the student.  |
-|  clt  | Teacher ID of class teacher of the class. |
+| field | description                               |
+| :---: | ----------------------------------------- |
+|  fn   | Japanese first name.                      |
+|  fk   | Japanese first name kana.                 |
+|  ln   | Japanese last name.                       |
+|  lk   | Japanese last name kana.                  |
+|  si   | Student ID.                               |
+|  cc   | Class code of the student.                |
+|  ct   | Teacher ID of class teacher of the class. |
 
 #### form type: doc
 
 | field | description                                              |
 | :---: | -------------------------------------------------------- |
-|  dob  | Date of birth.                                           |
-|  sta  | Status of the applicant.                                 |
-|  pur  | Purpose of apply.                                        |
-|  doc  | Copies of documents to apply.                            |
-|  ena  | English name of the applicant, optional.                 |
-|  lng  | True for English, false for Japanese. Only 1~4 accepted. |
-|  grd  | Sub form for applants who applied doc type 3, 4. JSON.   |
-|  int  | Sub form for applicants who applied doc type 6. JSON.    |
+|  db   | Date of birth.                                           |
+|  st   | Status of the applicant.                                 |
+|  pp   | Purpose of apply.                                        |
+|  dc   | Copies of documents to apply.                            |
+|  en   | English name of the applicant, optional.                 |
+|  lg   | True for English, false for Japanese. Only 1~4 accepted. |
+|  gs   | Sub form for applants who applied doc type 3, 4. JSON.   |
+|  is   | Sub form for applicants who applied doc type 6. JSON.    |
 
-- field `sta` is enum, which values is
+- field `st` is enum, which values is
     1. 在校生
     2. 卒業生
     3. 休学者
     4. 退学者
-- field `pur` is enum, which value is
+- field `pp` is enum, which value is
     1. 進学
     2. 国家試験
     3. Visa申請手続
     4. 旅行
-- field `doc` is array, which index is
+- field `dc` is array, which index is
     1. 在学証明書
     2. 成績証明書
     3. 卒業証明書
@@ -72,26 +72,26 @@ Below are common fields:
 
 | field | description                                       |
 | :---: | ------------------------------------------------- |
-|  dep  | Department which the applicant is graduated from. |
-|  yer  | Year of graduation.                               |
-|  mon  | Month of graduation.                              |
-|  pos  | Postal code of the applicant's address.           |
-|  add  | Applicant's address.                              |
-|  tel  | Phone no. of to contact the applicant.            |
+|  dp   | Department which the applicant is graduated from. |
+|  gy   | Year of graduation.                               |
+|  gm   | Month of graduation.                              |
+|  pc   | Postal code of the applicant's address.           |
+|  ad   | Applicant's address.                              |
+|  tn   | Phone no. of to contact the applicant.            |
 
 ##### sub form: int
 
 | field | description                          |
 | :---: | ------------------------------------ |
-|  add  | Applicant's address.                 |
-|  nat  | Nation of the applicant. ISO 3166-1. |
-|  res  | Card number of the resident card.    |
-|  sex  | True for male, false for female.     |
-|  sta  | Status of stay, default `student`.   |
-|  img  | Immigrant data.                      |
-|  adm  | Admission data.                      |
-|  exp  | Expiration data of stay.             |
-|  grd  | Expected graduation date.            |
+|  ar   | Applicant's address.                 |
+|  na   | Nation of the applicant. ISO 3166-1. |
+|  rc   | Card number of the resident card.    |
+|  gn   | True for male, false for female.     |
+|  st   | Status of stay, default `student`.   |
+|  id   | Immigrant data.                      |
+|  ad   | Admission data.                      |
+|  es   | Expiration data of stay.             |
+|  gd   | Expected graduation date.            |
 
 ## Respond
 
