@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once 'model/Logger';
+require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
 /**
