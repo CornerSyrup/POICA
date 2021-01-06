@@ -2,6 +2,8 @@
 
 namespace model\app_form;
 
+use JsonException;
+
 require_once 'model/apply/AppForm.php';
 
 /**
@@ -217,33 +219,34 @@ class DocIssue extends AppForm
      * Deserialize form data json string into form data, which must be serialized with DocIssue serialize function.
      *
      * @param string $json Serialized form data with DocIssue serialized function.
+     * @throws JsonException
      */
     public function Deserialize(string $json)
     {
-        $data = json_decode($json);
-        parent::Deserialize($data->bc);
+        $data = json_parse($json);
+        parent::Deserialize($data['bc']);
 
-        $this->status = $data->st;
-        $this->dob = $data->db;
-        $this->purpose = $data->pp;
+        $this->status = $data['st'];
+        $this->dob = $data['db'];
+        $this->purpose = $data['pp'];
 
         // omittable
-        $this->enName = $data->en ?? '';
+        $this->enName = $data['en'] ?? '';
 
         for ($i = 1; $i <= 7; $i++) {
-            $this->document[$i] = $data->dc->$i ?? 0;
+            $this->document[$i] = $data['dc']['$i'] ?? 0;
         }
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->language[$i] = $data->lg->$i ?? 0;
+            $this->language[$i] = $data['lg']['$i'] ?? 0;
         }
 
-        if (isset($data->gs)) {
-            $this->gradSub = GraduatesSubForm::Deserialize($data->gs);
+        if (isset($data['gs'])) {
+            $this->gradSub = GraduatesSubForm::Deserialize($data['gs']);
         }
 
-        if (isset($data->is)) {
-            $this->interSub = ResultAttendanceSubForm::Deserialize($data->is);
+        if (isset($data['is'])) {
+            $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
         }
     }
 }
@@ -317,21 +320,22 @@ class ResultAttendanceSubForm
      *
      * @param string $json Serialized form data with ResultAttendanceSubForm serialized function.
      * @return ResultAttendanceSubForm Form data in ResultAttendanceSubForm object.
+     * @throws JsonException
      */
     public static function Deserialize(string $json): ResultAttendanceSubForm
     {
-        $data = json_decode($json);
+        $data = json_parse($json);
         $ra = new ResultAttendanceSubForm();
 
-        $ra->address = $data->ar;
-        $ra->nation = $data->na;
-        $ra->residentCard = $data->rc;
-        $ra->gender = $data->gn;
-        $ra->status = $data->st;
-        $ra->immigrantDate = $data->id ?? 0;
-        $ra->admissionDate = $data->ad ?? 0;
-        $ra->expireOfStay = $data->es ?? 0;
-        $ra->expGradDate = $data->gd ?? 0;
+        $ra->address = $data['ar'];
+        $ra->nation = $data['na'];
+        $ra->residentCard = $data['rc'];
+        $ra->gender = $data['gn'];
+        $ra->status = $data['st'];
+        $ra->immigrantDate = $data['id'] ?? 0;
+        $ra->admissionDate = $data['ad'] ?? 0;
+        $ra->expireOfStay = $data['es'] ?? 0;
+        $ra->expGradDate = $data['gd'] ?? 0;
 
         return $ra;
     }
@@ -375,7 +379,6 @@ class GraduatesSubForm
     public function Serialize(): string
     {
         $data = [
-
             'dp' => $this->department ?? '',
             'gy' => $this->gradYear ?? 0,
             'gm' => $this->gradMonth ?? 0,
@@ -392,18 +395,19 @@ class GraduatesSubForm
      *
      * @param string $json Serialized form data with GraduatesSubForm serialized function.
      * @return GraduatesSubForm Form data in GraduatesSubForm object.
+     * @throws JsonException
      */
     public static function Deserialize(string $json): GraduatesSubForm
     {
-        $data = json_decode($json);
+        $data = json_parse($json);
         $gd = new GraduatesSubForm();
 
-        $gd->department = $data->dp;
-        $gd->gradYear = $data->gy;
-        $gd->gradMonth = $data->gm;
-        $gd->postCode = $data->pc;
-        $gd->address = $data->ad;
-        $gd->telNo = $data->tn;
+        $gd->department = $data['dp'];
+        $gd->gradYear = $data['gy'];
+        $gd->gradMonth = $data['gm'];
+        $gd->postCode = $data['pc'];
+        $gd->address = $data['ad'];
+        $gd->telNo = $data['tn'];
 
         return $gd;
     }

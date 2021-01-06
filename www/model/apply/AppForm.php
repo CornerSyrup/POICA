@@ -6,6 +6,10 @@
 
 namespace model\app_form;
 
+use JsonException;
+
+require_once 'model/Global.php';
+
 class AppForm
 {
     /**
@@ -62,19 +66,20 @@ class AppForm
      * Deserialize form data json string into form data, which must be serialized with AppForm serialize function.
      *
      * @param string $json Serialized form data with AppForm serialized function.
+     * @throws JsonException
      */
     public function Deserialize(string $json)
     {
         // ignore data check, for all field required.
-        $data = json_decode($json);
+        $data = json_parse($json);
 
-        $this->firstName = $data->fn;
-        $this->firstKana = $data->fk;
-        $this->lastName = $data->ln;
-        $this->lastKana = $data->lk;
-        $this->studentID = $data->si;
-        $this->classCode = $data->cc;
-        $this->classTeacher = $data->ct;
+        $this->firstName = $data['fn'];
+        $this->firstKana = $data['fk'];
+        $this->lastName = $data['ln'];
+        $this->lastKana = $data['lk'];
+        $this->studentID = $data['si'];
+        $this->classCode = $data['cc'];
+        $this->classTeacher = $data['ct'];
     }
 }
 
