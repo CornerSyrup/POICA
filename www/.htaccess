@@ -26,8 +26,8 @@
         RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
 
     # service
-        RewriteRule ^apply/form/$ /controller/app_entry.php?id=0 [NC,END,QSA]
-        RewriteRule ^apply/form/(\d+)/$ /controller/app_entry.php?id=$1 [NC,END,QSA]
+        RewriteRule ^apply/form/$ /controller/apply_entry.php?id=0 [NC,END,QSA]
+        RewriteRule ^apply/form/(\d+)/$ /controller/apply_entry.php?id=$1 [NC,END,QSA]
         RewriteRule ^regis/suica/$ /controller/suica_entry.php [NC,END]
 
     # cdn
