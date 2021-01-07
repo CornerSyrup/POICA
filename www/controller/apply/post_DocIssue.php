@@ -10,6 +10,7 @@
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
+require_once 'model/apply/AppForm.php';
 require_once 'model/apply/DocIssue.php';
 
 use \model\app_form as form;
