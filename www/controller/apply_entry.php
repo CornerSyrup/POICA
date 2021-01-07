@@ -33,9 +33,9 @@ $res = [];
 session_start();
 
 try {
-    // if (!auth\authenticate()) {
-    //     throw new auth\UnauthorizeException();
-    // }
+    if (!auth\authenticate()) {
+        throw new auth\UnauthorizeException();
+    }
 
     $handler = null;
 
