@@ -18,7 +18,8 @@ class PostHandler extends \model\PostHandler
      *
      * @var IHandleable
      */
-    private $model;
+    private \model\IHandleable $model;
+    private string $form;
 
     /**
      * Instantiate a new apply POST Handler object. Where data will absorb from php://input.
@@ -33,6 +34,7 @@ class PostHandler extends \model\PostHandler
         switch ($this->data['typ']) {
             case 'doc':
                 require_once 'post_DocIssue.php';
+                $this->form = 'doc issue';
                 $this->model = new DocIssuePostHandler($this->data['frm']);
                 break;
             default:
@@ -43,6 +45,7 @@ class PostHandler extends \model\PostHandler
     public function Handle(): array
     {
         $this->respond = $this->model->Handle();
+        $this->logger->appendRecord("Apply of [{$this->form}] for user [{$_SESSION['user']}] has been done.");
 
         return $this->respond;
     }
