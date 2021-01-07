@@ -10,7 +10,7 @@
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
-require_once 'model/Handler/php';
+require_once 'model/Handler.php';
 require_once 'model/Logger.php';
 require_once 'model/Validation.php';
 
