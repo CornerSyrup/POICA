@@ -46,11 +46,22 @@ class DocIssuePostHandler implements \model\IHandleable
         $this->data = json_parse($json);
     }
 
+    /**
+     * Get last handle result cache.
+     *
+     * @return array complete respond.
+     */
     public function GetResult(): array
     {
         return $this->result;
     }
 
+    /**
+     * Handle POST request with DocIssue form data model.
+     *
+     * @return array complete respond.
+     * @throws RecordInsertException throw when any problem encountered while inserting form data into database.
+     */
     public function Handle(): array
     {
         if (!isset($this->form)) {
@@ -64,6 +75,11 @@ class DocIssuePostHandler implements \model\IHandleable
         return $this->result;
     }
 
+    /**
+     * Check whether supplied data is valid to be handle.
+     *
+     * @return boolean
+     */
     public function Validate(): bool
     {
         return form\DocIssue::Validate($this->data);
