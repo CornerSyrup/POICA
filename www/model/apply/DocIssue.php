@@ -2,9 +2,10 @@
 
 namespace model\app_form;
 
-use JsonException;
-
+require_once 'model/Validation';
 require_once 'model/apply/AppForm.php';
+
+use model\validation as valid;
 
 /**
  * Represent the application form of document issue application,
@@ -76,6 +77,36 @@ class DocIssue extends AppForm
     public function SetDateOfBirth(int $year, int $month, int $day): void
     {
         $this->dob = mktime(null, null, null, $month, $day, $year);
+    }
+
+    /**
+     * Check whether doc issue form data is valid.
+     *
+     * @param array $data complete data for doc issue application.
+     * @return boolean
+     * @throws FormIncompleteException throw when required field missing.
+     */
+    public static function Validate(array $data): bool
+    {
+        // check if required field is set
+        if (
+            !(isset($data['bc']) &&
+                isset($data['db']) &&
+                isset($data['st']) &&
+                isset($data['pp']) &&
+                isset($data['dc']) && !empty($data['dc']))
+        ) {
+            throw new FormIncompleteException('required');
+        }
+        return parent::Validate($data['bc']) &&
+            self::valid_db($data) &&
+            self::valid_st($data) &&
+            self::valid_pp($data) &&
+            self::valid_dc($data) &&
+            self::valid_en($data) &&
+            self::valid_lg($data) &&
+            self::valid_gs($data) &&
+            self::valid_is($data);
     }
 
     /**
@@ -249,6 +280,139 @@ class DocIssue extends AppForm
             $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
         }
     }
+
+    #region validation helper function
+    private static function valid_db(array $data): bool
+    {
+        // field should be a date;
+        // and earlier then 6 years ago (at lease 6 yr old).
+        return valid\validate_date($data['db']) &&
+            $data['db'] < (time() - 189345600);
+    }
+
+    private static function valid_st(array $data): bool
+    {
+        return $data['st'] >= 1 && $data['st'] <= 4;
+    }
+
+    private static function valid_pp(array $data): bool
+    {
+        return $data['pp'] >= 1 && $data['pp'] <= 4;
+    }
+
+    private static function valid_dc(array $data): bool
+    {
+        $ret = true;
+
+        for ($i = 1; $i <= 7; $i++) {
+            if (isset($data[$i])) {
+                $ret &= is_numeric($data[$i]);
+            }
+        }
+
+        return $ret;
+    }
+
+    private static function valid_en(array $data): bool
+    {
+        // field is omittable, but should match format if set.
+        return isset($data['en']) ?
+            preg_match('/^(\w|\s)+$/', $data['en']) :
+            true;
+    }
+
+    private static function valid_lg(array $data): bool
+    {
+        // if not set, that is omitted, which is omittable.
+        if (!isset($data['lg'])) {
+            return true;
+        }
+        // if set, which could not be empty.
+        else if (empty($data['lg'])) {
+            return false;
+        }
+
+        $ret = true;
+
+        for ($i = 1; $i <= 4; $i++) {
+            if (isset($data['lg'][$i])) {
+                $ret &= is_bool($data['lg'][$i]);
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Check whether applicant applied for doc type 3 or 4. If so, then check if sub form json is valid.
+     *
+     * @return boolean
+     * @throws FormIncompleteException throw when doc 3 or 4 is set, but `gs` was not set.
+     */
+    private static function valid_gs(array $data): bool
+    {
+        // check if 3 is set; if is set, value should not be less then 1
+        if (isset($data['dc'][3])) {
+            if ($data['dc'][3] < 1) {
+                return false;
+            }
+        }
+        // check if 3 is set; if is set, value should not be less then 1
+        else if (isset($data['dc'][4])) {
+            if ($data['dc'][4] < 1) {
+                return false;
+            }
+        }
+        // if both not set, that is omitted, which is omittable
+        else {
+            return true;
+        }
+
+        $ret = false;
+
+        // check is set, and try parse
+        if (isset($data['gs'])) {
+            json_decode($data['gs']);
+
+            $ret = json_last_error() == JSON_ERROR_NONE;
+        } else {
+            throw new FormIncompleteException('gs', 'required when doc 3 or 4 is set');
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Check whether applicant applied for doc type 6. If so, then check if sub form json is valid.
+     *
+     * @return boolean
+     * @throws FormIncompleteException throw when doc 6 is set, but `is` was not set.
+     */
+    private static function valid_is(array $data): bool
+    {
+        // if not set, that is omitted, which is omittable
+        if (isset($data['dc'][6])) {
+            return true;
+        }
+        // if set, which could not be less then 1
+        else if ($data['dc'][6] < 1) {
+            return false;
+        }
+
+        $ret = false;
+
+        // check is set, and try parse
+        if (isset($data['is'])) {
+            json_decode($data['is']);
+
+            $ret = json_last_error() == JSON_ERROR_NONE;
+        } else {
+            throw new FormIncompleteException('is', 'required when doc 6 is set');
+        }
+
+        return $ret;
+    }
+    #endregion
 }
 
 /**
