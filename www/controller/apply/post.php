@@ -10,15 +10,21 @@
 namespace controller\apply;
 
 require_once 'model/Handler.php';
+require_once 'model/apply/AppForm.php';
+
+use model\app_form as form;
 
 class PostHandler extends \model\PostHandler
 {
     /**
      * Form handle model.
      *
-     * @var IHandleable
+     * @var FormRequestHandler
      */
-    private \model\IHandleable $model;
+    private form\FormRequestHandler $model;
+    /**
+     * Name of form.
+     */
     private string $form;
 
     /**
