@@ -66,7 +66,6 @@ abstract class Handler implements IHandleable
     {
         $this->logger = $logger;
         $this->data = $data ?? json_decode(file_get_contents('php://input'), true);
-        $this->data = \model\Localizer::LocalizeArray($this->data);
     }
 
     public function GetResult(): array
