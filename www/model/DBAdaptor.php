@@ -159,7 +159,7 @@ class DBAdaptor
         // suppress warning message manually
         if (!@pg_query_params(
             $this->connection,
-            "INSERT INTO Applic.Applications (applyUser, formData) VALUES ($1, $2)",
+            "INSERT INTO Applic.Applications (applyUser, formData) SELECT userid, $2 FROM usership.users WHERE studentid=$1",
             array($user, $form->Serialize())
         )) {
             throw new RecordInsertException(pg_errormessage($this->connection));
