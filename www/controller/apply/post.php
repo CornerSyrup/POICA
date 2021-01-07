@@ -48,16 +48,40 @@ class PostHandler extends \model\PostHandler
         }
     }
 
+    /**
+     * Handle POST request with various form data models.
+     *
+     * @return array complete respond.
+     */
     public function Handle(): array
     {
-        $this->respond = $this->model->Handle();
-        $this->logger->appendRecord("Apply of [{$this->form}] for user [{$_SESSION['user']}] has been done.");
-
-        return $this->respond;
+        try {
+            $this->respond['status'] = $this->model->Handle()['status'];
+            $this->logger->appendRecord("Apply of [{$this->form}] for user [{$_SESSION['user']}] has been done.");
+        } catch (\model\RecordInsertException $rie) {
+            $this->logger->appendError($rie);
+            $this->respond['status'] = 30;
+        } finally {
+            return $this->respond;
+        }
     }
 
+    /**
+     * Check whether supplied data is valid to be handle with models.
+     *
+     * @return boolean
+     */
     public function Validate(): bool
     {
-        return $this->model->Validate();
+        $valid = false;
+
+        try {
+            $valid =  $this->model->Validate();
+        } catch (form\FormIncompleteException $fie) {
+            $this->logger->appendError($fie);
+            $this->respond['status'] = 31;
+        } finally {
+            return $valid;
+        }
     }
 }

@@ -20,14 +20,19 @@ class GetCatalogueHandler extends \model\GetHandler
 {
     public function Handle(): array
     {
-        $dba = new \model\DBAdaptor();
+        try {
+            $dba = new \model\DBAdaptor();
 
-        $this->respond['cat'] = $dba->obtain_catalogue($_SESSION['user']);
-        $res['status'] = 1;
+            $this->respond['cat'] = $dba->obtain_catalogue($_SESSION['user']);
+            $res['status'] = 1;
 
-        $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
-
-        return $this->respond;
+            $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
+        } catch (\model\RecordNotFoundException $rnf) {
+            $this->logger->appendError($rnf);
+            $this->respond['status'] = 21;
+        } finally {
+            return $this->respond;
+        }
     }
 
     public function Validate(): bool

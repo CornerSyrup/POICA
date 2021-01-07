@@ -75,9 +75,6 @@ try {
 } catch (\JsonException $je) {
     $logger->appendError($je);
     $res['status'] = 13;
-} catch (\model\RecordNotFoundException $rnf) {
-    $logger->appendError($rnf);
-    $res['status'] = 21;
 } catch (\Throwable $th) {
     $logger->appendError($th);
     $res['status'] = 0;
