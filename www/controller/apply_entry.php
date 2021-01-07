@@ -60,12 +60,14 @@ try {
     if (empty($handler)) {
         throw new \Exception('Null handler');
     } else if ($handler->Validate()) {
-        $res = $handler->Handle();
+        // logging is embedded in request method handler,
+        // for log format vary in handlers.
+        $handler->Handle();
     } else {
         $logger->appendRecord("User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied.");
     }
 
-    $logger->SetTag('entry');
+    $res = $handler->GetResult();
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uax);
     $res['status'] = 11;
