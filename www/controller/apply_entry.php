@@ -16,10 +16,9 @@ namespace controller;
 require_once 'model/Authentication.php';
 require_once 'model/Global.php';
 require_once 'model/Logger.php';
+require_once 'model/apply/AppForm.php';
 
-use Exception;
 use model\authentication as auth;
-use model\RecordNotFoundException;
 
 /**
  * Logger to keep data record.
@@ -59,11 +58,11 @@ try {
     }
 
     if (empty($handler)) {
-        throw new Exception('Null handler');
+        throw new \Exception('Null handler');
     } else if ($handler->Validate()) {
         $res = $handler->Handle();
     } else {
-        throw new Exception('Value invalid');
+        $logger->appendRecord("User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied.");
     }
 
     $logger->SetTag('entry');
@@ -76,7 +75,7 @@ try {
 } catch (\JsonException $je) {
     $logger->appendError($je);
     $res['status'] = 13;
-} catch (RecordNotFoundException $rnf) {
+} catch (\model\RecordNotFoundException $rnf) {
     $logger->appendError($rnf);
     $res['status'] = 21;
 } catch (\Throwable $th) {
