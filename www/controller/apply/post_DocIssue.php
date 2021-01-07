@@ -61,6 +61,7 @@ class DocIssuePostHandler extends form\FormRequestHandler
      * Check whether supplied data is valid to be handle.
      *
      * @return boolean
+     * @throws FormIncompleteException throw when required field missing.
      */
     public function Validate(): bool
     {
