@@ -391,7 +391,7 @@ class DocIssue extends AppForm
     private static function valid_is(array $data): bool
     {
         // if not set, that is omitted, which is omittable
-        if (isset($data['dc'][6])) {
+        if (!isset($data['dc'][6])) {
             return true;
         }
         // if set, which could not be less then 1
