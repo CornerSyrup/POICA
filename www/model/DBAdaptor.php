@@ -172,7 +172,7 @@ class DBAdaptor
         $res = @pg_query_params(
             $this->connection,
             "SELECT * FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
-            array((string)$user)
+            array($user)
         );
 
         if (!$res) {
