@@ -58,6 +58,31 @@ function validate_jkana(string $kana): bool
     return true;
 }
 
+/**
+ * Validate whether supplied data is a date.
+ *
+ * @param integer $date The date to be validate.
+ * @return boolean
+ */
+function validate_date(int $date): bool
+{
+    // ! todo: implement validation rule
+    return is_numeric($date);
+}
+
+/**
+ * Validate whether supplied date is in range.
+ *
+ * @param integer $date Date to be validate, in unix timestamp.
+ * @param integer $before Latest date, in unix timestamp.
+ * @param integer $after Earliest date, in unix timestamp.
+ * @return boolean
+ */
+function validate_date_range(int $date, int $before, int $after): bool
+{
+    return $date > $after && $date < $before;
+}
+
 #region applications
 /**
  * Check whether class code is valid.
