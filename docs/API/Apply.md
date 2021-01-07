@@ -122,8 +122,8 @@ Positive for success; Negative for fail.
 |  11   | Authentication      |
 |  12   | HTTP request method |
 |  13   | Json encoding       |
-|  21   | Fail to obtain      |
-|  22   | Fail to insert      |
+|  20   | Fail to obtain      |
+|  30   | Fail to insert      |
 
 ### GET respond
 
