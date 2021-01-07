@@ -119,13 +119,10 @@ class FormInvalidException extends \Exception
      * @param integer $code error code.
      * @param \Exception $innerException internal exception which raised this exception indirectly.
      */
-    public function __construct(string $field, string $reason = '', int $code = 0, \Exception $innerException = null)
+    public function __construct(string $field, string $reason = 'required', int $code = 0, \Exception $innerException = null)
     {
-        $msg = empty($reason) ?
-            "Field [{$field}] contain invalid data." :
-            "Field [{$field}] contain invalid data for [{$reason}].";
         parent::__construct(
-            $msg,
+            "Field [{$field}] contain invalid data for [{$reason}].",
             $code,
             $innerException
         );
