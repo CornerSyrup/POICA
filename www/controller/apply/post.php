@@ -24,6 +24,7 @@ class PostHandler extends \model\PostHandler
      * Instantiate a new apply POST Handler object. Where data will absorb from php://input.
      *
      * @param Logger $logger Logger.
+     * @throws JsonException throw when supplied data unable to be parsed when passing to sub-handler.
      */
     public function __construct(\model\Logger $logger)
     {
