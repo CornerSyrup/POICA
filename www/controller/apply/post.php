@@ -28,16 +28,16 @@ class PostHandler extends \model\PostHandler
     public function __construct(\model\Logger $logger)
     {
         parent::__construct($logger);
+
         switch ($this->data['typ']) {
             case 'doc':
                 require_once 'post_DocIssue.php';
-                $this->model = new DocIssuePostHandler($this->data);
+                $this->model = new DocIssuePostHandler($this->data['frm']);
                 break;
             default:
                 throw new \Exception('Unexprected application type.');
         }
     }
-
 
     public function Handle(): array
     {
