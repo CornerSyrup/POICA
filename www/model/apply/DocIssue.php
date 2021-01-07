@@ -85,6 +85,7 @@ class DocIssue extends AppForm
      * @param array $data complete data for doc issue application.
      * @return boolean
      * @throws FormIncompleteException throw when required field missing.
+     * @throws JsonException throw when supplied common field data unable to be parsed.
      */
     public static function Validate(array $data): bool
     {
@@ -98,6 +99,10 @@ class DocIssue extends AppForm
         ) {
             throw new FormIncompleteException('required');
         }
+
+        // parse string JSON to array.
+        $data['bc'] = json_parse($data['bc']);
+
         return parent::Validate($data['bc']) &&
             self::valid_db($data) &&
             self::valid_st($data) &&
