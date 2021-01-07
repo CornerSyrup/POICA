@@ -10,31 +10,12 @@
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
-require_once 'model/Global.php';
-require_once 'model/Handler.php';
 require_once 'model/apply/DocIssue.php';
 
 use \model\app_form as form;
 
-class DocIssuePostHandler implements \model\IHandleable
+class DocIssuePostHandler extends form\FormRequestHandler
 {
-    /**
-     * Result cache.
-     *
-     * @var array
-     */
-    private array $result;
-    /**
-     * Data to be process.
-     *
-     * @var array
-     */
-    private array $data;
-    /**
-     * Form data model object.
-     */
-    private form\DocIssue $form;
-
     /**
      * Instantiate a new POST Handler specific for DocIssue AppForm model.
      *

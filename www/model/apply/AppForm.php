@@ -9,6 +9,7 @@ namespace model\app_form;
 use JsonException;
 
 require_once 'model/Global.php';
+require_once 'model/Handler.php';
 require_once 'model/Validation.php';
 
 use model\validation as valid;
@@ -114,6 +115,26 @@ class AppForm
         $this->classCode = $data['cc'];
         $this->classTeacher = $data['ct'];
     }
+}
+
+abstract class FormRequestHandler implements \model\IHandleable
+{
+    /**
+     * Result cache.
+     *
+     * @var array
+     */
+    protected array $result;
+    /**
+     * Data to be process.
+     *
+     * @var array
+     */
+    protected array $data;
+    /**
+     * Form data model object.
+     */
+    protected AppForm $form;
 }
 
 /**
