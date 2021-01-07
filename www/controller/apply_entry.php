@@ -62,6 +62,8 @@ try {
         throw new Exception('Null handler');
     } else if ($handler->Validate()) {
         $res = $handler->Handle();
+    } else {
+        throw new Exception('Value invalid');
     }
 
     $logger->SetTag('entry');
