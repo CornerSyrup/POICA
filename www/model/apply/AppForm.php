@@ -9,6 +9,9 @@ namespace model\app_form;
 use JsonException;
 
 require_once 'model/Global.php';
+require_once 'model/Validation';
+
+use model\validation as valid;
 
 class AppForm
 {
@@ -40,6 +43,36 @@ class AppForm
      * Teacher employee code of the applicant class teacher.
      */
     public string $classTeacher;
+
+    /**
+     * Check whether basic form data is valid.
+     *
+     * @param array $data basic form data.
+     * @return boolean
+     * @throws FormIncompleteException thrown when any field missing.
+     */
+    public static function Validate(array $data): bool
+    {
+        if (
+            !(isset($data['fn']) &&
+                isset($data['ln']) &&
+                isset($data['fk']) &&
+                isset($data['lk']) &&
+                isset($data['si']) &&
+                isset($data['cc']) &&
+                isset($data['ct']))
+        ) {
+            throw new FormIncompleteException('bc');
+        }
+
+        return valid\validate_jname($data['fn'])
+            && valid\validate_jname($data['ln'])
+            && valid\validate_jkana($data['fk'])
+            && valid\validate_jkana($data['lk'])
+            && valid\validate_sid($data['si'])
+            && valid\validate_class_code($data['cc'])
+            && valid\validate_tid($data['ct']);
+    }
 
     /**
      * Serialize form data into json, which must be deserialize with AppForm deserialize function.
