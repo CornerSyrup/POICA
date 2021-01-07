@@ -1,7 +1,7 @@
 # Apply
 
-Version: 1.0
-Last Edit: 6 Jan 2021
+Version: 1.1
+Last Edit: 7 Jan 2021
 
 ## GET Handler
 
@@ -141,3 +141,9 @@ extra fields for GET catalogue respond.
 | field | description                     | type  |
 | :---: | ------------------------------- | :---: |
 |  cat  | Entry ids of applied form data. | array |
+
+## Implementation
+
+`apply_entry` is the entry point of form apply handling process. Which will only take care of the global exceptions (code 1x) and unknown exceptions(code 0).
+The local exception for each request method should be handle in the method handler, and stop bubble up to entry point.
+The exceptions from sub-handler of method handlers should be handled in method handler, but not sub-handler.
