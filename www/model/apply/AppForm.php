@@ -138,23 +138,3 @@ class FormIncompleteException extends \Exception
         );
     }
 }
-
-class FormInvalidException extends \Exception
-{
-    /**
-     * Constructor of form invalid exception.
-     *
-     * @param string $field field that is invalid.
-     * @param string $reason reason of the supplied data invalid.
-     * @param integer $code error code.
-     * @param \Exception $innerException internal exception which raised this exception indirectly.
-     */
-    public function __construct(string $formType, int $code = 0, \Exception $innerException = null)
-    {
-        parent::__construct(
-            "Invalid data supplied to form type [{$formType}]",
-            $code,
-            $innerException
-        );
-    }
-}
