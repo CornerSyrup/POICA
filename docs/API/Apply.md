@@ -124,6 +124,7 @@ Positive for success; Negative for fail.
 |  13   | Json encoding       |
 |  20   | Fail to obtain      |
 |  30   | Fail to insert      |
+|  31   | Form incomplete     |
 
 ### GET respond
 
