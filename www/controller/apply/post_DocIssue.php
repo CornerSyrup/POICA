@@ -59,8 +59,8 @@ class DocIssuePostHandler implements \model\IHandleable
         }
 
         (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form);
+        $this->reset['status'] = 2;
 
-        $this->result['warn'] = 'still in test';
         return $this->result;
     }
 
