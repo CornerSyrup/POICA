@@ -38,7 +38,7 @@ class PostHandler extends \model\PostHandler
                 $this->model = new DocIssuePostHandler($this->data['frm']);
                 break;
             default:
-                throw new \Exception('Unexprected application type.');
+                throw new \Exception('Unexpected application type.');
         }
     }
 
