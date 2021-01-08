@@ -16,7 +16,6 @@ namespace controller;
 require_once 'model/Authentication.php';
 require_once 'model/Global.php';
 require_once 'model/Logger.php';
-require_once 'model/apply/AppForm.php';
 
 use model\authentication as auth;
 
@@ -33,13 +32,15 @@ $logger = new \model\Logger('entry', 'apply');
 $res = [
     'status' => 0
 ];
+/**
+ * Handler model.
+ */
+$handler = null;
 
 try {
     if (!auth\authenticate()) {
         throw new auth\UnauthorizeException();
     }
-
-    $handler = null;
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
