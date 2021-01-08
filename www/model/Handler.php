@@ -70,7 +70,7 @@ abstract class Handler implements IHandleable
 
     public function GetResult(): array
     {
-        return empty($this->respond) ? null : $this->respond;
+        return empty($this->respond) ? [] : $this->respond;
     }
 }
 
