@@ -54,8 +54,6 @@ try {
     }
     else if ($handler->Validate()) {
         $handler->Handle();
-    } else {
-        $res['status'] = 14;
     }
 
     $res = $handler->GetResult();

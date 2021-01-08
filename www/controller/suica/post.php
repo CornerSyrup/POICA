@@ -56,6 +56,7 @@ class PostHandler extends \model\PostHandler
             && valid\validate_suica($this->data['idm']);
 
         if (!$valid) {
+            $this->respond['status'] = 14;
             $this->logger->appendRecord(
                 "User [{$_SESSION['user']}] attempt to register suica with code [{$this->data['idm']}] which is invalid."
             );

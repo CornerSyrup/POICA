@@ -79,6 +79,7 @@ class PostHandler extends \model\PostHandler
             $valid = $this->model->Validate();
 
             if (!$valid) {
+                $this->respond['status'] = 14;
                 $this->logger->appendRecord(
                     "User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied."
                 );

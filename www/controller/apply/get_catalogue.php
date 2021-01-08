@@ -41,6 +41,7 @@ class GetCatalogueHandler extends \model\GetHandler
             && valid\validate_sid($_SESSION['user']);
 
         if (!$valid) {
+            $this->respond['status'] = 14;
             $this->logger->appendRecord(
                 "User [{$_SESSION['user']}] attempt to obtain applied form list, but some data invalid."
             );

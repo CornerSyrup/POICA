@@ -51,6 +51,7 @@ class GetHandler extends \model\GetHandler
             is_numeric($this->data['id']);
 
         if (!$valid) {
+            $this->respond['status'] = 14;
             $this->logger->appendRecord(
                 "User [{$_SESSION['user']}] attempt to obtain form data, but invalid entry id supplied."
             );
