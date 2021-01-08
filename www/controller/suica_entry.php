@@ -19,7 +19,13 @@ use model\authentication as auth;
 session_start();
 session_regenerate_id();
 
+/**
+ * Logger to keep data record.
+ */
 $logger = new \model\Logger('entry', 'suica');
+/**
+ * Respond to request.
+ */
 $res = [
     'status' => 0
 ];
