@@ -39,7 +39,7 @@ function sign_out(): void
  * @param string $sid student id of the user.
  * @param string $password password of the user as plain string.
  * @return boolean
- * @throws AuthenticationException throw when credential cannot fround in database.
+ * @throws AuthenticationException throw when credential cannot found in database.
  */
 function authenticate_form(string $sid, string $password): bool
 {
