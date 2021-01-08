@@ -3,17 +3,9 @@
 /**
  * suica registration process handler.
  * 
- * task POST data:
- * idm:     idm code of suica card.
- * 
  * use session data:
  * user:    student id.
  * log_in:  is logged in.
- * 
- * respond in json:
- * status:  1 for success, 0 for failure.
- * error:   `message` for error message, `code` for error code.
- *          0 for unknown,1 for unauthorized, 2 for http method.
  */
 
 namespace controller;
