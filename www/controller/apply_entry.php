@@ -13,7 +13,7 @@ require_once 'model/Logger.php';
 use model\authentication as auth;
 
 session_start();
-session_regenerate_id();
+session_regenerate_id(true);
 
 /**
  * Logger to keep data record.
