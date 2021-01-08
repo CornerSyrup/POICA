@@ -3,9 +3,6 @@
 /**
  * entry point of application form data handling.
  * 
- * take GET data from QSA:
- * id:      application form data entry id.
- * 
  * use session data:
  * user:    student id.
  * log_in:  is logged in.

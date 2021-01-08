@@ -3,6 +3,16 @@
 Version: 1.1
 Last Edit: 8 Jan 2021
 
+## Introduction
+
+Entry point of application form data handling.
+
+## Entry Point
+
+| name  | description                              |  type  |
+| :---: | ---------------------------------------- | :----: |
+|  id   | Entry id of form, from RewriteEngin QSA. | number |
+
 ## GET Handler
 
 | name  | description            |  type  |
