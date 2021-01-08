@@ -1,7 +1,7 @@
 <?php
 
 /**
- * suica registration process handler.
+ * entry point of suica related handler.
  * 
  * use session data:
  * user:    student id.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * entry point application form data handling.
+ * entry point of application form data handling.
  * 
  * take GET data from QSA:
  * id:      application form data entry id.
