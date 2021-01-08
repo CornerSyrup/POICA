@@ -2,10 +2,6 @@
 
 /**
  * entry point of suica related handler.
- * 
- * use session data:
- * user:    student id.
- * log_in:  is logged in.
  */
 
 namespace controller;

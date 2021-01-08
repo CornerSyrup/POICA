@@ -2,10 +2,6 @@
 
 /**
  * entry point of application form data handling.
- * 
- * use session data:
- * user:    student id.
- * log_in:  is logged in.
  */
 
 namespace controller;
