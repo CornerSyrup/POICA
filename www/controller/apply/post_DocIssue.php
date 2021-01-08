@@ -15,7 +15,7 @@ require_once 'model/apply/DocIssue.php';
 
 use \model\app_form as form;
 
-class DocIssuePostHandler extends form\FormRequestHandler
+class PostDocIssueHandler extends form\FormRequestHandler
 {
     /**
      * Instantiate a new POST Handler specific for DocIssue AppForm model.
