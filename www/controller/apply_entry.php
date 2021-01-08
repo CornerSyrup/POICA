@@ -30,7 +30,9 @@ $logger = new \model\Logger('entry', 'apply');
 /**
  * Respond to request.
  */
-$res = [];
+$res = [
+    'status' => 0
+];
 
 try {
     if (!auth\authenticate()) {
