@@ -71,7 +71,10 @@ abstract class Handler implements IHandleable
         if (is_null($data)) {
             $this->data = file_get_contents('php://input');
 
-            if (strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json') {
+            if (
+                isset($_SERVER["CONTENT_TYPE"]) &&
+                strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json'
+            ) {
                 $this->data = json_parse(file_get_contents($this->data));
             }
         } else {
