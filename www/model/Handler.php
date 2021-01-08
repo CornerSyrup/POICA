@@ -2,6 +2,7 @@
 
 namespace model;
 
+require_once 'model/Global.php';
 require_once 'model/Logger.php';
 require_once 'model/Localizer.php';
 
@@ -61,11 +62,12 @@ abstract class Handler implements IHandleable
      *
      * @param Logger $logger Logger.
      * @param array $data Data array, usually POST, GET, REQUEST. If null given, it will parse data from php://input.
+     * @throws JsonException throw when data absorb from php://input is invalid json.
      */
     public function __construct(Logger $logger, array $data = null)
     {
         $this->logger = $logger;
-        $this->data = $data ?? json_decode(file_get_contents('php://input'), true);
+        $this->data = $data ?? json_parse(file_get_contents('php://input'), true);
     }
 
     public function GetResult(): array
@@ -81,6 +83,7 @@ abstract class GetHandler extends Handler
      *
      * @param Logger $logger Logger.
      * @param array $data Data array, usually $_GET. If null given, it will parse data from php://input.
+     * @throws JsonException throw when data absorb from php://input is invalid json.
      */
     public function __construct(Logger $logger, $data = null)
     {
@@ -96,6 +99,8 @@ abstract class PostHandler extends Handler
      *
      * @param Logger $logger Logger.
      * @param array $data Data array, usually $_POST. If null given, it will parse data from php://input.
+     * @throws JsonException throw when data absorb from php://input is invalid json.
+
      */
     public function __construct(Logger $logger, $data = null)
     {
