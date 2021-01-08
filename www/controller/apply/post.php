@@ -76,7 +76,7 @@ class PostHandler extends \model\PostHandler
         $valid = false;
 
         try {
-            $valid =  $this->model->Validate();
+            $valid = $this->model->Validate();
 
             if (!$valid) {
                 $this->logger->appendRecord(

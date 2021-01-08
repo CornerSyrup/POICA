@@ -53,9 +53,7 @@ class PostHandler extends \model\PostHandler
     public function Validate(): bool
     {
         $valid = isset($this->data['idm'])
-            && valid\validate_suica($this->data['idm'])
-            &&  isset($_SESSION['user'])
-            && valid\validate_sid($_SESSION['user']);
+            && valid\validate_suica($this->data['idm']);
 
         if (!$valid) {
             $this->logger->appendRecord(
