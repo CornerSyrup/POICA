@@ -53,6 +53,9 @@ try {
 } catch (\RequestMethodException $re) {
     $logger->appendError($re);
     $res['status'] = 12;
+} catch (\JsonException $je) {
+    $logger->appendError($je);
+    $res['status'] = 13;
 } catch (\Throwable $th) {
     $logger->appendError($th);
     $res['status'] = 0;

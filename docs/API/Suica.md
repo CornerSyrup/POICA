@@ -32,3 +32,4 @@ in JSON format.
 |   0   | unknown             |
 |  11   | unauthorized        |
 |  12   | HTTP request method |
+|  13   | Json encoding       |
