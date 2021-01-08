@@ -8,7 +8,6 @@ namespace controller\signin;
 
 require_once 'model/Authentication.php';
 require_once 'model/Handler.php';
-require_once 'model/Localizer.php';
 require_once 'model/Validation.php';
 
 use model\authentication as auth;
@@ -19,18 +18,6 @@ use model\validation as valid;
  */
 class PostFormHandler extends \model\PostHandler
 {
-    /**
-     * Instantiate a new Form sign-in Handler object.
-     *
-     * @param Logger $logger Logger.
-     * @param array $data form data use to sign-in.
-     */
-    public function __construct(\model\Logger $logger)
-    {
-        parent::__construct($logger, null);
-        $this->data = \model\Localizer::LocalizeArray($this->data);
-    }
-
     /**
      * Main handling procedure.
      *
