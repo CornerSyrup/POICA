@@ -35,7 +35,7 @@ try {
         throw new auth\UnauthorizeException();
     }
 
-    switch (strtoupper(strtoupper($_SERVER['REQUEST_METHOD']))) {
+    switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'POST':
             require './suica/suica_post.php';
         case 'PUT':
@@ -45,36 +45,17 @@ try {
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
+            break;
     }
-
-    $logger->SetTag('entry');
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uex);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => 'Unauthorized request',
-            'code' => 1
-        ]
-    ];
+    $res['status'] = 11;
 } catch (\RequestMethodException $re) {
     $logger->appendError($re);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => 'Inappropriate request method',
-            'code' => 2
-        ]
-    ];
+    $res['status'] = 12;
 } catch (\Throwable $th) {
     $logger->appendError($th);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => '',
-            'code' => 0
-        ]
-    ];
+    $res['status'] = 0;
 }
 
 header("Content-Type: application/json");
