@@ -27,10 +27,11 @@ in JSON format.
 
 #### error status
 
-| code  | reason              |
-| :---: | ------------------- |
-|   0   | unknown             |
-|  11   | unauthorized        |
-|  12   | HTTP request method |
-|  13   | Json encoding       |
-|  30   | Fail to insert      |
+| code  | reason                |
+| :---: | --------------------- |
+|   0   | unknown               |
+|  11   | unauthorized          |
+|  12   | HTTP request method   |
+|  13   | Json encoding         |
+|  14   | Invalid data supplied |
+|  30   | Fail to insert        |
