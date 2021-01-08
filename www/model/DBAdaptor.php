@@ -201,21 +201,11 @@ class DBAdaptor
     public function obtain_catalogue(string $user): array
     {
         // TODO: create db function to replace
-        $res = @pg_query_params(
-            $this->connection,
+        return $this->obtain(
             "SELECT appid id, stat \"status\", applydate \"date\" FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
-            array($user)
+            array($user),
+            "Fail to obtain applied form list with [{$user}]"
         );
-
-        if (!$res) {
-            throw new RecordLookUpException(
-                "Fail to obtain applied form list with [{$user}]",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-
-        return pg_fetch_all($res);
     }
     #endregion
 
