@@ -103,8 +103,6 @@ in JSON format.
 
 ### Status
 
-Positive for success; Negative for fail.
-
 #### success status
 
 | Code  | Action          |
