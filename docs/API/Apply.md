@@ -114,15 +114,16 @@ in JSON format.
 
 #### error status
 
-| code  | reason              |
-| :---: | ------------------- |
-|   0   | Unknown error       |
-|  11   | Authentication      |
-|  12   | HTTP request method |
-|  13   | Json encoding       |
-|  20   | Fail to obtain      |
-|  30   | Fail to insert      |
-|  31   | Form incomplete     |
+| code  | reason                |
+| :---: | --------------------- |
+|   0   | Unknown error         |
+|  11   | Authentication        |
+|  12   | HTTP request method   |
+|  13   | Json encoding         |
+|  14   | Invalid data supplied |
+|  20   | Fail to obtain        |
+|  30   | Fail to insert        |
+|  31   | Form incomplete       |
 
 ### GET respond
 

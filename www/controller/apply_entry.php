@@ -67,6 +67,7 @@ try {
         // for log format vary in handlers.
         $handler->Handle();
     } else {
+        $res['status'] = 14;
         $logger->appendRecord("User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied.");
     }
 
