@@ -66,6 +66,7 @@ class PostSuicaHandler extends \model\PostHandler
             valid\validate_pwd($this->data['idm']);
 
         if (!$valid) {
+            $this->respond['status'] = 13;
             $this->logger->appendRecord(
                 "Sign in suica data is invalid."
             );

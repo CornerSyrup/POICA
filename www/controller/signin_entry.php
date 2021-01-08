@@ -57,8 +57,6 @@ try {
         throw new \Exception('Null handler');
     } else if ($handler->Validate()) {
         $handler->Handle();
-    } else {
-        $res['status'] = 13;
     }
 
     $res = $handler->GetResult();

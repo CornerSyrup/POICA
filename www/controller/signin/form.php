@@ -71,6 +71,7 @@ class PostFormHandler extends \model\PostHandler
             valid\validate_pwd($this->data['pwd']);
 
         if (!$valid) {
+            $this->respond['status'] = 13;
             $this->logger->appendRecord(
                 "Sign in form data is invalid."
             );
