@@ -149,27 +149,21 @@ class DBAdaptor
      */
     public function obtain_form(int $entry, int $user): string
     {
+        $msg = "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]";
+
         // TODO: create db function to replace
-        $res = @pg_query_params(
-            $this->connection,
+        $res = $this->obtain(
             "SELECT a.formdata FROM applic.applications a WHERE a.appid=$1 AND a.applyuser in (select u.userid from usership.users u where studentid=$2 limit 1);",
-            array($entry, $user)
+            array($entry, $user),
+            $msg
         );
 
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
-
-        if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain form data with entry id [{$entry}] and user id [{$user}]");
+        // check first row
+        if (empty($res[0]['formdata'])) {
+            throw new RecordNotFoundException($msg);
         }
 
-        return $res[0];
+        return $res[0]['formdata'];
     }
 
     /**
