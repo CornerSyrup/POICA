@@ -77,6 +77,12 @@ class PostHandler extends \model\PostHandler
 
         try {
             $valid =  $this->model->Validate();
+
+            if (!$valid) {
+                $this->logger->appendRecord(
+                    "User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied."
+                );
+            }
         } catch (form\FormIncompleteException $fie) {
             $this->logger->appendError($fie);
             $this->respond['status'] = 31;

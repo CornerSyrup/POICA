@@ -47,8 +47,16 @@ class GetHandler extends \model\GetHandler
      */
     public function Validate(): bool
     {
-        return is_numeric($this->data['id'])
+        $valid =  is_numeric($this->data['id'])
             && isset($_SESSION['user'])
             && valid\validate_sid($_SESSION['user']);
+
+        if (!$valid){
+            $this->logger->appendRecord(
+                "User [{$_SESSION['user']}] attempt to obtain form data, but invalid entry id supplied."
+            );
+        }
+
+        return $valid;
     }
 }

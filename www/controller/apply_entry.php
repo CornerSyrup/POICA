@@ -64,12 +64,9 @@ try {
     if (empty($handler)) {
         throw new \Exception('Null handler');
     } else if ($handler->Validate()) {
-        // logging is embedded in request method handler,
-        // for log format vary in handlers.
         $handler->Handle();
     } else {
         $res['status'] = 14;
-        $logger->appendRecord("User [{$_SESSION['user']}] attempted to apply, but invalid form data supplied.");
     }
 
     $res = $handler->GetResult();
