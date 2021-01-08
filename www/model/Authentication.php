@@ -23,6 +23,17 @@ function authenticate(): bool
 }
 
 /**
+ * Sign out from this server. Basically unset credential.
+ *
+ * @return void
+ */
+function sign_out(): void
+{
+    unset($_SESSION['user']);
+    unset($_SESSION['log_in']);
+}
+
+/**
  * Authenticate user with password.
  *
  * @param string $sid student id of the user.
