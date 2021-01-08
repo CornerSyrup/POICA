@@ -1,7 +1,7 @@
 # Apply
 
 Version: 1.1
-Last Edit: 7 Jan 2021
+Last Edit: 8 Jan 2021
 
 ## GET Handler
 
@@ -11,7 +11,7 @@ Last Edit: 7 Jan 2021
 
 ## POST Handler
 
-|          name          | description   | Type  |
+|          name          | description   | type  |
 | :--------------------: | ------------- | :---: |
 | [typ](#post-form-type) | Type of form. | Enum  |
 | [frm](#post-form-data) | Form data.    | JSON  |
@@ -97,7 +97,7 @@ Below are common fields, stored in field named `bc` as JSON:
 
 in JSON format.
 
-| field  | description         | Type  |
+| field  | description         | type  |
 | :----: | ------------------- | :---: |
 | status | Status of handling. | Enum  |
 
@@ -105,7 +105,7 @@ in JSON format.
 
 #### success status
 
-| Code  | Action          |
+| code  | action          |
 | :---: | --------------- |
 |   1   | obtain (GET)    |
 |   2   | insert (POST)   |
@@ -114,7 +114,7 @@ in JSON format.
 
 #### error status
 
-| Code  | Error               |
+| code  | reason              |
 | :---: | ------------------- |
 |   0   | Unknown error       |
 |  11   | Authentication      |
