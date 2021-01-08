@@ -29,6 +29,10 @@ $logger = new \model\Logger('entry', 'suica');
 $res = [
     'status' => 0
 ];
+/**
+ * Handler model.
+ */
+$handler = null;
 
 try {
     if (!auth\authenticate()) {
@@ -37,7 +41,8 @@ try {
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'POST':
-            require './suica/suica_post.php';
+            require './suica/post.php';
+            $handler = new suica\PostHandler($logger);
         case 'PUT':
             // TODO: create put handler for suica
         case 'DELETE':
@@ -47,6 +52,17 @@ try {
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
             break;
     }
+
+    if (empty($handler)) {
+        throw new \Exception('Null handler');
+    }
+    else if ($handler->Validate()) {
+        $handler->Handle();
+    } else {
+        $res['status'] = 14;
+    }
+
+    $res = $handler->GetResult();
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uex);
     $res['status'] = 11;
