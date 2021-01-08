@@ -70,7 +70,7 @@ try {
     $res['status'] = 13;
 } catch (\Throwable $th) {
     $logger->appendError($th);
-    $res['status'] = 0;
+    $res['status'] = 10;
 }
 
 header("Content-Type: application/json");

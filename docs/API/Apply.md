@@ -126,7 +126,7 @@ in JSON format.
 
 | code  | reason                |
 | :---: | --------------------- |
-|   0   | Unknown error         |
+|  10   | Unknown error         |
 |  11   | Authentication        |
 |  12   | HTTP request method   |
 |  13   | Json encoding         |

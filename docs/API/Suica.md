@@ -29,7 +29,7 @@ in JSON format.
 
 | code  | reason                |
 | :---: | --------------------- |
-|   0   | unknown               |
+|  10   | unknown               |
 |  11   | unauthorized          |
 |  12   | HTTP request method   |
 |  13   | Json encoding         |
