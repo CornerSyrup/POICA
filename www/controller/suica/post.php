@@ -10,43 +10,59 @@
 namespace controller\suica;
 
 require_once 'model/DBAdaptor.php';
+require_once 'model/Handler.php';
 require_once 'model/Localizer.php';
-require_once 'model/Logger.php';
 require_once 'model/Validation.php';
 
 use model\validation as valid;
 
-$logger->SetTag('post');
-
-try {
-    // accept js fetch api
-    if (empty($_POST)  && strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json') {
-        $_POST = json_decode(file_get_contents('php://input'), true);
+class PostHandler extends \model\PostHandler
+{
+    /**
+     * Instantiate a new POST Handler object.
+     *
+     * @param Logger $logger Logger.
+     * @throws JsonException throw when data to be parse is invalid JSON.
+     */
+    public function __construct(\model\Logger $logger)
+    {
+        parent::__construct($logger, null);
+        $this->data = \model\Localizer::LocalizeArray($this->data);
     }
 
-    $_POST = \model\Localizer::LocalizeArray($_POST);
+    public function Handle(): array
+    {
+        try {
+            // update attribute of suica
+            // TODO: check if not registered before, return registered if so. 
+            (new \model\DBAdaptor())->update_suica($_SESSION['user'], $this->data['idm']);
 
-    // valid input
-    if (!valid\validate_suica($_POST['idm'])) {
-        throw new valid\ValidationException("Idm code [{$_POST['idm']}] is invalid");
+            $this->logger->appendRecord(
+                "Success to register suica card with idm [{$this->data['idm']}] to user with student id [{$_SESSION['user']}]"
+            );
+
+            $this->respond['status'] = 1;
+        } catch (\model\RecordInsertException $rie) {
+            $this->logger->appendError($rie);
+            $this->respond['status'] = 30;
+        } finally {
+            return $this->respond;
+        }
     }
 
-    // update attribute of suica
-    // TODO: check if not registered before, return registered if so. 
-    (new \model\DBAdaptor())->update_suica($_SESSION['user'], $_POST['idm']);
-    $logger->appendRecord("Success to register suica card with idm [{$_POST['idm']}] to user with student id [{$_SESSION['user']}]");
-    $res['status'] = 1;
-} catch (valid\ValidationException $ve) {
-    $logger->appendError($ve);
-    $res = [
-        'message' => 'Invalid idm code.',
-        'code' => 3
-    ];
-} catch (\model\RecordInsertException $rie) {
-    $logger->appendError($rie);
-    $res = [
-        'message' => '',
-        'code' => 4
-    ];
-    http_response_code(500);
+    public function Validate(): bool
+    {
+        $valid = isset($this->data['idm'])
+            && valid\validate_suica($this->data['idm'])
+            &&  isset($_SESSION['user'])
+            && valid\validate_sid($_SESSION['user']);
+
+        if (!$valid) {
+            $this->logger->appendRecord(
+                "User [{$_SESSION['user']}] attempt to register suica with code [{$this->data['idm']}] which is invalid."
+            );
+        }
+
+        return $valid;
+    }
 }
