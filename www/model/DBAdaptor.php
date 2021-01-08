@@ -38,6 +38,32 @@ class DBAdaptor
         }
     }
 
+    #region common
+    /**
+     * Basic interface to obtain data from database.
+     *
+     * @param string $command SQL command.
+     * @param array $params parameter to be used with supplied command.
+     * @param string $errorMessage error message when fail to obtain.
+     * @return void
+     * @throws RecordLookUpException throw when fail to obtain data from database, with supplied error message.
+     */
+    public function obtain(string $command, array $params, string $errorMessage)
+    {
+        $res = @pg_query_params($this->connection, $command, $params);
+
+        if (!$res) {
+            throw new RecordLookUpException(
+                $errorMessage,
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+
+        return pg_fetch_all($res);
+    }
+    #endregion
+
     #region credential
     /**
      * Interface to obtain user credential from database.
