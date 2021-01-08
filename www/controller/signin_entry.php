@@ -40,8 +40,13 @@ try {
             ob_end_flush();
             exit;
         case 'POST':
-            require_once './signin/form.php';
-            $handler = new signin\PostFormHandler($logger);
+            if (isset($_REQUEST['m']) && $_REQUEST['m'] == 's') {
+                require_once './signin/suica.php';
+                $handler = new signin\PostSuicaHandler($logger);
+            } else {
+                require_once './signin/form.php';
+                $handler = new signin\PostFormHandler($logger);
+            }
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
