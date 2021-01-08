@@ -45,10 +45,10 @@ class DBAdaptor
      * @param string $command SQL command.
      * @param array $params parameter to be used with supplied command.
      * @param string $errorMessage error message when fail to obtain.
-     * @return void
+     * @return array
      * @throws RecordLookUpException throw when fail to obtain data from database, with supplied error message.
      */
-    public function obtain(string $command, array $params, string $errorMessage)
+    public function obtain(string $command, array $params, string $errorMessage, bool $assoc = true): array
     {
         $res = @pg_query_params($this->connection, $command, $params);
 
@@ -60,7 +60,7 @@ class DBAdaptor
             );
         }
 
-        return pg_fetch_all($res);
+        return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
     }
     #endregion
 
@@ -196,9 +196,9 @@ class DBAdaptor
      * Interface to obtain list of applied form with student id.
      *
      * @param string $user student id in string, to prevent missing leading 0.
-     * @return void
+     * @return array
      */
-    public function obtain_catalogue(string $user)
+    public function obtain_catalogue(string $user): array
     {
         // TODO: create db function to replace
         $res = @pg_query_params(
