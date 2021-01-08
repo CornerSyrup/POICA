@@ -166,7 +166,13 @@ class DBAdaptor
         }
     }
 
-    public function obtain_catalogue(int $user)
+    /**
+     * Interface to obtain list of applied form with student id.
+     *
+     * @param string $user student id in string, to prevent missing leading 0.
+     * @return void
+     */
+    public function obtain_catalogue(string $user)
     {
         // TODO: create db function to replace
         $res = @pg_query_params(
@@ -194,6 +200,7 @@ class DBAdaptor
      * @param integer $user student id.
      * @param string $idm idm code for suica card.
      * @return void
+     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
      */
     public function update_suica(int $user, string $idm)
     {
