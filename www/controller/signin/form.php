@@ -19,6 +19,18 @@ use model\validation as valid;
 class PostFormHandler extends \model\PostHandler
 {
     /**
+     * Instantiate a POST Handler object for form sing-in.
+     *
+     * @param Logger $logger Logger.
+     * @throws JsonException throw when data to be parse from php://input is invalid JSON.
+     */
+    public function __construct(\model\Logger $logger)
+    {
+        parent::__construct($logger, null);
+        $this->logger->SetTag('form');
+    }
+
+    /**
      * Main handling procedure.
      *
      * @return array respond full respond data.
