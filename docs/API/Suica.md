@@ -21,9 +21,9 @@ in JSON format.
 
 #### success status
 
-| code  | action                  |
-| :---: | ----------------------- |
-|   1   | successfully registered |
+| code  | action          |
+| :---: | --------------- |
+|   2   | register (POST) |
 
 #### error status
 
@@ -33,3 +33,4 @@ in JSON format.
 |  11   | unauthorized        |
 |  12   | HTTP request method |
 |  13   | Json encoding       |
+|  30   | Fail to insert      |

@@ -3,16 +3,8 @@
 /**
  * suica POST method sub-handler.
  * 
- * task POST data:
- * idm:     idm code of suica card.
- * 
  * use session data:
  * user:    student id.
- * 
- * set $res from invoker:
- * status:  1 for success, 0 for failure.
- * error:   `message` for error message, `code` for error code.
- *          3 for invalid, 4 for insertion.
  */
 
 namespace controller\suica;
