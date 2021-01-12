@@ -10,6 +10,8 @@
 namespace controller\apply;
 
 require_once 'model/DBAdaptor.php';
+require_once 'model/Global.php';
+require_once 'model/Localizer.php';
 require_once 'model/apply/AppForm.php';
 require_once 'model/apply/DocIssue.php';
 
@@ -26,6 +28,22 @@ class PostDocIssueHandler extends form\FormRequestHandler
     public function __construct(string $json)
     {
         $this->data = json_parse($json);
+
+        if (isset($this->data['gs'])) {
+            $this->data['gs'] = json_parse($this->data['gs']);
+        }
+        if (isset($this->data['is'])) {
+            $this->data['is'] = json_parse($this->data['is']);
+        }
+
+        $this->data = \model\Localizer::LocalizeArray($this->data);
+
+        if (isset($this->data['gs'])) {
+            $this->data['gs'] = json_stringify($this->data['gs']);
+        }
+        if (isset($this->data['is'])) {
+            $this->data['is'] = json_stringify($this->data['is']);
+        }
     }
 
     /**
