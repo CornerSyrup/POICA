@@ -41,10 +41,10 @@ try {
             exit;
         case 'POST':
             if (isset($_REQUEST['m']) && $_REQUEST['m'] == 's') {
-                require_once './signin/suica.php';
+                require_once './signin/post_suica.php';
                 $handler = new signin\PostSuicaHandler($logger);
             } else {
-                require_once './signin/form.php';
+                require_once './signin/post_form.php';
                 $handler = new signin\PostFormHandler($logger);
             }
             break;
