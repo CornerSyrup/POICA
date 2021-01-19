@@ -1,4 +1,4 @@
-# Signin
+# Sign In
 
 Version: 1.0
 Last Edit: 8 Jan 2021
@@ -15,7 +15,7 @@ The script for form sign-in need to determine what to do after. Like redirect to
 
 | name  | description |           type           |
 | :---: | ----------- | :----------------------: |
-|  sid  | Student ID. | string (5 numberic char) |
+|  sid  | Student ID. | string (5 numeric char) |
 |  pwd  | password.   |          string          |
 
 ## Respond
