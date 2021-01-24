@@ -67,4 +67,9 @@ module.exports = {
   externals: {
     React: "react",
   },
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 5000,
+    poll: 2500
+  }
 };
