@@ -76,6 +76,7 @@ function authenticate_suica(string $sid, string $idm): bool
  *
  * @param array $data array of basic credential of user.
  * @return boolean true on success, false on fail.
+ * @throws AuthenticationException throw when fail to insert entry into database.
  */
 function enrol(array $data): bool
 {
