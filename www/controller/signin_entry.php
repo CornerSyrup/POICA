@@ -1,7 +1,7 @@
 <?php
 
 /**
- * entry point of application form data handling.
+ * entry point of sign in handling.
  */
 
 namespace controller;
@@ -18,7 +18,7 @@ session_regenerate_id(true);
 /**
  * Logger to keep data record.
  */
-$logger = new \model\Logger('entry', 'apply');
+$logger = new \model\Logger('entry', 'signin');
 /**
  * Respond to request.
  */
@@ -30,24 +30,23 @@ $res = [
  */
 $handler = null;
 
-try {
-    if (!auth\authenticate()) {
-        throw new auth\UnauthorizeException();
-    }
+auth\sign_out();
 
+try {
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
-            if (isset($_REQUEST['e'])) {
-                require_once './apply/get_catalogue.php';
-                $handler = new apply\GetCatalogueHandler($logger);
-            } else {
-                require_once './apply/get.php';
-                $handler = new apply\GetHandler($logger, ['id' => $_REQUEST['e']]);
-            }
-            break;
+            ob_start();
+            include "view/signin.php";
+            ob_end_flush();
+            exit;
         case 'POST':
-            require_once './apply/post.php';
-            $handler = new apply\PostHandler($logger);
+            if (isset($_REQUEST['m']) && $_REQUEST['m'] == 's') {
+                require_once './signin/post_suica.php';
+                $handler = new signin\PostSuicaHandler($logger);
+            } else {
+                require_once './signin/post_form.php';
+                $handler = new signin\PostFormHandler($logger);
+            }
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
@@ -61,15 +60,10 @@ try {
     }
 
     $res = $handler->GetResult();
-} catch (auth\UnauthorizeException $uax) {
-    $logger->appendError($uax);
+} catch (\RequestMethodException $re) {
+    // inappropriate request method
+    $logger->appendError($re);
     $res['status'] = 11;
-} catch (\RequestMethodException $rmx) {
-    $logger->appendError($rmx);
-    $res['status'] = 12;
-} catch (\JsonException $je) {
-    $logger->appendError($je);
-    $res['status'] = 13;
 } catch (\Throwable $th) {
     $logger->appendError($th);
     $res['status'] = 10;

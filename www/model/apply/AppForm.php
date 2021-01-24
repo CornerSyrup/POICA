@@ -6,6 +6,14 @@
 
 namespace model\app_form;
 
+use JsonException;
+
+require_once 'model/Global.php';
+require_once 'model/Handler.php';
+require_once 'model/Validation.php';
+
+use model\validation as valid;
+
 class AppForm
 {
     /**
@@ -27,7 +35,7 @@ class AppForm
     /**
      * Student ID of the applicant.
      */
-    public int $studentID;
+    public string $studentID;
     /**
      * Class code which the applicant affiliated.
      */
@@ -35,7 +43,37 @@ class AppForm
     /**
      * Teacher employee code of the applicant class teacher.
      */
-    public int $classTeacher;
+    public string $classTeacher;
+
+    /**
+     * Check whether basic form data is valid.
+     *
+     * @param array $data basic form data.
+     * @return boolean
+     * @throws FormIncompleteException thrown when any field missing.
+     */
+    public static function Validate(array $data): bool
+    {
+        if (
+            !(isset($data['fn']) &&
+                isset($data['ln']) &&
+                isset($data['fk']) &&
+                isset($data['lk']) &&
+                isset($data['si']) &&
+                isset($data['cc']) &&
+                isset($data['ct']))
+        ) {
+            throw new FormIncompleteException('bc');
+        }
+
+        return valid\validate_jname($data['fn'])
+            && valid\validate_jname($data['ln'])
+            && valid\validate_jkana($data['fk'])
+            && valid\validate_jkana($data['lk'])
+            && valid\validate_sid($data['si'])
+            && valid\validate_class_code($data['cc'])
+            && valid\validate_tid($data['ct']);
+    }
 
     /**
      * Serialize form data into json, which must be deserialize with AppForm deserialize function.
@@ -62,20 +100,41 @@ class AppForm
      * Deserialize form data json string into form data, which must be serialized with AppForm serialize function.
      *
      * @param string $json Serialized form data with AppForm serialized function.
+     * @throws JsonException
      */
     public function Deserialize(string $json)
     {
         // ignore data check, for all field required.
-        $data = json_decode($json);
+        $data = json_parse($json);
 
-        $this->firstName = $data->fn;
-        $this->firstKana = $data->fk;
-        $this->lastName = $data->ln;
-        $this->lastKana = $data->lk;
-        $this->studentID = $data->si;
-        $this->classCode = $data->cc;
-        $this->classTeacher = $data->ct;
+        $this->firstName = $data['fn'];
+        $this->firstKana = $data['fk'];
+        $this->lastName = $data['ln'];
+        $this->lastKana = $data['lk'];
+        $this->studentID = $data['si'];
+        $this->classCode = $data['cc'];
+        $this->classTeacher = $data['ct'];
     }
+}
+
+abstract class FormRequestHandler implements \model\IHandleable
+{
+    /**
+     * Result cache.
+     *
+     * @var array
+     */
+    protected array $result;
+    /**
+     * Data to be process.
+     *
+     * @var array
+     */
+    protected array $data;
+    /**
+     * Form data model object.
+     */
+    protected AppForm $form;
 }
 
 /**
@@ -91,13 +150,10 @@ class FormIncompleteException extends \Exception
      * @param integer $code error code.
      * @param \Exception $innerException internal exception which raised this exception indirectly.
      */
-    public function __construct(string $field, string $reason = '', int $code = 0, \Exception $innerException = null)
+    public function __construct(string $field, string $reason = 'required', int $code = 0, \Exception $innerException = null)
     {
-        $msg = empty($reason) ?
-            "Field [{$field}] required but remain empty." :
-            "Field [{$field}] required for [{$reason}] but remain empty.";
         parent::__construct(
-            $msg,
+            "Field [{$field}] required for [{$reason}] but remain empty.",
             $code,
             $innerException
         );

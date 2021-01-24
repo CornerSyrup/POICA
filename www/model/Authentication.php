@@ -23,12 +23,23 @@ function authenticate(): bool
 }
 
 /**
+ * Sign out from this server. Basically unset credential.
+ *
+ * @return void
+ */
+function sign_out(): void
+{
+    unset($_SESSION['user']);
+    unset($_SESSION['log_in']);
+}
+
+/**
  * Authenticate user with password.
  *
  * @param string $sid student id of the user.
  * @param string $password password of the user as plain string.
  * @return boolean
- * @throws AuthenticationException throw when credential cannot fround in database.
+ * @throws AuthenticationException throw when credential cannot found in database.
  */
 function authenticate_form(string $sid, string $password): bool
 {
@@ -65,6 +76,7 @@ function authenticate_suica(string $sid, string $idm): bool
  *
  * @param array $data array of basic credential of user.
  * @return boolean true on success, false on fail.
+ * @throws AuthenticationException throw when fail to insert entry into database.
  */
 function enrol(array $data): bool
 {
@@ -75,10 +87,8 @@ function enrol(array $data): bool
 
     try {
         (new model\DBAdaptor())->insert_credential($data);
-        $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
     } catch (model\RecordInsertException $rie) {
-        $logger->appendError($rie);
-        return false;
+        throw new AuthenticationException("suica [{$data['sid']}] was not registered", 0, $rie);
     }
 
     return true;

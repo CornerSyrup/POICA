@@ -36,21 +36,60 @@ function validate_suica(string $idm): bool
 {
     return preg_match('/^[A-Za-z0-9]{16}$/', $idm);
 }
+#endregion
 
 function validate_jname(string $name): bool
 {
+    if (empty($name)) {
+        return false;
+    }
+
     // TODo: add validation rule
     return true;
 }
 
 function validate_jkana(string $kana): bool
 {
+    if (empty($kana)) {
+        return false;
+    }
+
     // TODO: add validation rule
     return true;
 }
-#endregion
+
+/**
+ * Validate whether supplied data is a date.
+ *
+ * @param integer $date The date to be validate.
+ * @return boolean
+ */
+function validate_date(int $date): bool
+{
+    // ! todo: implement validation rule
+    return is_numeric($date);
+}
+
+/**
+ * Validate whether supplied date is in range.
+ *
+ * @param integer $date Date to be validate, in unix timestamp.
+ * @param integer $before Latest date, in unix timestamp.
+ * @param integer $after Earliest date, in unix timestamp.
+ * @return boolean
+ */
+function validate_date_range(int $date, int $before, int $after): bool
+{
+    return $date > $after && $date < $before;
+}
 
 #region applications
+/**
+ * Check whether class code is valid.
+ *
+ * @param string $code Format ih12a092, non case sensitive, class room number required.
+ * @return boolean
+ */
 function validate_class_code(string $code): bool
 {
     if (empty($code)) {

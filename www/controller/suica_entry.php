@@ -1,19 +1,7 @@
 <?php
 
 /**
- * suica registration process handler.
- * 
- * task POST data:
- * idm:     idm code of suica card.
- * 
- * use session data:
- * user:    student id.
- * log_in:  is logged in.
- * 
- * respond in json:
- * status:  1 for success, 0 for failure.
- * error:   `message` for error message, `code` for error code.
- *          0 for unknown,1 for unauthorized, 2 for http method.
+ * entry point of suica related handler.
  */
 
 namespace controller;
@@ -25,21 +13,32 @@ require_once 'model/Logger.php';
 use model\authentication as auth;
 
 session_start();
-session_regenerate_id();
+session_regenerate_id(true);
 
+/**
+ * Logger to keep data record.
+ */
 $logger = new \model\Logger('entry', 'suica');
+/**
+ * Respond to request.
+ */
 $res = [
     'status' => 0
 ];
+/**
+ * Handler model.
+ */
+$handler = null;
 
 try {
     if (!auth\authenticate()) {
         throw new auth\UnauthorizeException();
     }
 
-    switch (strtoupper(strtoupper($_SERVER['REQUEST_METHOD']))) {
+    switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'POST':
-            require './suica/suica_post.php';
+            require './suica/post.php';
+            $handler = new suica\PostHandler($logger);
         case 'PUT':
             // TODO: create put handler for suica
         case 'DELETE':
@@ -47,36 +46,29 @@ try {
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
+            break;
     }
 
-    $logger->SetTag('entry');
+    if (empty($handler)) {
+        throw new \Exception('Null handler');
+    }
+    else if ($handler->Validate()) {
+        $handler->Handle();
+    }
+
+    $res = $handler->GetResult();
 } catch (auth\UnauthorizeException $uax) {
     $logger->appendError($uex);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => 'Unauthorized request',
-            'code' => 1
-        ]
-    ];
+    $res['status'] = 11;
 } catch (\RequestMethodException $re) {
     $logger->appendError($re);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => 'Inappropriate request method',
-            'code' => 2
-        ]
-    ];
+    $res['status'] = 12;
+} catch (\JsonException $je) {
+    $logger->appendError($je);
+    $res['status'] = 13;
 } catch (\Throwable $th) {
     $logger->appendError($th);
-    $res = [
-        'status' => 0,
-        'error' => [
-            'message' => '',
-            'code' => 0
-        ]
-    ];
+    $res['status'] = 10;
 }
 
 header("Content-Type: application/json");

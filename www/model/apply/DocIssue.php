@@ -1,12 +1,11 @@
 <?php
 
-/**
- * Class represent the document issue application form, aka 証明書発行願.
- */
-
 namespace model\app_form;
 
+require_once 'model/Validation.php';
 require_once 'model/apply/AppForm.php';
+
+use model\validation as valid;
 
 /**
  * Represent the application form of document issue application,
@@ -78,6 +77,41 @@ class DocIssue extends AppForm
     public function SetDateOfBirth(int $year, int $month, int $day): void
     {
         $this->dob = mktime(null, null, null, $month, $day, $year);
+    }
+
+    /**
+     * Check whether doc issue form data is valid.
+     *
+     * @param array $data complete data for doc issue application.
+     * @return boolean
+     * @throws FormIncompleteException throw when required field missing.
+     * @throws JsonException throw when supplied common field data unable to be parsed.
+     */
+    public static function Validate(array $data): bool
+    {
+        // check if required field is set
+        if (
+            !(isset($data['bc']) &&
+                isset($data['db']) &&
+                isset($data['st']) &&
+                isset($data['pp']) &&
+                isset($data['dc']) && !empty($data['dc']))
+        ) {
+            throw new FormIncompleteException('required');
+        }
+
+        // parse string JSON to array.
+        $data['bc'] = json_parse($data['bc']);
+
+        return parent::Validate($data['bc']) &&
+            self::valid_db($data) &&
+            self::valid_st($data) &&
+            self::valid_pp($data) &&
+            self::valid_dc($data) &&
+            self::valid_en($data) &&
+            self::valid_lg($data) &&
+            self::valid_gs($data) &&
+            self::valid_is($data);
     }
 
     /**
@@ -221,40 +255,173 @@ class DocIssue extends AppForm
      * Deserialize form data json string into form data, which must be serialized with DocIssue serialize function.
      *
      * @param string $json Serialized form data with DocIssue serialized function.
+     * @throws JsonException
      */
     public function Deserialize(string $json)
     {
-        $data = json_decode($json);
-        parent::Deserialize($data->bc);
+        $data = json_parse($json);
+        parent::Deserialize($data['bc']);
 
-        $this->status = $data->st;
-        $this->dob = $data->db;
-        $this->purpose = $data->pp;
+        $this->status = $data['st'];
+        $this->dob = $data['db'];
+        $this->purpose = $data['pp'];
 
         // omittable
-        $this->enName = $data->en ?? '';
+        $this->enName = $data['en'] ?? '';
 
         for ($i = 1; $i <= 7; $i++) {
-            $this->document[$i] = $data->dc->$i ?? 0;
+            $this->document[$i] = $data['dc']['$i'] ?? 0;
         }
 
         for ($i = 1; $i <= 4; $i++) {
-            $this->language[$i] = $data->lg->$i ?? 0;
+            $this->language[$i] = $data['lg']['$i'] ?? 0;
         }
 
-        if (isset($data->gs)) {
-            $this->gradSub = GraduatesSubForm::Deserialize($data->gs);
+        if (isset($data['gs'])) {
+            $this->gradSub = GraduatesSubForm::Deserialize($data['gs']);
         }
 
-        if (isset($data->is)) {
-            $this->interSub = ResultAttendanceSubForm::Deserialize($data->is);
+        if (isset($data['is'])) {
+            $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
         }
     }
+
+    #region validation helper function
+    private static function valid_db(array $data): bool
+    {
+        // field should be a date;
+        // and earlier then 6 years ago (at lease 6 yr old).
+        return valid\validate_date($data['db']) &&
+            $data['db'] < (time() - 189345600);
+    }
+
+    private static function valid_st(array $data): bool
+    {
+        return $data['st'] >= 1 && $data['st'] <= 4;
+    }
+
+    private static function valid_pp(array $data): bool
+    {
+        return $data['pp'] >= 1 && $data['pp'] <= 4;
+    }
+
+    private static function valid_dc(array $data): bool
+    {
+        $ret = true;
+
+        for ($i = 1; $i <= 7; $i++) {
+            if (isset($data[$i])) {
+                $ret &= is_numeric($data[$i]);
+            }
+        }
+
+        return $ret;
+    }
+
+    private static function valid_en(array $data): bool
+    {
+        // field is omittable, but should match format if set.
+        return isset($data['en']) ?
+            preg_match('/^(\w|\s)+$/', $data['en']) :
+            true;
+    }
+
+    private static function valid_lg(array $data): bool
+    {
+        // if not set, that is omitted, which is omittable.
+        if (!isset($data['lg'])) {
+            return true;
+        }
+        // if set, which could not be empty.
+        else if (empty($data['lg'])) {
+            return false;
+        }
+
+        $ret = true;
+
+        for ($i = 1; $i <= 4; $i++) {
+            if (isset($data['lg'][$i])) {
+                $ret &= is_bool($data['lg'][$i]);
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Check whether applicant applied for doc type 3 or 4. If so, then check if sub form json is valid.
+     *
+     * @return boolean
+     * @throws FormIncompleteException throw when doc 3 or 4 is set, but `gs` was not set.
+     */
+    private static function valid_gs(array $data): bool
+    {
+        // check if 3 is set; if is set, value should not be less then 1
+        if (isset($data['dc'][3])) {
+            if ($data['dc'][3] < 1) {
+                return false;
+            }
+        }
+        // check if 3 is set; if is set, value should not be less then 1
+        else if (isset($data['dc'][4])) {
+            if ($data['dc'][4] < 1) {
+                return false;
+            }
+        }
+        // if both not set, that is omitted, which is omittable
+        else {
+            return true;
+        }
+
+        $ret = false;
+
+        // check is set, and try parse
+        if (isset($data['gs'])) {
+            json_decode($data['gs']);
+
+            $ret = json_last_error() == JSON_ERROR_NONE;
+        } else {
+            throw new FormIncompleteException('gs', 'required when doc 3 or 4 is set');
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Check whether applicant applied for doc type 6. If so, then check if sub form json is valid.
+     *
+     * @return boolean
+     * @throws FormIncompleteException throw when doc 6 is set, but `is` was not set.
+     */
+    private static function valid_is(array $data): bool
+    {
+        // if not set, that is omitted, which is omittable
+        if (!isset($data['dc'][6])) {
+            return true;
+        }
+        // if set, which could not be less then 1
+        else if ($data['dc'][6] < 1) {
+            return false;
+        }
+
+        $ret = false;
+
+        // check is set, and try parse
+        if (isset($data['is'])) {
+            json_decode($data['is']);
+
+            $ret = json_last_error() == JSON_ERROR_NONE;
+        } else {
+            throw new FormIncompleteException('is', 'required when doc 6 is set');
+        }
+
+        return $ret;
+    }
+    #endregion
 }
 
 /**
- * Represent the sub form of result and attendance of international student,
- * aka 留学生学業成績および出席状況調書.
+ * Represent the sub form of result and attendance of international student.
  */
 class ResultAttendanceSubForm
 {
@@ -322,21 +489,22 @@ class ResultAttendanceSubForm
      *
      * @param string $json Serialized form data with ResultAttendanceSubForm serialized function.
      * @return ResultAttendanceSubForm Form data in ResultAttendanceSubForm object.
+     * @throws JsonException
      */
     public static function Deserialize(string $json): ResultAttendanceSubForm
     {
-        $data = json_decode($json);
+        $data = json_parse($json);
         $ra = new ResultAttendanceSubForm();
 
-        $ra->address = $data->ar;
-        $ra->nation = $data->na;
-        $ra->residentCard = $data->rc;
-        $ra->gender = $data->gn;
-        $ra->status = $data->st;
-        $ra->immigrantDate = $data->id ?? 0;
-        $ra->admissionDate = $data->ad ?? 0;
-        $ra->expireOfStay = $data->es ?? 0;
-        $ra->expGradDate = $data->gd ?? 0;
+        $ra->address = $data['ar'];
+        $ra->nation = $data['na'];
+        $ra->residentCard = $data['rc'];
+        $ra->gender = $data['gn'];
+        $ra->status = $data['st'];
+        $ra->immigrantDate = $data['id'] ?? 0;
+        $ra->admissionDate = $data['ad'] ?? 0;
+        $ra->expireOfStay = $data['es'] ?? 0;
+        $ra->expGradDate = $data['gd'] ?? 0;
 
         return $ra;
     }
@@ -362,7 +530,7 @@ class GraduatesSubForm
     /**
      * Postal code of the applicant's address.
      */
-    public int $postCode;
+    public string $postCode;
     /**
      * Address of the applicant in string.
      */
@@ -370,7 +538,7 @@ class GraduatesSubForm
     /**
      * Telephone number of the applicant.
      */
-    public int $telNo;
+    public string $telNo;
 
     /**
      * Serialize form data into json, which must be deserialize with GraduatesSubForm deserialize function.
@@ -380,7 +548,6 @@ class GraduatesSubForm
     public function Serialize(): string
     {
         $data = [
-
             'dp' => $this->department ?? '',
             'gy' => $this->gradYear ?? 0,
             'gm' => $this->gradMonth ?? 0,
@@ -397,18 +564,19 @@ class GraduatesSubForm
      *
      * @param string $json Serialized form data with GraduatesSubForm serialized function.
      * @return GraduatesSubForm Form data in GraduatesSubForm object.
+     * @throws JsonException
      */
     public static function Deserialize(string $json): GraduatesSubForm
     {
-        $data = json_decode($json);
+        $data = json_parse($json);
         $gd = new GraduatesSubForm();
 
-        $gd->department = $data->dp;
-        $gd->gradYear = $data->gy;
-        $gd->gradMonth = $data->gm;
-        $gd->postCode = $data->pc;
-        $gd->address = $data->ad;
-        $gd->telNo = $data->tn;
+        $gd->department = $data['dp'];
+        $gd->gradYear = $data['gy'];
+        $gd->gradMonth = $data['gm'];
+        $gd->postCode = $data['pc'];
+        $gd->address = $data['ad'];
+        $gd->telNo = $data['tn'];
 
         return $gd;
     }

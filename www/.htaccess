@@ -20,14 +20,14 @@
         RewriteRule ^setting/$ /controller/setting_entry.php [NC,END]
 
     # auth
-        RewriteRule ^signin/$ /controller/signin_std.php [NC,END]
-        RewriteRule ^signin/suica/$ /controller/signin_suica.php [NC,END]
+        RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
+        RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
         RewriteRule ^signout/$ /controller/signout.php [NC,END]
         RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
 
     # service
-        RewriteRule ^apply/form/$ /controller/app_entry.php?id=0 [NC,END,QSA]
-        RewriteRule ^apply/form/(\d+)/$ /controller/app_entry.php?id=$1 [NC,END,QSA]
+        RewriteRule ^apply/form/$ /controller/apply_entry.php [NC,END]
+        RewriteRule ^apply/form/(\d+)/$ /controller/apply_entry.php?e=$1 [NC,END,QSA]
         RewriteRule ^regis/suica/$ /controller/suica_entry.php [NC,END]
 
     # cdn

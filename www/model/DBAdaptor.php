@@ -38,6 +38,32 @@ class DBAdaptor
         }
     }
 
+    #region common
+    /**
+     * Basic interface to obtain data from database.
+     *
+     * @param string $command SQL command.
+     * @param array $params parameter to be used with supplied command.
+     * @param string $errorMessage error message when fail to obtain.
+     * @return array
+     * @throws RecordLookUpException throw when fail to obtain data from database, with supplied error message.
+     */
+    public function obtain(string $command, array $params, string $errorMessage, bool $assoc = true): array
+    {
+        $res = @pg_query_params($this->connection, $command, $params);
+
+        if (!$res) {
+            throw new RecordLookUpException(
+                $errorMessage,
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+
+        return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
+    }
+    #endregion
+
     #region credential
     /**
      * Interface to obtain user credential from database.
@@ -123,27 +149,21 @@ class DBAdaptor
      */
     public function obtain_form(int $entry, int $user): string
     {
+        $msg = "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]";
+
         // TODO: create db function to replace
-        $res = @pg_query_params(
-            $this->connection,
+        $res = $this->obtain(
             "SELECT a.formdata FROM applic.applications a WHERE a.appid=$1 AND a.applyuser in (select u.userid from usership.users u where studentid=$2 limit 1);",
-            array($entry, $user)
+            array($entry, $user),
+            $msg
         );
 
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
-
-        if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain form data with entry id [{$entry}] and user id [{$user}]");
+        // check first row
+        if (empty($res[0]['formdata'])) {
+            throw new RecordNotFoundException($msg);
         }
 
-        return $res[0];
+        return $res[0]['formdata'];
     }
 
     /**
@@ -159,31 +179,27 @@ class DBAdaptor
         // suppress warning message manually
         if (!@pg_query_params(
             $this->connection,
-            "INSERT INTO Applic.Applications (applyUser, formData) VALUES ($1, $2)",
+            "INSERT INTO Applic.Applications (applyUser, formData) SELECT userid, $2 FROM usership.users WHERE studentid=$1",
             array($user, $form->Serialize())
         )) {
             throw new RecordInsertException(pg_errormessage($this->connection));
         }
     }
 
-    public function obtain_catalogue(int $user)
+    /**
+     * Interface to obtain list of applied form with student id.
+     *
+     * @param string $user student id in string, to prevent missing leading 0.
+     * @return array
+     */
+    public function obtain_catalogue(string $user): array
     {
         // TODO: create db function to replace
-        $res = @pg_query_params(
-            $this->connection,
-            "SELECT * FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
-            array((string)$user)
+        return $this->obtain(
+            "SELECT appid id, stat \"status\", applydate \"date\" FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
+            array($user),
+            "Fail to obtain applied form list with [{$user}]"
         );
-
-        if (!$res) {
-            throw new RecordLookUpException(
-                "Fail to obtain applied form list with [{$user}]",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-
-        return pg_fetch_all($res);
     }
     #endregion
 
@@ -194,6 +210,7 @@ class DBAdaptor
      * @param integer $user student id.
      * @param string $idm idm code for suica card.
      * @return void
+     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
      */
     public function update_suica(int $user, string $idm)
     {

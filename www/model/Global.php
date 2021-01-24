@@ -26,6 +26,30 @@ function get_server_root(): string
 }
 
 /**
+ * Stringify value to JSON string.
+ *
+ * @param mixed $value
+ * @return string
+ * @throws JsonException
+ */
+function json_stringify($value): string
+{
+    return json_encode($value, JSON_THROW_ON_ERROR);
+}
+
+/**
+ * Parse JSON into assoc array.
+ *
+ * @param string $json
+ * @return array
+ * @throws JsonException
+ */
+function json_parse(string $json): array
+{
+    return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+}
+
+/**
  * Exception representing inappropriate http request method.
  */
 class RequestMethodException extends \Exception

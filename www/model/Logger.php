@@ -64,7 +64,7 @@ class Logger
         $msg = "[{$this->tag}]\tError:\t{$error->getMessage()}";
 
         if ($error->getPrevious() !== null) {
-            $msg .= "\n\tIntErr:\t{$error->getPrevious()->getMessage()}";
+            $msg .= "\n\t\tIntErr:\t{$error->getPrevious()->getMessage()}";
         }
 
         return $this->append($msg);
