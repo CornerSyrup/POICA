@@ -86,10 +86,8 @@ function enrol(array $data): bool
 
     try {
         (new model\DBAdaptor())->insert_credential($data);
-        $logger->appendRecord("Success on enrolment of usership, with student id [{$data['sid']}]");
     } catch (model\RecordInsertException $rie) {
-        $logger->appendError($rie);
-        return false;
+        throw new AuthenticationException("suica [{$data['sid']}] was not registered", 0, $rie);
     }
 
     return true;
