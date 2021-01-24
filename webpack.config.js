@@ -6,6 +6,7 @@ module.exports = {
     signup: path.join(path.resolve(__dirname, "src", "script"), "signup.tsx"), // sign up page
     setting: path.join(path.resolve(__dirname, "src", "script"), "setting.tsx"), // setting page
     landing: path.join(path.resolve(__dirname, "src", "page"), "landing.pug"), // landing page
+    sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
   },
   output: {
     filename: "[name].js",
@@ -65,7 +66,9 @@ module.exports = {
   },
   target: "web",
   externals: {
-    React: "react",
+    "react": "React",
+    "react-dom": "ReactDOM",
+    "react-router-dom": "ReactRouterDOM",
   },
   watch: true,
   watchOptions: {
