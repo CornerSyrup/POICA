@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { Respond } from "../model/Respond";
+import { default as ReadIDm } from "../model/felica";
 
 //#region form
 interface Fields {
@@ -167,10 +168,35 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
             });
     };
 
-    suicaSignIn = () => {
+    suicaSignIn = async () => {
         this.setState({
-            suicaWait: !this.state.suicaWait,
+            suicaWait: true,
         });
+
+        let idm = await ReadIDm(null);
+
+        fetch("/signin/suica/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idm: idm }),
+        })
+            .then((r) => r.json())
+            .then((respond: Respond) => {
+                console.table(respond);
+                this.setState({
+                    respond: respond.status,
+                });
+
+                if (respond.status == 2) {
+                    //* Replace log with redirection method
+                    console.log("sign in succeed");
+                }
+            })
+            .finally(() => {
+                this.setState({
+                    suicaWait: false,
+                });
+            });
     };
 
     render() {
