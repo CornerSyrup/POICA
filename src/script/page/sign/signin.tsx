@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import Respond from "../model/Respond";
-import { default as ReadIDm } from "../model/felica";
+import Respond from "../../model/Respond";
+import { default as ReadIDm } from "../../model/felica";
 
 //#region form
 interface Fields {

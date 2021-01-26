@@ -10,8 +10,8 @@ import {
 import "../style/sign.less";
 import "../page/sign.pug";
 
-import { default as SignIn } from "./page/signin";
-import { default as SignUp } from "./page/signup";
+import { default as SignIn } from "./page/sign/signin";
+import { default as SignUp } from "./page/sign/signup";
 
 class SignPage extends React.Component {
     render() {
