@@ -34,20 +34,20 @@ class PostSuicaHandler extends \model\PostHandler
     {
         try {
             // auth success
-            if (auth\authenticate_suica($this->data['sid'], $this->data['idm'])) {
-                $_SESSION['user'] = $this->data['sid'];
+            if (auth\authenticate_suica($this->data['usr'], $this->data['idm'])) {
+                $_SESSION['user'] = $this->data['usr'];
                 $_SESSION['log_in'] = true;
 
                 $this->respond['status'] = 2;
                 $this->logger->appendRecord(
-                    "[{$this->data['sid']}] logged in successfully."
+                    "[{$this->data['usr']}] logged in successfully."
                 );
             }
             // auth fail
             else {
                 $this->respond['status'] = 0;
                 $this->logger->appendRecord(
-                    "[{$_POST['sid']}] attempted but fail to login."
+                    "[{$this->data['usr']}] attempted but fail to login."
                 );
             }
         } catch (auth\AuthenticationException $ae) {
@@ -60,9 +60,9 @@ class PostSuicaHandler extends \model\PostHandler
 
     public function Validate(): bool
     {
-        $valid = isset($this->data['sid']) &&
+        $valid = isset($this->data['usr']) &&
             isset($this->data['idm']) &&
-            valid\validate_sid($this->data['sid']) &&
+            valid\validate_sid($this->data['usr']) &&
             valid\validate_pwd($this->data['idm']);
 
         if (!$valid) {

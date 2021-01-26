@@ -40,7 +40,7 @@ try {
             exit;
         case 'POST':
             require_once './signup/post.php';
-            $handler = new signup\PostHandler($logger, $_POST);
+            $handler = new signup\PostHandler($logger);
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));

@@ -13,10 +13,10 @@ The script for form sign-in need to determine what to do after. Like redirect to
 
 ## Form Handler
 
-| name  | description |           type           |
-| :---: | ----------- | :----------------------: |
-|  sid  | Student ID. | string (5 numeric char) |
-|  pwd  | password.   |          string          |
+| name  | description               |             type             |
+| :---: | ------------------------- | :--------------------------: |
+|  usr  | Student ID or Teacher ID. | string (5 or 6 numeric char) |
+|  pwd  | password.                 |            string            |
 
 ## Respond
 

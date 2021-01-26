@@ -24,14 +24,14 @@ class PostHandler extends \model\PostHandler
             if (auth\enrol($this->data)) {
                 $this->respond['status'] = 1;
                 $this->logger->appendRecord(
-                    "[{$this->data['sid']}] sign up successfully."
+                    "[{$this->data['usr']}] sign up successfully."
                 );
             }
             // enrol fail
             else {
                 $this->respond['status'] = 0;
                 $this->logger->appendRecord(
-                    "Fail to enrol user with student id [{$this->data['sid']}]"
+                    "Fail to enrol user with student id [{$this->data['usr']}]"
                 );
             }
         } catch (auth\AuthenticationException $ae) {
@@ -44,13 +44,13 @@ class PostHandler extends \model\PostHandler
 
     public function Validate(): bool
     {
-        $valid = isset($this->data['sid']) &&
+        $valid = isset($this->data['usr']) &&
             isset($this->data['pwd']) &&
             isset($this->data['jfn']) &&
             isset($this->data['jln']) &&
             isset($this->data['jfk']) &&
             isset($this->data['jlk']) &&
-            valid\validate_sid($this->data['sid']) &&
+            valid\validate_sid($this->data['usr']) &&
             valid\validate_pwd($this->data['pwd']) &&
             valid\validate_jname($this->data['jfn']) &&
             valid\validate_jname($this->data['jln']) &&

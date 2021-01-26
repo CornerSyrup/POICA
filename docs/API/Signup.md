@@ -11,14 +11,14 @@ This entry have 1 handler, which handle sign up form data. Where sign-up form co
 
 ## POST
 
-| name  | description                   |          type           |
-| :---: | ----------------------------- | :---------------------: |
-|  sid  | Student ID.                   | string (5 numeric char) |
-|  pwd  | New password for the account. |         string          |
-|  jfn  | Japanese first name           |         string          |
-|  jln  | Japanese last name            |         string          |
-|  jfk  | First name kana               |         string          |
-|  jlk  | Last name kana                |         string          |
+| name  | description                   |             type             |
+| :---: | ----------------------------- | :--------------------------: |
+|  usr  | Student ID or Teacher ID.     | string (5 or 6 numeric char) |
+|  pwd  | New password for the account. |            string            |
+|  jfn  | Japanese first name           |            string            |
+|  jln  | Japanese last name            |            string            |
+|  jfk  | First name kana               |            string            |
+|  jlk  | Last name kana                |            string            |
 
 ## Respond
 
