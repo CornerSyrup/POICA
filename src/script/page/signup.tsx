@@ -122,16 +122,16 @@ function SignUpForm(props: FormProps) {
             <div className="field">
                 <div className="ui checkbox">
                     <input
-                        className="ui checkbox"
                         name="con"
                         type="checkbox"
                         ref={register({
                             required: "利用規約を同意してください",
                         })}
                     />
-                    <label>
+                    <label htmlFor="con">
                         <a>利用規約</a>を同意します
                     </label>
+                    {errors?.con && errors.con.message}
                 </div>
             </div>
             <p>
