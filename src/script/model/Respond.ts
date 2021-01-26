@@ -1,3 +1,7 @@
+export interface Respond {
+  status: number;
+}
+
 declare interface SignInError {
   /**
    * Error message.
