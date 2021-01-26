@@ -5,7 +5,6 @@ module.exports = {
     signin: path.join(path.resolve(__dirname, "src", "script"), "signin.tsx"), // sign in page
     signup: path.join(path.resolve(__dirname, "src", "script"), "signup.tsx"), // sign up page
     setting: path.join(path.resolve(__dirname, "src", "script"), "setting.tsx"), // setting page
-    landing: path.join(path.resolve(__dirname, "src", "page"), "landing.pug"), // landing page
     sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
   },
   output: {
@@ -28,7 +27,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].php",
+              name: "[name].html",
             },
           },
           {
@@ -72,7 +71,7 @@ module.exports = {
   },
   watch: true,
   watchOptions: {
-    aggregateTimeout: 5000,
-    poll: 2500
+    aggregateTimeout: 2000,
+    poll: 1000,
   }
 };
