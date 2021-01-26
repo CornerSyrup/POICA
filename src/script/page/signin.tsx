@@ -78,6 +78,44 @@ function SignInForm(props: FormProps) {
 }
 //#endregion
 
+//#region message
+function Message(props: Respond) {
+    let header: string = "";
+    let content: JSX.Element = <React.Fragment />;
+
+    switch (props.status) {
+        case 0:
+            header = "パスワードが誤っています";
+            content = <p>ご確認のうえ、再度ご入力ください。</p>;
+        case -1:
+        case 1:
+        case 2:
+            return <React.Fragment />;
+        case 21:
+            header = "このアカウントは未登録です";
+            content = (
+                <p>
+                    アカウントを<Link to="/signup/">新規登録</Link>
+                    登録してください。
+                </p>
+            );
+            break;
+        case 22:
+            header = "このスイカカードは未登録です";
+            break;
+        default:
+            content = <p>もう一度試してみてください</p>;
+    }
+
+    return (
+        <div className="ui negative message">
+            <span className="header">{header}</span>
+            {content}
+        </div>
+    );
+}
+//#endregion
+
 interface SignInProps {}
 interface SignInState {
     suica: boolean;
@@ -108,13 +146,7 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     render() {
         return (
             <React.Fragment>
-                <div className="ui negative message">
-                    <span className="header">このアカウントは未登録です</span>
-                    <p>
-                        アカウントを<Link to="/signup/">新規登録</Link>
-                        登録してください。
-                    </p>
-                </div>
+                <Message status={this.state.respond} />
                 <SignInForm submit={this.formSignIn} />
                 <div className="ui horizontal divider">OR</div>
                 <button
