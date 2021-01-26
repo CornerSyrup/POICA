@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { Respond } from "../model/Respond";
+
 //#region form
 interface Fields {
     usr: string;
@@ -118,14 +120,18 @@ function Message(props: Respond) {
 
 interface SignInProps {}
 interface SignInState {
-    suica: boolean;
+    formWait: boolean;
+    suicaWait: boolean;
+    respond: number;
 }
 
 export default class SignIn extends React.Component<SignInProps, SignInState> {
     constructor(props: SignInProps) {
         super(props);
         this.state = {
-            suica: false,
+            suicaWait: false,
+            formWait: false,
+            respond: -1,
         };
     }
 
@@ -134,12 +140,36 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     };
 
     formSignIn = (data: Fields) => {
-        console.table(data);
+        this.setState({
+            formWait: true,
+        });
+
+        fetch("/signin/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+            .then((r) => r.json())
+            .then((respond: Respond) => {
+                this.setState({
+                    respond: respond.status,
+                });
+
+                if (respond.status == 1) {
+                    //* Replace log with redirection method
+                    console.log("sign in succeed");
+                }
+            })
+            .finally(() => {
+                this.setState({
+                    formWait: false,
+                });
+            });
     };
 
     suicaSignIn = () => {
         this.setState({
-            suica: !this.state.suica,
+            suicaWait: !this.state.suicaWait,
         });
     };
 
@@ -147,12 +177,15 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
         return (
             <React.Fragment>
                 <Message status={this.state.respond} />
-                <SignInForm submit={this.formSignIn} />
+                <SignInForm
+                    submit={this.formSignIn}
+                    waiting={this.state.formWait}
+                />
                 <div className="ui horizontal divider">OR</div>
                 <button
                     className={
                         "ui circular fluid green button" +
-                        (this.state.suica ? " loading" : "")
+                        (this.state.suicaWait ? " loading" : "")
                     }
                     onClick={this.suicaSignIn}
                 >
