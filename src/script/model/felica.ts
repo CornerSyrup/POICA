@@ -208,6 +208,20 @@ export async function session(device: any) {
         .join("");
 }
 
+export async function pair(): Promise<any> {
+    let reader: any = null;
+
+    reader = await (navigator as any).usb.requestDevice({
+        filters: [{}],
+    });
+
+    await reader.open();
+    await reader.selectConfiguration(1);
+    await reader.claimInterface(0);
+
+    return reader;
+}
+
 /**
  *
  * @param reader
@@ -218,13 +232,7 @@ export default async function ReadIDm(reader: any | null): Promise<string> {
 
     // if no reader supplied, then paired one
     if (reader === null) {
-        reader = await (navigator as any).usb.requestDevice({
-            filters: [{}],
-        });
-
-        await reader.open();
-        await reader.selectConfiguration(1);
-        await reader.claimInterface(0);
+        reader = await pair();
     }
 
     // read phase
