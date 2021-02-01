@@ -1,0 +1,27 @@
+extends includes/layout
+
+block title
+    title IH12A Group 5
+
+block style
+    link(rel="stylesheet", href="/cdn/insider.css")
+
+block header
+    header.ui.top.attached.menu
+        .right.menu
+            a.item(href="/user/")
+                img.ui.avatar.image(src="https://semantic-ui.com/images/avatar2/large/kristy.png", alt="user icon")
+                | Bob White
+            a.item(href="/signout/") sign out
+
+block main
+    main.ui.grid.attached.segment
+        aside.ui.three.wide.column.vertical.menu
+        section.ui.thirteen.wide.column.relaxed.centered.grid
+        .ui.active.dimmer
+            .ui.huge.indeterminate.text.loader Loading
+
+block footer
+
+block script
+    script(src='/cdn/insider.js')
