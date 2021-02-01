@@ -16,26 +16,25 @@
         RewriteRule ^view/ / [R=404]
         RewriteRule ^controller/ / [R=404]
 
-    # page
-        RewriteRule ^setting/$ /controller/setting_entry.php [NC,END]
-
-    # auth
+    # api
+        # auth
         RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
         RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
         RewriteRule ^signout/$ /controller/signout.php [NC,END]
         RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
-
-    # service
+        # apply
         RewriteRule ^apply/form/$ /controller/apply_entry.php [NC,END]
         RewriteRule ^apply/form/(\d+)/$ /controller/apply_entry.php?e=$1 [NC,END,QSA]
+        # suica
         RewriteRule ^regis/suica/$ /controller/suica_entry.php [NC,END]
 
     # cdn
         RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
         RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
 
-    # pseudo-landing page
-        RewriteRule ^$ /controller/landing.php [NC,END]
+    # page
+        RewriteRule ^setting/$ /controller/setting_entry.php [NC,END]
+        RewriteRule ^ /view/insider.html [NC,END]
 
     # direct
         RewriteRule ^(.+)(?<!/)$ /$1/ [R]
