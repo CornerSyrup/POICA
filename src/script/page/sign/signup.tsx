@@ -68,10 +68,10 @@ function SignUpForm(props: FormProps) {
                 <div className="two fields">
                     <div className="field">
                         <input
-                            name="jfn"
+                            name="jln"
                             type="text"
                             placeholder="苗字"
-                            autoComplete="given-name"
+                            autoComplete="family-name"
                             ref={register({
                                 required: "苗字を入力してください",
                             })}
@@ -79,10 +79,10 @@ function SignUpForm(props: FormProps) {
                     </div>
                     <div className="field">
                         <input
-                            name="jln"
+                            name="jfn"
                             type="text"
                             placeholder="名前"
-                            autoComplete="family-name"
+                            autoComplete="given-name"
                             ref={register({
                                 required: "名前を入力してください",
                             })}
@@ -97,7 +97,7 @@ function SignUpForm(props: FormProps) {
                 <div className="two fields">
                     <div className="field">
                         <input
-                            name="jfk"
+                            name="jlk"
                             type="text"
                             placeholder="フリガナ (苗字)"
                             ref={register({
@@ -107,7 +107,7 @@ function SignUpForm(props: FormProps) {
                     </div>
                     <div className="field">
                         <input
-                            name="jlk"
+                            name="jfk"
                             type="text"
                             placeholder="フリガナ (名前)"
                             ref={register({
