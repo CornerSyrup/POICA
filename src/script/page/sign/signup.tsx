@@ -27,7 +27,7 @@ function SignUpForm(props: FormProps) {
                 data-tooltip="数字5文字の学籍番号か数字6文字の教員番号"
                 data-position="top right"
             >
-                <label htmlFor="usr">学籍番号か教員番号:</label>
+                <label htmlFor="usr">学籍番号か教員番号</label>
                 <input
                     name="usr"
                     type="text"
@@ -48,7 +48,7 @@ function SignUpForm(props: FormProps) {
                 data-tooltip="最小8文字のパスワード"
                 data-position="top right"
             >
-                <label htmlFor="pwd">パスワード:</label>
+                <label htmlFor="pwd">パスワード</label>
                 <input
                     name="pwd"
                     type="password"
