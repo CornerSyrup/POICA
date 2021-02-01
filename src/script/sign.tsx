@@ -19,15 +19,9 @@ class SignPage extends React.Component {
             <div className="right floated middle aligned six wide column">
                 <Router>
                     <Switch>
-                        <Route path="/signin/">
-                            <SignIn />
-                        </Route>
-                        <Route path="/signup/">
-                            <SignUp />
-                        </Route>
-                        <Route path="/">
-                            <Redirect to="/signin/" />
-                        </Route>
+                        <Route path="/signin/" component={SignIn} />
+                        <Route path="/signup/" component={SignUp} />
+                        <Redirect to="/signin/" />
                     </Switch>
                 </Router>
             </div>
