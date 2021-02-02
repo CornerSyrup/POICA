@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import Reader from "../suica-button";
-import { SuicaRegisterRespond as Respond } from "../../model/Respond";
+// import Reader from "../suica-button";
+// import { SuicaRegisterRespond as Respond } from "../../model/respond";
 
 interface SuicaProps {}
 
@@ -62,7 +62,7 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
         (respond) => respond.json(),
         (reason) => console.error(reason.text())
       )
-      .then((result: Respond) => {
+      .then((result: any) => {
         console.log(result);
         this.setState({
           canRead: true,
@@ -101,12 +101,12 @@ export default class SuicaSetting extends Component<SuicaProps, SuicaState> {
       <section>
         <h3>Suica Setting</h3>
         Update Suica
-        <Reader
+        {/* <Reader
           errorHandler={this.handleReadError}
           updateIdm={this.readIdm}
           updateMessage={this.handleMessage}
           active={this.state.canRead}
-        />
+        /> */}
         {this.state.status.message && (
           <p className={this.state.status.warning ? "warning" : ""}>
             {this.state.status.message}

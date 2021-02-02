@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { CommonFields as Common } from "../../../model/FormFields";
-import { Teacher } from "../../../model/Teacher";
+import { CommonFields as Common } from "../../../model/form_fields";
+import { Teacher } from "../../../model/teacher";
 
 interface Props {
     submit(data: Common): void;

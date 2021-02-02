@@ -1,11 +1,11 @@
 import React from "react";
 import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
 
-import { CommonFields as Common } from "../../../model/FormFields";
-import { Teacher } from "../../../model/Teacher";
+import { CommonFields as Common } from "../../../model/form_fields";
+import { Teacher } from "../../../model/teacher";
 
-import { default as StepOne } from "./CommonFieldForm";
-import Progress from "./DocIssue/progress";
+import { default as StepOne } from "./common_form";
+import Progress from "./doc_issue/progress";
 
 interface Props extends RouteComponentProps {}
 interface State {
