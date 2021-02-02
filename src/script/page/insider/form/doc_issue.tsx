@@ -5,6 +5,7 @@ import { CommonFields as Common } from "../../../model/FormFields";
 import { Teacher } from "../../../model/Teacher";
 
 import { default as StepOne } from "./CommonFieldForm";
+import Progress from "./DocIssue/progress";
 
 interface Props extends RouteComponentProps {}
 interface State {
@@ -65,11 +66,7 @@ export default class DocIssue extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <Switch>
-                    <Route
-                        exact
-                        path={`${path}/:step`}
-                        children={<h1>Progress Bar</h1>}
-                    />
+                    <Route exact path={`${path}/:step`} component={Progress} />
                 </Switch>
 
                 <Switch>
