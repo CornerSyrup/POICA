@@ -7,10 +7,6 @@ interface Props extends RouteComponentProps {}
 interface State {}
 
 export default class Apply extends React.Component<Props, State> {
-    componentDidMount = () => {
-        document.title = "申し込み";
-    };
-
     render() {
         let path = this.props.match.path;
         return (
