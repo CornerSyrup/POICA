@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Link, RouteComponentProps } from "react-router-dom";
+import { Switch, Route, RouteComponentProps, Redirect } from "react-router-dom";
 
 import Apply from "./form/apply";
 
@@ -17,8 +17,8 @@ export default class Form extends React.Component<Props, State> {
         return (
             <Switch>
                 <Route strict path={`${path}/apply`} component={Apply} />
-                <Route strict path={`${path}/:id`} children={<h1>Review application</h1>} />
-                <Route children={<Link to={`${path}/apply`}>Apply</Link>} />
+                <Route strict path={`${path}/:id(\\d+)`} children={<h1>Review application</h1>} />
+                <Redirect to={`${path}/apply`} />
             </Switch>
         );
     }
