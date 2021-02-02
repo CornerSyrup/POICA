@@ -80,14 +80,14 @@ Below are common fields, stored in field named `bc` as JSON:
 
 ##### sub form: grd
 
-| field | description                                       |
-| :---: | ------------------------------------------------- |
-|  dp   | Department which the applicant is graduated from. |
-|  gy   | Year of graduation.                               |
-|  gm   | Month of graduation.                              |
-|  pc   | Postal code of the applicant's address.           |
-|  ad   | Applicant's address.                              |
-|  tn   | Phone no. of to contact the applicant.            |
+| field | description                                                |
+| :---: | ---------------------------------------------------------- |
+|  dp   | Department which the applicant is graduated from, in abbr. |
+|  gy   | Year of graduation.                                        |
+|  gm   | Month of graduation.                                       |
+|  pc   | Postal code of the applicant's address.                    |
+|  ad   | Applicant's address.                                       |
+|  tn   | Phone no. of to contact the applicant.                     |
 
 ##### sub form: int
 
@@ -98,9 +98,9 @@ Below are common fields, stored in field named `bc` as JSON:
 |  rc   | Card number of the resident card.    |
 |  gn   | True for male, false for female.     |
 |  st   | Status of stay, default `student`.   |
-|  id   | Immigrant data.                      |
-|  ad   | Admission data.                      |
-|  es   | Expiration data of stay.             |
+|  id   | Immigrant date.                      |
+|  ad   | Admission date.                      |
+|  es   | Expiration date of stay.             |
 |  gd   | Expected graduation date.            |
 
 ## Respond
