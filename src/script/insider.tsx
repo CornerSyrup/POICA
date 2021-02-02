@@ -17,27 +17,27 @@ class SideBar extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Link exact to="/" className="item" activeClassName="active">
+                <Link to="/home" className="item" activeClassName="active">
                     <i className="home icon"></i>
                     home
                 </Link>
-                <Link to="/form/" className="item" activeClassName="active">
+                <Link to="/form" className="item" activeClassName="active">
                     <i className="tasks icon"></i>
                     form
                 </Link>
-                <Link to="/attend/" className="item" activeClassName="active">
+                <Link to="/attend" className="item" activeClassName="active">
                     <i className="calendar alternate icon"></i>
                     attendance
                 </Link>
-                <Link to="/user/" className="item" activeClassName="active">
+                <Link to="/user" className="item" activeClassName="active">
                     <i className="user icon"></i>
                     account
                 </Link>
-                <Link to="/setting/" className="item" activeClassName="active">
+                <Link to="/setting" className="item" activeClassName="active">
                     <i className="sliders horizontal icon"></i>
                     setting
                 </Link>
-                <Link to="/about/" className="item" activeClassName="active">
+                <Link to="/about" className="item" activeClassName="active">
                     <i className="info icon"></i>
                     about
                 </Link>
@@ -50,7 +50,11 @@ class MainPart extends React.Component {
     render() {
         return (
             <Switch>
-                <Route path="/form/" component={Form} />
+                <Route path="/form" component={Form} />
+                <Route path="/home">
+                    <h1>Home</h1>
+                </Route>
+                <Redirect to="/home" />
             </Switch>
         );
     }
