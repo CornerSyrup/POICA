@@ -54,7 +54,7 @@ export interface DocIssue {
     /**
      * English name of the applicant, optional.
      */
-    en: string;
+    en?: string;
     /**
      * True for English, false for Japanese. Only 1~4 accepted.
      */
