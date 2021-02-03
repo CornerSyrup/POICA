@@ -81,7 +81,11 @@ export default class DocIssue extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <Switch>
-                    <Route exact path={`${this.path}/:step`} component={Progress} />
+                    <Route
+                        exact
+                        path={`${this.path}/:step`}
+                        component={Progress}
+                    />
                 </Switch>
 
                 <Switch>
