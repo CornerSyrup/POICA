@@ -36,7 +36,6 @@ export default function Common(props: Props) {
                             ref={register({
                                 required: "苗字を入力してください",
                             })}
-                            defaultValue="a"
                         />
                     </div>
                     <div className={fieldTag(errors?.fn)}>
@@ -48,7 +47,6 @@ export default function Common(props: Props) {
                             ref={register({
                                 required: "名前を入力してください",
                             })}
-                            defaultValue="a"
                         />
                     </div>
                 </div>
@@ -65,7 +63,6 @@ export default function Common(props: Props) {
                             name="lk"
                             type="text"
                             placeholder="フリガナ (苗字)"
-                            defaultValue="a"
                             ref={register({
                                 required: "苗字のフリガナを入力してください",
                             })}
@@ -76,7 +73,6 @@ export default function Common(props: Props) {
                             name="fk"
                             type="text"
                             placeholder="フリガナ (名前)"
-                            defaultValue="a"
                             ref={register({
                                 required: "名前のフリガナを入力してください",
                             })}
@@ -94,7 +90,6 @@ export default function Common(props: Props) {
                     name="si"
                     type="number"
                     placeholder="学籍番号"
-                    defaultValue="12345"
                     ref={register({
                         required: "学籍番号を入力してください",
                         pattern: {
@@ -111,7 +106,6 @@ export default function Common(props: Props) {
                     name="cc"
                     type="text"
                     placeholder="クラス記号"
-                    defaultValue="ih12a092"
                     ref={register({
                         required: "クラス記号を入力してください",
                         pattern: {
