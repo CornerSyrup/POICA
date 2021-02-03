@@ -15,15 +15,19 @@ export default function Common(props: Props) {
         defaultValues: props.data,
     });
 
+    let fieldTag = (error: any) => {
+        return (error ? "error " : "") + "field";
+    };
+
     return (
         <form
             className="ui ten wide column centered form"
             onSubmit={handleSubmit(props.submit)}
         >
-            <div className="field">
+            <div className={"required " + fieldTag(errors?.fn && errors?.ln)}>
                 <label htmlFor="fn">氏名</label>
                 <div className="two fields">
-                    <div className="field">
+                    <div className={fieldTag(errors?.ln)}>
                         <input
                             type="text"
                             name="ln"
@@ -35,7 +39,7 @@ export default function Common(props: Props) {
                             defaultValue="a"
                         />
                     </div>
-                    <div className="field">
+                    <div className={fieldTag(errors?.fn)}>
                         <input
                             name="fn"
                             type="text"
@@ -48,13 +52,15 @@ export default function Common(props: Props) {
                         />
                     </div>
                 </div>
+            </div>
+            <p>
                 {(errors?.fn || errors?.ln) &&
                     (errors.ln?.message || errors.fn?.message)}
-            </div>
-            <div className="field">
+            </p>
+            <div className="required field">
                 <label htmlFor="fk">フリガナ</label>
                 <div className="two fields">
-                    <div className="field">
+                    <div className={fieldTag(errors?.lk)}>
                         <input
                             name="lk"
                             type="text"
@@ -65,7 +71,7 @@ export default function Common(props: Props) {
                             })}
                         />
                     </div>
-                    <div className="field">
+                    <div className={fieldTag(errors?.fk)}>
                         <input
                             name="fk"
                             type="text"
@@ -77,10 +83,12 @@ export default function Common(props: Props) {
                         />
                     </div>
                 </div>
+            </div>
+            <p>
                 {(errors?.fk || errors?.lk) &&
                     (errors.lk?.message || errors.fk?.message)}
-            </div>
-            <div className="field">
+            </p>
+            <div className={"required " + fieldTag(errors?.si)}>
                 <label htmlFor="si">学籍番号</label>
                 <input
                     name="si"
@@ -95,9 +103,9 @@ export default function Common(props: Props) {
                         },
                     })}
                 />
-                {errors?.si && errors.si.message}
             </div>
-            <div className="field">
+            <p>{errors?.si && errors.si.message}</p>
+            <div className={"required " + fieldTag(errors?.cc)}>
                 <label htmlFor="cc">クラス記号</label>
                 <input
                     name="cc"
@@ -113,9 +121,9 @@ export default function Common(props: Props) {
                         },
                     })}
                 />
-                {errors?.cc && errors.cc.message}
             </div>
-            <div className="field">
+            <p>{errors?.cc && errors.cc.message}</p>
+            <div className={"required " + fieldTag(errors?.ct)}>
                 <label htmlFor="ct">担任教師</label>
                 <select
                     className="ui dropdown"
@@ -137,9 +145,9 @@ export default function Common(props: Props) {
                         </option>
                     ))}
                 </select>
-                {errors?.ct && errors.ct.message}
             </div>
-            <div className="field">
+            <p>{errors?.ct && errors.ct.message}</p>
+            <div className="required field">
                 <div className="ui checkbox">
                     <input
                         type="checkbox"

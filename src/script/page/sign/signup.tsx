@@ -20,10 +20,14 @@ interface FormProps {
 function SignUpForm(props: FormProps) {
     const { register, handleSubmit, errors } = useForm<Fields>();
 
+    let fieldTag = (error: any) => {
+        return (error ? "error " : "") + "field";
+    };
+
     return (
         <form className="ui form" onSubmit={handleSubmit(props.submit)}>
             <div
-                className="field"
+                className={"required " + fieldTag(errors?.usr)}
                 data-tooltip="数字5文字の学籍番号か数字6文字の教員番号"
                 data-position="top right"
             >
@@ -41,10 +45,10 @@ function SignUpForm(props: FormProps) {
                         },
                     })}
                 />
-                {errors?.usr && errors.usr.message}
             </div>
+            <p>{errors?.usr && errors.usr.message}</p>
             <div
-                className="field"
+                className={"required " + fieldTag(errors?.pwd)}
                 data-tooltip="最小8文字のパスワード"
                 data-position="top right"
             >
@@ -61,12 +65,12 @@ function SignUpForm(props: FormProps) {
                         },
                     })}
                 />
-                {errors?.pwd && errors.pwd.message}
             </div>
-            <div className="field">
+            <p>{errors?.pwd && errors.pwd.message}</p>
+            <div className={"required " + fieldTag(errors?.jfn && errors?.jln)}>
                 <label htmlFor="jfn">氏名</label>
                 <div className="two fields">
-                    <div className="field">
+                    <div className={fieldTag(errors?.jln)}>
                         <input
                             name="jln"
                             type="text"
@@ -77,7 +81,7 @@ function SignUpForm(props: FormProps) {
                             })}
                         />
                     </div>
-                    <div className="field">
+                    <div className={fieldTag(errors?.jfn)}>
                         <input
                             name="jfn"
                             type="text"
@@ -89,13 +93,15 @@ function SignUpForm(props: FormProps) {
                         />
                     </div>
                 </div>
+            </div>
+            <p>
                 {(errors?.jfn || errors?.jln) &&
                     (errors.jfn?.message || errors.jln?.message)}
-            </div>
-            <div className="field">
+            </p>
+            <div className={"required " + fieldTag(errors?.jfk && errors?.jlk)}>
                 <label htmlFor="jfk">フリガナ</label>
                 <div className="two fields">
-                    <div className="field">
+                    <div className={fieldTag(errors?.jlk)}>
                         <input
                             name="jlk"
                             type="text"
@@ -105,7 +111,7 @@ function SignUpForm(props: FormProps) {
                             })}
                         />
                     </div>
-                    <div className="field">
+                    <div className={fieldTag(errors?.jfk)}>
                         <input
                             name="jfk"
                             type="text"
@@ -116,10 +122,12 @@ function SignUpForm(props: FormProps) {
                         />
                     </div>
                 </div>
+            </div>
+            <p>
                 {(errors?.jfk || errors?.jlk) &&
                     (errors.jfk?.message || errors.jlk?.message)}
-            </div>
-            <div className="field">
+            </p>
+            <div className={"required " + fieldTag(errors?.con)}>
                 <div className="ui checkbox">
                     <input
                         name="con"
@@ -131,7 +139,6 @@ function SignUpForm(props: FormProps) {
                     <label htmlFor="con">
                         <a>利用規約</a>を同意します
                     </label>
-                    {errors?.con && errors.con.message}
                 </div>
             </div>
             <p>
