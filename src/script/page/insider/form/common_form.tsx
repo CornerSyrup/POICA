@@ -121,9 +121,16 @@ export default function Common(props: Props) {
                     className="ui dropdown"
                     name="ct"
                     ref={register({
-                        required: "担任教師を選んでください",
+                        pattern: {
+                            value: /\d{6}/,
+                            message: "担任教師を選んでください",
+                        },
                     })}
+                    defaultValue="def"
                 >
+                    <option value="def" key={0} disabled>
+                        担任教師を選んでください
+                    </option>
                     {props.teachers.map((t: Teacher) => (
                         <option value={t.tid} key={t.tid}>
                             {`${t.lname} ${t.fname}`}
