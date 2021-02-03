@@ -155,7 +155,7 @@ export default function Common(props: Props) {
                     </label>
                 </div>
             </div>
-            <div className="right floated field">
+            <div className="field">
                 <input
                     className="ui primary button"
                     type="submit"
