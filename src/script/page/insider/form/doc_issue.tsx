@@ -66,16 +66,15 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     submitStepOne = (data: Common) => {
-        this.props.history.replace(`${this.path}/2`);
         this.data.bc = data;
+        this.props.history.replace(`${this.path}/2`);
     };
 
     submitStepTwo = (data: Main) => {
         let dest = data.dc[3] || data.dc[4] ? "2g" : data.dc[6] ? "2i" : "3";
-        console.log(dest);
-        this.props.history.replace(`${this.path}/${dest}`);
         data.bc = this.data.bc;
         this.data = data;
+        this.props.history.replace(`${this.path}/${dest}`);
     };
 
     render() {
@@ -90,6 +89,8 @@ export default class DocIssue extends React.Component<Props, State> {
                 </Switch>
 
                 <Switch>
+                    {/* Prevent direct access to fall through. */}
+                    {/* Fields used to check are just because required */}
                     <Route
                         exact
                         path={`${this.path}/1`}
@@ -100,6 +101,7 @@ export default class DocIssue extends React.Component<Props, State> {
                             />
                         }
                     />
+                    {this.data.bc.cc || <Redirect to={`${this.path}/1`} />}
                     <Route
                         exact
                         path={`${this.path}/2`}
