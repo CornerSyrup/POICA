@@ -73,6 +73,7 @@ export default class DocIssue extends React.Component<Props, State> {
     submitStepTwo = (data: Main) => {
         let dest = data.dc[3] || data.dc[4] ? "2g" : data.dc[6] ? "2i" : "3";
         data.bc = this.data.bc;
+        data.db = new Date(data.db).getTime() / 1000;
         this.data = data;
         this.props.history.replace(`${this.path}/${dest}`);
     };
