@@ -1,7 +1,10 @@
 import React from "react";
 import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
 
-import { CommonFields as Common } from "../../../model/form_fields";
+import {
+    CommonFields as Common,
+    DocIssue as Main,
+} from "../../../model/form_fields";
 import { Teacher } from "../../../model/teacher";
 
 import { default as StepOne } from "./common_form";
@@ -13,14 +16,15 @@ interface State {
      * Teacher list.
      */
     teachers: Array<Teacher>;
-    /**
-     * Common fields.
-     */
-    common: Common;
 }
 
 export default class DocIssue extends React.Component<Props, State> {
     path = this.props.match.path;
+    /**
+     * Form data.
+     */
+    data: Main = {
+        bc: {
                 fn: "",
                 fk: "",
                 ln: "",
@@ -29,6 +33,18 @@ export default class DocIssue extends React.Component<Props, State> {
                 cc: "",
                 ct: 0,
             },
+        db: 0,
+        st: 0,
+        pp: 0,
+        dc: [],
+        lg: [],
+    };
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            teachers: [],
         };
 
         fetch("/teacher/", {
@@ -50,6 +66,8 @@ export default class DocIssue extends React.Component<Props, State> {
 
     submitStepOne = (data: Common) => {
         this.props.history.replace(`${this.path}/2`);
+        this.data.bc = data;
+    };
     };
 
     render() {
