@@ -102,12 +102,13 @@ export default class DocIssue extends React.Component<Props, State> {
                             />
                         }
                     />
-                    {this.data.bc.cc || <Redirect to={`${this.path}/1`} />}
+                    {/* {this.data.bc.cc || <Redirect to={`${this.path}/1`} />} */}
                     <Route
                         exact
                         path={`${this.path}/2`}
                         children={<StepTwo submit={this.submitStepTwo} />}
                     />
+                    {/* {this.data.pp || <Redirect to={`${this.path}/2`} />} */}
                     <Redirect to={`${this.path}/1`} />
                 </Switch>
             </React.Fragment>
