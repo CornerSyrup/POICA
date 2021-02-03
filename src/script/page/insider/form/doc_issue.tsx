@@ -20,12 +20,7 @@ interface State {
 }
 
 export default class DocIssue extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            teachers: [],
-            common: {
+    path = this.props.match.path;
                 fn: "",
                 fk: "",
                 ln: "",
@@ -54,25 +49,20 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     submitStepOne = (data: Common) => {
-        this.props.history.replace(`${this.props.match.path}/2`);
-        this.setState({
-            common: data,
-        });
+        this.props.history.replace(`${this.path}/2`);
     };
 
     render() {
-        let path = this.props.match.path;
-
         return (
             <React.Fragment>
                 <Switch>
-                    <Route exact path={`${path}/:step`} component={Progress} />
+                    <Route exact path={`${this.path}/:step`} component={Progress} />
                 </Switch>
 
                 <Switch>
                     <Route
                         exact
-                        path={`${path}/1`}
+                        path={`${this.path}/1`}
                         children={
                             <StepOne
                                 submit={this.submitStepOne}
@@ -80,7 +70,7 @@ export default class DocIssue extends React.Component<Props, State> {
                             />
                         }
                     />
-                    <Redirect to={`${path}/1`} />
+                    <Redirect to={`${this.path}/1`} />
                 </Switch>
             </React.Fragment>
         );
