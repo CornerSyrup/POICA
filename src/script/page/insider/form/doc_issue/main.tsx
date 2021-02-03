@@ -63,7 +63,7 @@ export default function MainForm(props: Props) {
                             })}
                             defaultValue="def"
                         >
-                            <option value="def" key={0} disabled>
+                            <option value="def" disabled>
                                 用途を選んでください
                             </option>
                             <option value="1">進学</option>
