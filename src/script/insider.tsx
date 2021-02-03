@@ -72,7 +72,7 @@ class Insider extends React.Component {
                 </aside>
                 <section
                     id="core"
-                    className="ui thirteen wide column relaxed centered grid pusher"
+                    className="ui thirteen wide column padded grid"
                 >
                     <MainPart />
                 </section>
