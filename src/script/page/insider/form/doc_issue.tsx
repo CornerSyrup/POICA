@@ -8,6 +8,7 @@ import {
 import { Teacher } from "../../../model/teacher";
 
 import { default as StepOne } from "./common_form";
+import { default as StepTwo } from "./doc_issue/main";
 import Progress from "./doc_issue/progress";
 
 interface Props extends RouteComponentProps {}
@@ -25,14 +26,14 @@ export default class DocIssue extends React.Component<Props, State> {
      */
     data: Main = {
         bc: {
-                fn: "",
-                fk: "",
-                ln: "",
-                lk: "",
-                si: 0,
-                cc: "",
-                ct: 0,
-            },
+            fn: "",
+            fk: "",
+            ln: "",
+            lk: "",
+            si: 0,
+            cc: "",
+            ct: 0,
+        },
         db: 0,
         st: 0,
         pp: 0,
@@ -68,6 +69,12 @@ export default class DocIssue extends React.Component<Props, State> {
         this.props.history.replace(`${this.path}/2`);
         this.data.bc = data;
     };
+
+    submitStepTwo = (data: Main) => {
+        let dest = data.dc[3] || data.dc[4] ? "2g" : data.dc[6] ? "2i" : "2";
+        this.props.history.replace(`${this.path}/${dest}`);
+        data.bc = this.data.bc;
+        this.data = data;
     };
 
     render() {
@@ -87,6 +94,11 @@ export default class DocIssue extends React.Component<Props, State> {
                                 teachers={this.state.teachers}
                             />
                         }
+                    />
+                    <Route
+                        exact
+                        path={`${this.path}/2`}
+                        children={<StepTwo submit={this.submitStepTwo} />}
                     />
                     <Redirect to={`${this.path}/1`} />
                 </Switch>
