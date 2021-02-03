@@ -31,7 +31,7 @@ export default function MainForm(props: Props) {
         >
             <div className="field">
                 <div className="two fields">
-                    <div className={fieldTag(errors?.st)}>
+                    <div className={"required " + fieldTag(errors?.st)}>
                         <label>身分</label>
                         <select
                             className="ui dropdown"
@@ -50,7 +50,7 @@ export default function MainForm(props: Props) {
                             <option value="4">退学者</option>
                         </select>
                     </div>
-                    <div className={fieldTag(errors?.pp)}>
+                    <div className={"required " + fieldTag(errors?.pp)}>
                         <label>用途</label>
                         <select
                             className="ui dropdown"
@@ -78,7 +78,7 @@ export default function MainForm(props: Props) {
                 {(errors?.st || errors?.pp) &&
                     (errors.pp?.message || errors.st?.message)}
             </p>
-            <div className={fieldTag(errors?.db)}>
+            <div className={"required " + fieldTag(errors?.db)}>
                 <label>生年月日</label>
                 <input
                     type="date"
@@ -128,7 +128,7 @@ export default function MainForm(props: Props) {
                 </div>
             </div>
             <div
-                className="field"
+                className="required field"
                 data-tooltip="書類の数量を記入してください、一部は一通しか申し込めません"
                 data-position="top right"
             >
