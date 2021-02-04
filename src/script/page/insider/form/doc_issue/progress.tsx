@@ -35,11 +35,6 @@ export default class Progress extends React.Component<Props> {
                 </div>
                 <div className={this.stepState(3)}>
                     <div className="content">
-                        <div className="title">入力情報を確認</div>
-                    </div>
-                </div>
-                <div className={this.stepState(4)}>
-                    <div className="content">
                         <div className="title">支払い</div>
                         <div className="description">手続き料を支払う</div>
                     </div>
