@@ -118,11 +118,11 @@ export interface DocIssue_Intl {
      */
     st: string;
     /**
-     * Immigrant data.
+     * Immigrant date.
      */
     id: number;
     /**
-     * Admission data.
+     * Admission date.
      */
     ad: number;
     /**
