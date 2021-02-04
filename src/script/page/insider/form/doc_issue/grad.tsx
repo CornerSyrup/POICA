@@ -30,10 +30,7 @@ export default function GradForm(props: Props) {
     let fieldTag = (error: any) => (error ? "error " : "") + "field";
 
     return (
-        <form
-            className="ui ten wide column centered form"
-            onSubmit={handleSubmit(props.submit)}
-        >
+        <form className="ui form" onSubmit={handleSubmit(props.submit)}>
             <div className={"required " + fieldTag(errors?.dp)}>
                 <label>卒業学科</label>
                 <select

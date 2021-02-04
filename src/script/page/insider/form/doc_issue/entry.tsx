@@ -169,50 +169,52 @@ export default class DocIssue extends React.Component<Props, State> {
                     />
                 </Switch>
 
-                <Switch>
-                    {/* Prevent direct access to fall through. */}
-                    {/* Fields used to check are just because required */}
-                    <Route
-                        exact
-                        path={`${this.path}/1`}
-                        children={
-                            <StepOne
-                                submit={this.submitStepOne}
-                                teachers={this.state.teachers}
-                            />
-                        }
-                    />
-                    {/* {this.data.bc.cc || <Redirect to={`${this.path}/1`} />} */}
-                    <Route
-                        exact
-                        path={`${this.path}/2`}
-                        children={<StepTwo submit={this.submitStepTwo} />}
-                    />
-                    {/* {this.data.pp || <Redirect to={`${this.path}/2`} />} */}
-                    <Route
-                        exact
-                        path={`${this.path}/2g`}
-                        children={
-                            <StepTwoG
-                                submit={this.submitStepTwoG}
-                                depts={this.state.departments}
-                            />
-                        }
-                    />
-                    {/* {this.data.st == 2 || <Redirect to={`${this.path}/2g`} />} */}
-                    <Route
-                        exact
-                        path={`${this.path}/2i`}
-                        children={
-                            <StepTwoI
-                                submit={this.submitStepTwoI}
-                                countries={this.state.countries}
-                            />
-                        }
-                    />
-                    {/* {this.data.dc[6] || <Redirect to={`${this.path}/2i`} />} */}
-                    <Redirect to={`${this.path}/1`} />
-                </Switch>
+                <div className="ten wide column centered">
+                    <Switch>
+                        {/* Prevent direct access to fall through. */}
+                        {/* Fields used to check are just because required */}
+                        <Route
+                            exact
+                            path={`${this.path}/1`}
+                            children={
+                                <StepOne
+                                    submit={this.submitStepOne}
+                                    teachers={this.state.teachers}
+                                />
+                            }
+                        />
+                        {/* {this.data.bc.cc || <Redirect to={`${this.path}/1`} />} */}
+                        <Route
+                            exact
+                            path={`${this.path}/2`}
+                            children={<StepTwo submit={this.submitStepTwo} />}
+                        />
+                        {/* {this.data.pp || <Redirect to={`${this.path}/2`} />} */}
+                        <Route
+                            exact
+                            path={`${this.path}/2g`}
+                            children={
+                                <StepTwoG
+                                    submit={this.submitStepTwoG}
+                                    depts={this.state.departments}
+                                />
+                            }
+                        />
+                        {/* {this.data.st == 2 || <Redirect to={`${this.path}/2g`} />} */}
+                        <Route
+                            exact
+                            path={`${this.path}/2i`}
+                            children={
+                                <StepTwoI
+                                    submit={this.submitStepTwoI}
+                                    countries={this.state.countries}
+                                />
+                            }
+                        />
+                        {/* {this.data.dc[6] || <Redirect to={`${this.path}/2i`} />} */}
+                        <Redirect to={`${this.path}/1`} />
+                    </Switch>
+                </div>
             </React.Fragment>
         );
     }

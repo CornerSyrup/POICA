@@ -61,10 +61,7 @@ export default function GradForm(props: Props) {
     };
 
     return (
-        <form
-            className="ui ten wide column centered form"
-            onSubmit={handleSubmit(cleanUp)}
-        >
+        <form className="ui form" onSubmit={handleSubmit(cleanUp)}>
             <div
                 className={fieldTag(errors?.ar)}
                 data-tooltip="本国の住所ではなく、日本国内の現住所"
