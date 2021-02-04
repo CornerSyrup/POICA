@@ -211,7 +211,7 @@ class DocIssue extends AppForm
 
             if (isset($this->language) && $this->language[4]) {
                 if (empty($this->enName)) {
-                    throw new FormIncompleteException('grad sub form', 'applying grad related document');
+                    throw new FormIncompleteException('english name', 'applying english version');
                 }
 
                 $lan[4] = $this->language[4];
