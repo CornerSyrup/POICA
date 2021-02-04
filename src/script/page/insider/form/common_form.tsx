@@ -80,39 +80,45 @@ export default function Common(props: Props) {
             {(errors?.fk || errors?.lk) && (
                 <p>{errors.lk?.message || errors.fk?.message}</p>
             )}
-            <div className={"required " + fieldTag(errors?.si)}>
-                <label>学籍番号</label>
-                <input
-                    name="si"
-                    type="number"
-                    placeholder="学籍番号"
-                    ref={register({
-                        required: "学籍番号を入力してください",
-                        pattern: {
-                            value: /^\d{5}$/,
-                            message: "学籍番号を正しく入力してください",
-                        },
-                    })}
-                />
+            <div className="field">
+                <div className="two fields">
+                    <div className={"required " + fieldTag(errors?.si)}>
+                        <label>学籍番号</label>
+                        <input
+                            name="si"
+                            type="text"
+                            placeholder="学籍番号"
+                            inputMode="numeric"
+                            ref={register({
+                                required: "学籍番号を入力してください",
+                                pattern: {
+                                    value: /^\d{5}$/,
+                                    message: "学籍番号を正しく入力してください",
+                                },
+                            })}
+                        />
+                    </div>
+                    <div className={"required " + fieldTag(errors?.cc)}>
+                        <label>クラス記号</label>
+                        <input
+                            name="cc"
+                            type="text"
+                            placeholder="ih12a092"
+                            ref={register({
+                                required: "クラス記号を入力してください",
+                                pattern: {
+                                    value: /^\w{2}\d{2}\w{1}\d{3}$/,
+                                    message:
+                                        "クラス記号を正しく入力してください（教室番号も含みます、IH12A092）",
+                                },
+                            })}
+                        />
+                    </div>
+                </div>
             </div>
-            {errors?.si && <p>{errors.si.message}</p>}
-            <div className={"required " + fieldTag(errors?.cc)}>
-                <label>クラス記号</label>
-                <input
-                    name="cc"
-                    type="text"
-                    placeholder="ih12a092"
-                    ref={register({
-                        required: "クラス記号を入力してください",
-                        pattern: {
-                            value: /^\w{2}\d{2}\w{1}\d{3}$/,
-                            message:
-                                "クラス記号を正しく入力してください（教室番号も含みます、IH12A092）",
-                        },
-                    })}
-                />
-            </div>
-            {errors?.cc && <p>{errors.cc.message}</p>}
+            {(errors?.si || errors?.cc) && (
+                <p>{errors.cc?.message || errors.si?.message}</p>
+            )}
             <div className={"required " + fieldTag(errors?.ct)}>
                 <label>担任教師</label>
                 <select
