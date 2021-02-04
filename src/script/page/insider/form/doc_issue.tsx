@@ -54,9 +54,9 @@ export default class DocIssue extends React.Component<Props, State> {
             // body: JSON.stringify(data),
         })
             .then((r) => r.json())
-            .then((respond: any) => {
+            .then((respond: Array<Teacher>) => {
                 this.setState({
-                    teachers: respond.teachers,
+                    teachers: respond,
                 });
             });
     }
