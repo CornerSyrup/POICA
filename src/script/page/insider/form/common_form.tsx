@@ -15,9 +15,7 @@ export default function Common(props: Props) {
         defaultValues: props.data,
     });
 
-    let fieldTag = (error: any) => {
-        return (error ? "error " : "") + "field";
-    };
+    let fieldTag = (error: any) => (error ? "error " : "") + "field";
 
     return (
         <form
