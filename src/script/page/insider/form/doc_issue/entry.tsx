@@ -70,6 +70,7 @@ export default class DocIssue extends React.Component<Props, State> {
         document.title = "証明書等発行願 - 申し込み";
     };
 
+    //#region data fetcher
     setTeachers = async () => {
         fetch("/teachers/", {
             method: "POST",
@@ -109,7 +110,9 @@ export default class DocIssue extends React.Component<Props, State> {
                 });
             });
     };
+    //#endregion
 
+    //#region Submit handler
     submitStepOne = (data: Common) => {
         this.data.bc = data;
         this.props.history.replace(`${this.path}/2`);
@@ -153,6 +156,7 @@ export default class DocIssue extends React.Component<Props, State> {
         this.data.is = data;
         this.props.history.replace(`${this.path}/3`);
     };
+    //#endregion
 
     render() {
         return (
