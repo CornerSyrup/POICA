@@ -15,6 +15,8 @@ Accept CRUD actions. (read only for now)
 
 Array of teacher object in JSON format.
 
+Teacher object as follow.
+
 | field | description                |       type       |
 | :---: | -------------------------- | :--------------: |
 |  tid  | Teacher ID, 6 digit.       | number (6 digit) |
