@@ -120,7 +120,7 @@ export default function MainForm(props: Props) {
                 <div className="ui checkbox">
                     <input
                         type="checkbox"
-                        name="e"
+                        name="lg[0]"
                         ref={register()}
                         value="1"
                     />

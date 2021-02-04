@@ -100,6 +100,9 @@ export default class DocIssue extends React.Component<Props, State> {
 
         data.bc = this.data.bc;
         data.db = new Date(data.db).getTime() / 1000;
+
+            let lg = data.lg[0];
+            data.lg = data.dc.map(() => lg);
         this.data = data;
         this.props.history.replace(`${this.path}/${dest}`);
     };
