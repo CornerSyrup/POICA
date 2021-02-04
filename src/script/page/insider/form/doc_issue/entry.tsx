@@ -5,14 +5,14 @@ import {
     CommonFields as Common,
     DocIssue as Main,
     DocIssue_Grad as Grad,
-} from "../../../model/form_fields";
-import { Teacher } from "../../../model/teacher";
-import { Department } from "../../../model/department";
+} from "../../../../model/form_fields";
+import { Teacher } from "../../../../model/teacher";
+import { Department } from "../../../../model/department";
 
-import { default as StepOne } from "./common_form";
-import { default as StepTwo } from "./doc_issue/main";
-import { default as StepTwoG } from "./doc_issue/grad";
-import Progress from "./doc_issue/progress";
+import { default as StepOne } from "../common_form";
+import { default as StepTwo } from "./main";
+import { default as StepTwoG } from "./grad";
+import Progress from "./progress";
 
 interface Props extends RouteComponentProps {}
 interface State {

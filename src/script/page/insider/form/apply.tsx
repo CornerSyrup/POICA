@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
 
-import { default as Form } from "./doc_issue";
+import { default as Form } from "./doc_issue/entry";
 
 interface Props extends RouteComponentProps {}
 interface State {}
