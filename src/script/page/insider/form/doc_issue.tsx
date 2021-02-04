@@ -4,11 +4,14 @@ import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
 import {
     CommonFields as Common,
     DocIssue as Main,
+    DocIssue_Grad as Grad,
 } from "../../../model/form_fields";
 import { Teacher } from "../../../model/teacher";
+import { Department } from "../../../model/department";
 
 import { default as StepOne } from "./common_form";
 import { default as StepTwo } from "./doc_issue/main";
+import { default as StepTwoG } from "./doc_issue/grad";
 import Progress from "./doc_issue/progress";
 
 interface Props extends RouteComponentProps {}
@@ -17,6 +20,10 @@ interface State {
      * Teacher list.
      */
     teachers: Array<Teacher>;
+    /**
+     * Department list.
+     */
+    departments: Array<Department>;
 }
 
 export default class DocIssue extends React.Component<Props, State> {
@@ -46,6 +53,7 @@ export default class DocIssue extends React.Component<Props, State> {
 
         this.state = {
             teachers: [],
+            departments: [],
         };
 
         fetch("/teachers/", {
@@ -71,10 +79,34 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     submitStepTwo = (data: Main) => {
-        let dest = data.dc[3] || data.dc[4] ? "2g" : data.dc[6] ? "2i" : "3";
+        let dest = "3";
+        if (data.st == 2) {
+            dest = "2g";
+
+            fetch("/departments/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                // body: JSON.stringify(data),
+            })
+                .then((r) => r.json())
+                .then((respond: Array<Department>) => {
+                    this.setState({
+                        departments: respond,
+                    });
+                });
+        } else if (data.dc[6]) {
+            dest = "2i";
+        }
+
         data.bc = this.data.bc;
         data.db = new Date(data.db).getTime() / 1000;
         this.data = data;
+        this.props.history.replace(`${this.path}/${dest}`);
+    };
+
+    submitStepTwoG = (data: Grad) => {
+        this.data.gs = data;
+        let dest = this.data.dc[6] ? "2i" : "3";
         this.props.history.replace(`${this.path}/${dest}`);
     };
 
@@ -109,6 +141,16 @@ export default class DocIssue extends React.Component<Props, State> {
                         children={<StepTwo submit={this.submitStepTwo} />}
                     />
                     {/* {this.data.pp || <Redirect to={`${this.path}/2`} />} */}
+                    <Route
+                        exact
+                        path={`${this.path}/2g`}
+                        children={
+                            <StepTwoG
+                                submit={this.submitStepTwoG}
+                                depts={this.state.departments}
+                            />
+                        }
+                    />
                     <Redirect to={`${this.path}/1`} />
                 </Switch>
             </React.Fragment>
