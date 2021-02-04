@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 import { DocIssue_Grad as Fields } from "../../../../model/form_fields";
@@ -58,7 +58,7 @@ export default function GradForm(props: Props) {
                 </select>
             </div>
             {errors?.dp && <p>{errors.dp.message}</p>}
-            <div className="required field">
+            <div className={"required " + fieldTag(errors?.gy || errors?.gm)}>
                 <label>卒業年月</label>
                 <div className="two fields">
                     <div
@@ -144,37 +144,38 @@ export default function GradForm(props: Props) {
                 />
             </div>
             {errors?.tn && <p>{errors.tn.message}</p>}
-            <div className="fields">
-                <div className={"four wide required " + fieldTag(errors?.pc)}>
-                    <label>現住所</label>
-                    <div className={"ui labeled input"}>
-                        <div className="ui label">〒</div>
+            <div className={"required " + fieldTag(errors?.pc || errors?.ad)}>
+                <label>現住所</label>
+                <div className="fields">
+                    <div className={"four wide " + fieldTag(errors?.pc)}>
+                        <div className={"ui labeled input"}>
+                            <label className="ui label">〒</label>
+                            <input
+                                type="text"
+                                name="pc"
+                                placeholder="1600023"
+                                inputMode="numeric"
+                                ref={register({
+                                    required: "郵便番号を入力してください",
+                                    pattern: {
+                                        value: /^\d{7}$/,
+                                        message:
+                                            "郵便番号はハイフン抜きで入力してください",
+                                    },
+                                })}
+                            />
+                        </div>
+                    </div>
+                    <div className={"twelve wide " + fieldTag(errors?.ad)}>
                         <input
                             type="text"
-                            name="pc"
-                            placeholder="1600023"
-                            inputMode="numeric"
+                            name="ad"
+                            placeholder="東京都新宿区西新宿1-7-3"
                             ref={register({
-                                required: "郵便番号を入力してください",
-                                pattern: {
-                                    value: /^\d{7}$/,
-                                    message:
-                                        "郵便番号はハイフン抜きで入力してください",
-                                },
+                                required: "住所を入力してください",
                             })}
                         />
                     </div>
-                </div>
-                <div className={"twelve wide " + fieldTag(errors?.ad)}>
-                    <label>　</label>
-                    <input
-                        type="text"
-                        name="ad"
-                        placeholder="東京都新宿区西新宿1-7-3"
-                        ref={register({
-                            required: "住所を入力してください",
-                        })}
-                    />
                 </div>
             </div>
             {(errors?.pc || errors?.ad) && (
