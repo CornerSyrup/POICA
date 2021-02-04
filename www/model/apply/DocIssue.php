@@ -145,6 +145,14 @@ class DocIssue extends AppForm
         if (empty($this->status)) {
             throw new FormIncompleteException('status');
         }
+        // Grad subform is for applicants who status with 卒業生
+        else if ($this->status == 2) {
+            if (empty($this->gradSub)) {
+                throw new FormIncompleteException('grad sub form', 'applying grad related document');
+            }
+
+            $data['gs'] = $this->gradSub->Serialize();
+        }
         if (empty($this->dob)) {
             throw new FormIncompleteException('date of birth');
         }
@@ -187,10 +195,6 @@ class DocIssue extends AppForm
         }
 
         if (!empty($this->document[3])) {
-            if (empty($this->gradSub)) {
-                throw new FormIncompleteException('grad sub form', 'applying grad related document');
-            }
-
             if (isset($this->language) && $this->language[3]) {
                 if (empty($this->enName)) {
                     throw new FormIncompleteException('english name', 'applying english version');;
@@ -201,14 +205,9 @@ class DocIssue extends AppForm
             }
 
             $doc[3] = $this->document[3];
-            $data['gs'] = $this->gradSub->Serialize();
         }
 
         if (!empty($this->document[4])) {
-            if (empty($this->gradSub)) {
-                throw new FormIncompleteException('english name', 'applying english version');;
-            }
-
             if (isset($this->language) && $this->language[4]) {
                 if (empty($this->enName)) {
                     throw new FormIncompleteException('english name', 'applying english version');
@@ -219,7 +218,6 @@ class DocIssue extends AppForm
             }
 
             $doc[4] = $this->document[4];
-            $data['gs'] = $this->gradSub->Serialize();
         }
 
         if (!empty($this->document[5])) {
@@ -370,6 +368,12 @@ class DocIssue extends AppForm
         }
         // if both not set, that is omitted, which is omittable
         else {
+            return true;
+        }
+
+        // Grad subform is for applicants who status with 卒業生 only
+        // if so, then carry on checks.
+        if ($data['st'] != 2) {
             return true;
         }
 

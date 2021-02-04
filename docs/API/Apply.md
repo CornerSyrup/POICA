@@ -56,7 +56,7 @@ Below are common fields, stored in field named `bc` as JSON:
 |  dc   | Copies of documents to apply.                            |
 |  en   | English name of the applicant, optional.                 |
 |  lg   | True for English, false for Japanese. Only 1~4 accepted. |
-|  gs   | Sub form for applicant who applied doc type 3, 4. JSON.  |
+|  gs   | Sub form for applicant who status is 2. JSON.            |
 |  is   | Sub form for applicants who applied doc type 6. JSON.    |
 
 - field `st` is enum, which values is
