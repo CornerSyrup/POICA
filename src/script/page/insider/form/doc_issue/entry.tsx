@@ -5,6 +5,7 @@ import {
     CommonFields as Common,
     DocIssue as Main,
     DocIssue_Grad as Grad,
+    DocIssue_Intl as Intl,
 } from "../../../../model/form_fields";
 import { Teacher } from "../../../../model/teacher";
 import { Department } from "../../../../model/department";
@@ -12,6 +13,7 @@ import { Department } from "../../../../model/department";
 import { default as StepOne } from "../common_form";
 import { default as StepTwo } from "./main";
 import { default as StepTwoG } from "./grad";
+import { default as StepTwoI } from "./intl";
 import Progress from "./progress";
 
 interface Props extends RouteComponentProps {}
@@ -24,6 +26,10 @@ interface State {
      * Department list.
      */
     departments: Array<Department>;
+    /**
+     * Country list, key of code; value of name.
+     */
+    countries: object;
 }
 
 export default class DocIssue extends React.Component<Props, State> {
@@ -54,6 +60,7 @@ export default class DocIssue extends React.Component<Props, State> {
         this.state = {
             teachers: [],
             departments: [],
+            countries: [],
         };
 
         this.setTeachers();
@@ -91,6 +98,18 @@ export default class DocIssue extends React.Component<Props, State> {
             });
     };
 
+    setCountries = async () => {
+        fetch(
+            "https://cdn.jsdelivr.net/gh/umpirsky/country-list/data/ja/country.json"
+        )
+            .then((r) => r.json())
+            .then((respond: object) => {
+                this.setState({
+                    countries: respond,
+                });
+            });
+    };
+
     submitStepOne = (data: Common) => {
         this.data.bc = data;
         this.props.history.replace(`${this.path}/2`);
@@ -103,23 +122,36 @@ export default class DocIssue extends React.Component<Props, State> {
             this.setDepartments();
         } else if (data.dc[6]) {
             dest = "2i";
+            this.setCountries();
         }
         this.props.history.replace(`${this.path}/${dest}`);
 
         async () => {
-        data.bc = this.data.bc;
-        data.db = new Date(data.db).getTime() / 1000;
+            data.bc = this.data.bc;
+            data.db = new Date(data.db).getTime() / 1000;
 
             let lg = data.lg[0];
             data.lg = data.dc.map(() => lg);
-        this.data = data;
+            this.data = data;
         };
     };
 
     submitStepTwoG = (data: Grad) => {
         this.data.gs = data;
-        let dest = this.data.dc[6] ? "2i" : "3";
+
+        let dest;
+        if (this.data.dc[6]) {
+            dest = "2i";
+            this.setCountries();
+        } else {
+            dest = "3";
+        }
         this.props.history.replace(`${this.path}/${dest}`);
+    };
+
+    submitStepTwoI = (data: Intl) => {
+        this.data.is = data;
+        this.props.history.replace(`${this.path}/3`);
     };
 
     render() {
@@ -164,6 +196,17 @@ export default class DocIssue extends React.Component<Props, State> {
                         }
                     />
                     {/* {this.data.st == 2 || <Redirect to={`${this.path}/2g`} />} */}
+                    <Route
+                        exact
+                        path={`${this.path}/2i`}
+                        children={
+                            <StepTwoI
+                                submit={this.submitStepTwoI}
+                                countries={this.state.countries}
+                            />
+                        }
+                    />
+                    {/* {this.data.dc[6] || <Redirect to={`${this.path}/2i`} />} */}
                     <Redirect to={`${this.path}/1`} />
                 </Switch>
             </React.Fragment>
