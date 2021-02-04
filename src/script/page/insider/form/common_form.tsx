@@ -25,7 +25,7 @@ export default function Common(props: Props) {
             onSubmit={handleSubmit(props.submit)}
         >
             <div className={"required " + fieldTag(errors?.fn && errors?.ln)}>
-                <label htmlFor="fn">氏名</label>
+                <label>氏名</label>
                 <div className="two fields">
                     <div className={fieldTag(errors?.ln)}>
                         <input
@@ -51,12 +51,11 @@ export default function Common(props: Props) {
                     </div>
                 </div>
             </div>
-            <p>
-                {(errors?.fn || errors?.ln) &&
-                    (errors.ln?.message || errors.fn?.message)}
-            </p>
+            {(errors?.fn || errors?.ln) && (
+                <p>{errors.ln?.message || errors.fn?.message}</p>
+            )}
             <div className="required field">
-                <label htmlFor="fk">フリガナ</label>
+                <label>フリガナ</label>
                 <div className="two fields">
                     <div className={fieldTag(errors?.lk)}>
                         <input
@@ -80,12 +79,11 @@ export default function Common(props: Props) {
                     </div>
                 </div>
             </div>
-            <p>
-                {(errors?.fk || errors?.lk) &&
-                    (errors.lk?.message || errors.fk?.message)}
-            </p>
+            {(errors?.fk || errors?.lk) && (
+                <p>{errors.lk?.message || errors.fk?.message}</p>
+            )}
             <div className={"required " + fieldTag(errors?.si)}>
-                <label htmlFor="si">学籍番号</label>
+                <label>学籍番号</label>
                 <input
                     name="si"
                     type="number"
@@ -99,13 +97,13 @@ export default function Common(props: Props) {
                     })}
                 />
             </div>
-            <p>{errors?.si && errors.si.message}</p>
+            {errors?.si && <p>{errors.si.message}</p>}
             <div className={"required " + fieldTag(errors?.cc)}>
-                <label htmlFor="cc">クラス記号</label>
+                <label>クラス記号</label>
                 <input
                     name="cc"
                     type="text"
-                    placeholder="クラス記号"
+                    placeholder="ih12a092"
                     ref={register({
                         required: "クラス記号を入力してください",
                         pattern: {
@@ -116,9 +114,9 @@ export default function Common(props: Props) {
                     })}
                 />
             </div>
-            <p>{errors?.cc && errors.cc.message}</p>
+            {errors?.cc && <p>{errors.cc.message}</p>}
             <div className={"required " + fieldTag(errors?.ct)}>
-                <label htmlFor="ct">担任教師</label>
+                <label>担任教師</label>
                 <select
                     className="ui dropdown"
                     name="ct"
@@ -140,7 +138,7 @@ export default function Common(props: Props) {
                     ))}
                 </select>
             </div>
-            <p>{errors?.ct && errors.ct.message}</p>
+            {errors?.ct && <p>{errors.ct.message}</p>}
             <div className="required field">
                 <div className="ui checkbox">
                     <input

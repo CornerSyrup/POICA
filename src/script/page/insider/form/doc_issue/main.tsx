@@ -74,10 +74,9 @@ export default function MainForm(props: Props) {
                     </div>
                 </div>
             </div>
-            <p>
-                {(errors?.st || errors?.pp) &&
-                    (errors.pp?.message || errors.st?.message)}
-            </p>
+            {(errors?.st || errors?.pp) && (
+                <p>{errors.pp?.message || errors.st?.message}</p>
+            )}
             <div className={"required " + fieldTag(errors?.db)}>
                 <label>生年月日</label>
                 <input
@@ -90,7 +89,7 @@ export default function MainForm(props: Props) {
                     })}
                 />
             </div>
-            <p>{errors?.db && errors.db.message}</p>
+            {errors?.db && <p>{errors.db.message}</p>}
             <div
                 className={fieldTag(errors?.en)}
                 data-tooltip="申請者の氏名の英語表記、英文証明書を希望する場合のみ必須"
@@ -110,12 +109,13 @@ export default function MainForm(props: Props) {
                     })}
                 />
             </div>
-            <p>
-                {errors?.en &&
-                    (errors.en.type == "required"
+            {errors?.en && (
+                <p>
+                    {errors.en.type == "required"
                         ? "英語で申し込む場合は英語名が必須にまります"
-                        : errors.en.message)}
-            </p>
+                        : errors.en.message}
+                </p>
+            )}
             <div className="field">
                 <div className="ui checkbox">
                     <input
@@ -228,7 +228,7 @@ export default function MainForm(props: Props) {
                     </div>
                 </div>
             </div>
-            <p>{docError() && "書類を少なくとも1通を申し込んでください"}</p>
+            {docError() && <p>{"書類を少なくとも1通を申し込んでください"}</p>}
             <div className="field">
                 <input
                     className="ui primary button"
