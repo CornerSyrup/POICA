@@ -91,17 +91,17 @@ Below are common fields, stored in field named `bc` as JSON:
 
 ##### sub form: int
 
-| field | description                          |
-| :---: | ------------------------------------ |
-|  ar   | Applicant's address.                 |
-|  na   | Nation of the applicant. ISO 3166-1. |
-|  rc   | Card number of the resident card.    |
-|  gn   | True for male, false for female.     |
-|  st   | Status of stay, default `student`.   |
-|  id   | Immigrant date.                      |
-|  ad   | Admission date.                      |
-|  es   | Expiration date of stay.             |
-|  gd   | Expected graduation date.            |
+| field | description                                       |
+| :---: | ------------------------------------------------- |
+|  ar   | Applicant's address.                              |
+|  na   | Nation of the applicant. ISO 3166-1, 2 char attr. |
+|  rc   | Card number of the resident card.                 |
+|  gn   | True for male, false for female.                  |
+|  st   | Status of stay, default `student`.                |
+|  id   | Immigrant date.                                   |
+|  ad   | Admission date.                                   |
+|  es   | Expiration date of stay.                          |
+|  gd   | Expected graduation date.                         |
 
 ## Respond
 
