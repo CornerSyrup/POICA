@@ -151,6 +151,7 @@ export default class DocIssue extends React.Component<Props, State> {
                             />
                         }
                     />
+                    {/* {this.data.st == 2 || <Redirect to={`${this.path}/2g`} />} */}
                     <Redirect to={`${this.path}/1`} />
                 </Switch>
             </React.Fragment>
