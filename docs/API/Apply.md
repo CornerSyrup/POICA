@@ -98,10 +98,10 @@ Below are common fields, stored in field named `bc` as JSON:
 |  rc   | Card number of the resident card.                 |
 |  gn   | True for male, false for female.                  |
 |  st   | Status of stay, default `student`.                |
-|  id   | Immigrant date.                                   |
-|  ad   | Admission date.                                   |
-|  es   | Expiration date of stay.                          |
-|  gd   | Expected graduation date.                         |
+|  id   | Immigrant date, in UNIX timestamp.                |
+|  ad   | Admission date, in UNIX timestamp.                |
+|  es   | Expiration date of stay, in UNIX timestamp.       |
+|  gd   | Expected graduation date, in UNIX timestamp.      |
 
 ## Respond
 
