@@ -97,14 +97,16 @@ export default class DocIssue extends React.Component<Props, State> {
         } else if (data.dc[6]) {
             dest = "2i";
         }
+        this.props.history.replace(`${this.path}/${dest}`);
 
+        async () => {
         data.bc = this.data.bc;
         data.db = new Date(data.db).getTime() / 1000;
 
             let lg = data.lg[0];
             data.lg = data.dc.map(() => lg);
         this.data = data;
-        this.props.history.replace(`${this.path}/${dest}`);
+        };
     };
 
     submitStepTwoG = (data: Grad) => {
