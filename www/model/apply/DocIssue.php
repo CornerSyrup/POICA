@@ -311,7 +311,7 @@ class DocIssue extends AppForm
 
         for ($i = 1; $i <= 7; $i++) {
             if (isset($data[$i])) {
-                $ret &= is_numeric($data[$i]);
+                $ret &= (is_numeric($data[$i]) && $data[$i] >= 0);
             }
         }
 
