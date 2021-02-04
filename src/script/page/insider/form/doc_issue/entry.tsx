@@ -56,6 +56,14 @@ export default class DocIssue extends React.Component<Props, State> {
             departments: [],
         };
 
+        this.setTeachers();
+    }
+
+    componentDidMount = () => {
+        document.title = "証明書等発行願 - 申し込み";
+    };
+
+    setTeachers = async () => {
         fetch("/teachers/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -67,10 +75,20 @@ export default class DocIssue extends React.Component<Props, State> {
                     teachers: respond,
                 });
             });
-    }
+    };
 
-    componentDidMount = () => {
-        document.title = "証明書等発行願 - 申し込み";
+    setDepartments = async () => {
+        fetch("/departments/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(data),
+        })
+            .then((r) => r.json())
+            .then((respond: Array<Department>) => {
+                this.setState({
+                    departments: respond,
+                });
+            });
     };
 
     submitStepOne = (data: Common) => {
@@ -82,18 +100,7 @@ export default class DocIssue extends React.Component<Props, State> {
         let dest = "3";
         if (data.st == 2) {
             dest = "2g";
-
-            fetch("/departments/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                // body: JSON.stringify(data),
-            })
-                .then((r) => r.json())
-                .then((respond: Array<Department>) => {
-                    this.setState({
-                        departments: respond,
-                    });
-                });
+            this.setDepartments();
         } else if (data.dc[6]) {
             dest = "2i";
         }
