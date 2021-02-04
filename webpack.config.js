@@ -4,7 +4,6 @@ module.exports = {
   entry: {
     sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
     insider: path.join(path.resolve(__dirname, "src", "script"), "insider.tsx"), // insider page
-    setting: path.join(path.resolve(__dirname, "src", "script"), "setting.tsx"), // setting page
   },
   output: {
     filename: "[name].js",

@@ -33,7 +33,6 @@
         RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
 
     # page
-        RewriteRule ^setting/$ /controller/setting_entry.php [NC,END]
         RewriteRule ^ /view/insider.html [NC,END]
 
     # direct
