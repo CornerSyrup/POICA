@@ -244,7 +244,5 @@ export default async function ReadIDm(reader: any | null): Promise<string> {
         }
     } while (code == "");
 
-    reader.close();
-
     return code;
 }
