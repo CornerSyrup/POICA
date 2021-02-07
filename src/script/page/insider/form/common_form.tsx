@@ -19,7 +19,7 @@ export default function Common(props: Props) {
 
     return (
         <form
-            className="ui ten wide column centered form"
+            className="ui form"
             onSubmit={handleSubmit(props.submit)}
         >
             <div className={"required " + fieldTag(errors?.fn && errors?.ln)}>
