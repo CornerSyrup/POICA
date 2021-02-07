@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import "../../model/felica";
 import ReadIDm, { pair } from "../../model/felica";
+import { getSHA256 as getHash } from "../../model/hash";
 import { BasicStudent as Basic, SuicaStudent } from "../../model/student";
 
 interface AttendPage {
@@ -197,8 +198,7 @@ export default class Attend extends React.Component<Props, State> {
     };
 
     suicaRead = async () => {
-        let cde = await ReadIDm(this.suicaReader);
-        let sid = this.state.suicaIDm.get(cde);
+        let sid = this.state.suicaIDm.get(await getHash(cde));
 
         // idm found in students list
         if (sid) {

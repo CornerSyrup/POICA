@@ -1,20 +1,9 @@
-[
-    {
-        "fname": "サワ",
-        "lname": "チョウ",
-        "sid": "95049",
-        "suica": "01010a10291c2500"
-    },
-    {
-        "fname": "百合子",
-        "lname": "山下",
-        "sid": "95050",
-        "suica": "010103129d1ba816"
-    },
-    {
-        "fname": "製薬",
-        "lname": "小林",
-        "sid": "95051",
-        "suica": "011203124a153c21"
-    }
-]
+<?php
+
+$std = json_decode(file_get_contents('students.json'));
+
+foreach ($std as $s) {
+    $s->suica = hash('sha256', $s->suica);
+}
+
+echo json_encode($std);
