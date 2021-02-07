@@ -17,7 +17,6 @@ export default class Form extends React.Component<Props, State> {
         return (
             <Switch>
                 <Route strict path={`${path}/apply`} component={Apply} />
-                <Route strict path={`${path}/:id(\\d+)`} children={<h1>Review application</h1>} />
                 <Redirect to={`${path}/apply`} />
             </Switch>
         );
