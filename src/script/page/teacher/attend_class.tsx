@@ -72,7 +72,7 @@ export default class Attend extends React.Component<Props, State> {
 
         this.fetchStudents();
     }
-    
+
     //#region Attendance
     /**
      * Toggle attendance of student.
@@ -193,15 +193,21 @@ export default class Attend extends React.Component<Props, State> {
             suica_reading: true,
         });
 
-        this.suicaTimeout = setInterval(async () => {
-            console.timeStamp();
-            let cde = await ReadIDm(this.suicaReader);
-            console.log(cde);
-            let sid = this.state.suicaIDm.get(cde);
-            if (sid) {
-                this.setAttend(sid, true);
-            }
-        }, 1500);
+        this.suicaTimeout = setInterval(this.suicaRead, 1500);
+    };
+
+    suicaRead = async () => {
+        let cde = await ReadIDm(this.suicaReader);
+        let sid = this.state.suicaIDm.get(cde);
+
+        // idm found in students list
+        if (sid) {
+            this.setAttend(sid, true);
+        }
+        // idm not found in student list
+        else {
+            // show message of nor reg or wrong class.
+        }
     };
 
     finalSuicaRead = () => {
