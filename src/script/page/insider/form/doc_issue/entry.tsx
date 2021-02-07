@@ -9,11 +9,14 @@ import {
 } from "../../../../model/form_fields";
 import { Teacher } from "../../../../model/teacher";
 import { Department } from "../../../../model/department";
+import { buildCurrencyAmount } from "../../../../model/payment";
+import { generateApplicationID } from "../../../../model/apply";
 
 import { default as StepOne } from "../common_form";
 import { default as StepTwo } from "./main";
 import { default as StepTwoG } from "./grad";
 import { default as StepTwoI } from "./intl";
+import { default as StepThree } from "../payment/main";
 import Progress from "./progress";
 
 interface Props extends RouteComponentProps {}
@@ -53,6 +56,11 @@ export default class DocIssue extends React.Component<Props, State> {
         dc: [],
         lg: [],
     };
+    fee: PaymentItem = {
+        amount: buildCurrencyAmount(200),
+        label: "発行料",
+    };
+    appID: string = "";
 
     constructor(props: Props) {
         super(props);
@@ -64,6 +72,8 @@ export default class DocIssue extends React.Component<Props, State> {
         };
 
         this.setTeachers();
+
+        generateApplicationID().then((id) => (this.appID = id));
     }
 
     componentDidMount = () => {
@@ -156,6 +166,11 @@ export default class DocIssue extends React.Component<Props, State> {
         this.data.is = data;
         this.props.history.replace(`${this.path}/3`);
     };
+
+    paymentSettled = () => {
+        // post to server,
+        // tell server some application is paid.
+    };
     //#endregion
 
     render() {
@@ -212,6 +227,18 @@ export default class DocIssue extends React.Component<Props, State> {
                             }
                         />
                         {/* {this.data.dc[6] || <Redirect to={`${this.path}/2i`} />} */}
+                        <Route
+                            exact
+                            path={`${this.path}/3`}
+                            children={
+                                <StepThree
+                                    items={[this.fee]}
+                                    appID={this.appID}
+                                    OnSettled={this.paymentSettled}
+                                />
+                            }
+                        />
+                        {/* {this.data.dc[6] || <Redirect to={`${this.path}/3`} />} */}
                         <Redirect to={`${this.path}/1`} />
                     </Switch>
                 </div>

@@ -1,6 +1,10 @@
 import React from "react";
 
-import { default as Support, Props } from "./support";
+import { default as Support, Props as BaseProp } from "./support";
+
+interface Props extends BaseProp {
+    OnSettled(): void;
+}
 
 export default class Payment extends React.Component<Props> {
     render() {
