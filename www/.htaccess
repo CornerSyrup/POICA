@@ -30,6 +30,7 @@
         RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
         RewriteRule ^departments/$ /controller/department_entry.php [NC,END]
         RewriteRule ^students/$ /controller/student_entry.php [NC,END]
+        RewriteRule ^students/(\w{4})$ /controller/student_entry.php?c=$1 [NC,END,QSA]
 
     # cdn
         RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
