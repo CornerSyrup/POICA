@@ -1,5 +1,11 @@
 import React from "react";
-import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
+import {
+    MemoryRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+    RouteComponentProps,
+} from "react-router-dom";
 
 import {
     CommonFields as Common,
@@ -33,6 +39,10 @@ interface State {
      * Country list, key of code; value of name.
      */
     countries: object;
+    /**
+     * Step ID which now filling.
+     */
+    step: string;
 }
 
 export default class DocIssue extends React.Component<Props, State> {
@@ -69,6 +79,7 @@ export default class DocIssue extends React.Component<Props, State> {
             teachers: [],
             departments: [],
             countries: [],
+            step: "1",
         };
 
         this.setTeachers();
@@ -125,19 +136,26 @@ export default class DocIssue extends React.Component<Props, State> {
     //#region Submit handler
     submitStepOne = (data: Common) => {
         this.data.bc = data;
-        this.props.history.replace(`${this.path}/2`);
+
+        this.setState({
+            step: "2",
+        });
     };
 
     submitStepTwo = (data: Main) => {
-        let dest = "3";
+        let step = "3";
+
         if (data.st == 2) {
-            dest = "2g";
+            step = "2g";
             this.setDepartments();
         } else if (data.dc[6]) {
-            dest = "2i";
+            step = "2i";
             this.setCountries();
         }
-        this.props.history.replace(`${this.path}/${dest}`);
+
+        this.setState({
+            step: step,
+        });
 
         async () => {
             data.bc = this.data.bc;
@@ -150,97 +168,68 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     submitStepTwoG = (data: Grad) => {
+        let step = "3";
         this.data.gs = data;
 
-        let dest;
         if (this.data.dc[6]) {
-            dest = "2i";
+            step = "2i";
             this.setCountries();
-        } else {
-            dest = "3";
         }
-        this.props.history.replace(`${this.path}/${dest}`);
+
+        this.setState({
+            step: step,
+        });
     };
 
     submitStepTwoI = (data: Intl) => {
         this.data.is = data;
-        this.props.history.replace(`${this.path}/3`);
+
+        this.setState({
+            step: "3",
+        });
     };
 
     paymentSettled = () => {
         // post to server,
         // tell server some application is paid.
+        console.table(this.data);
     };
     //#endregion
 
     render() {
         return (
             <React.Fragment>
-                <Switch>
-                    <Route
-                        exact
-                        path={`${this.path}/:step`}
-                        component={Progress}
-                    />
-                </Switch>
+                <Progress step={this.state.step} />
 
                 <div className="ten wide column centered">
-                    <Switch>
-                        {/* Prevent direct access to fall through. */}
-                        {/* Fields used to check are just because required */}
-                        <Route
-                            exact
-                            path={`${this.path}/1`}
-                            children={
-                                <StepOne
-                                    submit={this.submitStepOne}
-                                    teachers={this.state.teachers}
-                                />
-                            }
+                    {this.state.step == "1" && (
+                        <StepOne
+                            submit={this.submitStepOne}
+                            teachers={this.state.teachers}
                         />
-                        {/* {this.data.bc.cc || <Redirect to={`${this.path}/1`} />} */}
-                        <Route
-                            exact
-                            path={`${this.path}/2`}
-                            children={<StepTwo submit={this.submitStepTwo} />}
+                    )}
+                    {this.state.step == "2" && (
+                        <StepTwo submit={this.submitStepTwo} />
+                    )}
+                    {this.state.step == "2g" && (
+                        <StepTwoG
+                            submit={this.submitStepTwoG}
+                            depts={this.state.departments}
                         />
-                        {/* {this.data.pp || <Redirect to={`${this.path}/2`} />} */}
-                        <Route
-                            exact
-                            path={`${this.path}/2g`}
-                            children={
-                                <StepTwoG
-                                    submit={this.submitStepTwoG}
-                                    depts={this.state.departments}
-                                />
-                            }
+                    )}
+                    {this.state.step == "2i" && (
+                        <StepTwoI
+                            submit={this.submitStepTwoI}
+                            countries={this.state.countries}
                         />
-                        {/* {this.data.st == 2 || <Redirect to={`${this.path}/2g`} />} */}
-                        <Route
-                            exact
-                            path={`${this.path}/2i`}
-                            children={
-                                <StepTwoI
-                                    submit={this.submitStepTwoI}
-                                    countries={this.state.countries}
-                                />
-                            }
+                    )}
+                    {this.state.step == "3" && (
+                        <StepThree
+                            items={[this.fee]}
+                            appID={this.appID}
+                            OnSettled={this.paymentSettled}
                         />
-                        {/* {this.data.dc[6] || <Redirect to={`${this.path}/2i`} />} */}
-                        <Route
-                            exact
-                            path={`${this.path}/3`}
-                            children={
-                                <StepThree
-                                    items={[this.fee]}
-                                    appID={this.appID}
-                                    OnSettled={this.paymentSettled}
-                                />
-                            }
-                        />
-                        {/* {this.data.dc[6] || <Redirect to={`${this.path}/3`} />} */}
-                        <Redirect to={`${this.path}/1`} />
-                    </Switch>
+                    )}
                 </div>
             </React.Fragment>
         );

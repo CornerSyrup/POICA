@@ -1,14 +1,13 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-interface RouteParams {
+interface Props {
     step: string;
 }
-interface Props extends RouteComponentProps<RouteParams> {}
 
 export default class Progress extends React.Component<Props> {
     stepState = (step: number) => {
-        let current = Number.parseInt(this.props.match.params.step);
+        let current = Number.parseInt(this.props.step);
         return (
             (current > step ? "completed " : current == step ? "active " : "") +
             "step"
