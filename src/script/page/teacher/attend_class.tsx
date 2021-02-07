@@ -198,6 +198,16 @@ export default class Attend extends React.Component<Props, State> {
     };
 
     suicaRead = async () => {
+        let cde = "";
+        
+        try {
+            cde = await ReadIDm(this.suicaReader);
+        } catch (e) {
+            if (e.code) {
+                this.finalSuicaRead();
+            }
+        }
+
         let sid = this.state.suicaIDm.get(await getHash(cde));
 
         // idm found in students list
