@@ -35,7 +35,7 @@ try {
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
             ob_start();
-            include "view/signup.php";
+            include "view/sign.html";
             ob_end_flush();
             exit;
         case 'POST':

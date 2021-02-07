@@ -2,10 +2,8 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    signin: path.join(path.resolve(__dirname, "src", "script"), "signin.tsx"), // sign in page
-    signup: path.join(path.resolve(__dirname, "src", "script"), "signup.tsx"), // sign up page
-    setting: path.join(path.resolve(__dirname, "src", "script"), "setting.tsx"), // setting page
     sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
+    insider: path.join(path.resolve(__dirname, "src", "script"), "insider.tsx"), // insider page
   },
   output: {
     filename: "[name].js",

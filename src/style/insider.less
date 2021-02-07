@@ -1,0 +1,21 @@
+html,
+body {
+    min-height: 100%;
+}
+
+body > main {
+    /* 56px for header menu, which is fixed with semantic ui attached segment */
+    min-height: calc(100% - 56px);
+}
+
+body > main > aside {
+    background-color: #eee !important;
+}
+
+/* body > main > * {
+    min-height: 100%;
+} */
+
+.menu .item {
+    text-transform: capitalize !important;
+}

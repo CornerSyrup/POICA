@@ -80,28 +80,28 @@ Below are common fields, stored in field named `bc` as JSON:
 
 ##### sub form: grd
 
-| field | description                                       |
-| :---: | ------------------------------------------------- |
-|  dp   | Department which the applicant is graduated from. |
-|  gy   | Year of graduation.                               |
-|  gm   | Month of graduation.                              |
-|  pc   | Postal code of the applicant's address.           |
-|  ad   | Applicant's address.                              |
-|  tn   | Phone no. of to contact the applicant.            |
+| field | description                                                |
+| :---: | ---------------------------------------------------------- |
+|  dp   | Department which the applicant is graduated from, in abbr. |
+|  gy   | Year of graduation.                                        |
+|  gm   | Month of graduation.                                       |
+|  pc   | Postal code of the applicant's address.                    |
+|  ad   | Applicant's address.                                       |
+|  tn   | Phone no. of to contact the applicant.                     |
 
 ##### sub form: int
 
-| field | description                          |
-| :---: | ------------------------------------ |
-|  ar   | Applicant's address.                 |
-|  na   | Nation of the applicant. ISO 3166-1. |
-|  rc   | Card number of the resident card.    |
-|  gn   | True for male, false for female.     |
-|  st   | Status of stay, default `student`.   |
-|  id   | Immigrant data.                      |
-|  ad   | Admission data.                      |
-|  es   | Expiration data of stay.             |
-|  gd   | Expected graduation date.            |
+| field | description                                       |
+| :---: | ------------------------------------------------- |
+|  ar   | Applicant's address.                              |
+|  na   | Nation of the applicant. ISO 3166-1, 2 char attr. |
+|  rc   | Card number of the resident card.                 |
+|  gn   | True for male, false for female.                  |
+|  st   | Status of stay, default `student`.                |
+|  id   | Immigrant date, in UNIX timestamp.                |
+|  ad   | Admission date, in UNIX timestamp.                |
+|  es   | Expiration date of stay, in UNIX timestamp.       |
+|  gd   | Expected graduation date, in UNIX timestamp.      |
 
 ## Respond
 
