@@ -11,6 +11,8 @@ import {
 import "../style/insider.less";
 import "../page/teacher.pug";
 
+import Attend from "./page/teacher/attend";
+
 class SideBar extends React.Component {
     render() {
         return (
@@ -47,6 +49,7 @@ class MainPart extends React.Component {
                 <Route path="/home">
                     <h1>ホーム</h1>
                 </Route>
+                <Route strict path="/attend" component={Attend} />
                 <Redirect to="/home" />
             </Switch>
         );
