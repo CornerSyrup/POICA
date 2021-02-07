@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   entry: {
     sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
-    insider: path.join(path.resolve(__dirname, "src", "script"), "insider.tsx"), // insider page
+    student: path.join(path.resolve(__dirname, "src", "script"), "student.tsx"), // student page
   },
   output: {
     filename: "[name].js",

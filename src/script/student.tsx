@@ -9,9 +9,9 @@ import {
 } from "react-router-dom";
 
 import "../style/insider.less";
-import "../page/insider.pug";
+import "../page/student.pug";
 
-import Form from "./page/insider/form";
+import Form from "./page/student/form";
 
 class SideBar extends React.Component {
     render() {

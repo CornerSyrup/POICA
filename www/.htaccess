@@ -35,7 +35,7 @@
         RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
 
     # page
-        RewriteRule ^ /view/insider.html [NC,END]
+        RewriteRule ^ /view/student.html [NC,END]
 
     # direct
         RewriteRule ^(.+)(?<!/)$ /$1/ [R]
