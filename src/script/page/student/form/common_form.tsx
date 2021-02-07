@@ -5,7 +5,7 @@ import { CommonFields as Common } from "../../../model/form_fields";
 import { Teacher } from "../../../model/teacher";
 
 interface Props {
-    submit(data: Common): void;
+    submit?(data: Common): void;
     teachers: Array<Teacher>;
     data?: Common;
 }
@@ -20,7 +20,7 @@ export default function Common(props: Props) {
     return (
         <form
             className="ui form"
-            onSubmit={handleSubmit(props.submit)}
+            onSubmit={props.submit ? handleSubmit(props.submit) : undefined}
         >
             <div className={"required " + fieldTag(errors?.fn && errors?.ln)}>
                 <label>氏名</label>

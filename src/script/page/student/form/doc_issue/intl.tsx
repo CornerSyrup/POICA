@@ -8,7 +8,7 @@ interface Props {
      * Submit handler of this form.
      * @param data form data.
      */
-    submit(data: Fields): void;
+    submit?(data: Fields): void;
     /**
      * List of countries, with key of code, and value of name.
      */
@@ -57,7 +57,7 @@ export default function GradForm(props: Props) {
         data.ad = new Date(data.ad).getTime() / 1000;
         data.es = new Date(data.es).getTime() / 1000;
         data.gd = new Date(data.gd).getTime() / 1000;
-        props.submit(data);
+        if (props.submit) props.submit(data);
     };
 
     return (

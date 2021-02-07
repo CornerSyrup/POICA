@@ -8,7 +8,7 @@ interface Props {
      * Submit handler of this form.
      * @param data form data.
      */
-    submit(data: Fields): void;
+    submit?(data: Fields): void;
     /**
      * Prefilled data.
      */
@@ -27,7 +27,7 @@ export default function MainForm(props: Props) {
     return (
         <form
             className="ui form"
-            onSubmit={handleSubmit(props.submit)}
+            onSubmit={props.submit ? handleSubmit(props.submit) : undefined}
         >
             <div className="field">
                 <div className="two fields">

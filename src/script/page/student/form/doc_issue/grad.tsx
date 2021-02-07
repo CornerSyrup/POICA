@@ -9,7 +9,7 @@ interface Props {
      * Submit handler of this form.
      * @param data form data.
      */
-    submit(data: Fields): void;
+    submit?(data: Fields): void;
     /**
      * List of departments.
      */
@@ -30,7 +30,10 @@ export default function GradForm(props: Props) {
     let fieldTag = (error: any) => (error ? "error " : "") + "field";
 
     return (
-        <form className="ui form" onSubmit={handleSubmit(props.submit)}>
+        <form
+            className="ui form"
+            onSubmit={props.submit ? handleSubmit(props.submit) : undefined}
+        >
             <div className={"required " + fieldTag(errors?.dp)}>
                 <label>卒業学科</label>
                 <select
