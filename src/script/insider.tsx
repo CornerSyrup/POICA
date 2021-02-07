@@ -19,27 +19,27 @@ class SideBar extends React.Component {
             <React.Fragment>
                 <Link to="/home" className="item" activeClassName="active">
                     <i className="home icon"></i>
-                    home
+                    ホーム
                 </Link>
                 <Link to="/form" className="item" activeClassName="active">
                     <i className="tasks icon"></i>
-                    form
+                    フォーム
                 </Link>
                 <Link to="/attend" className="item" activeClassName="active">
                     <i className="calendar alternate icon"></i>
-                    attendance
+                    出席
                 </Link>
                 <Link to="/user" className="item" activeClassName="active">
                     <i className="user icon"></i>
-                    account
+                    アカウント
                 </Link>
                 <Link to="/setting" className="item" activeClassName="active">
                     <i className="sliders horizontal icon"></i>
-                    setting
+                    設定
                 </Link>
                 <Link to="/about" className="item" activeClassName="active">
                     <i className="info icon"></i>
-                    about
+                    情報
                 </Link>
             </React.Fragment>
         );
