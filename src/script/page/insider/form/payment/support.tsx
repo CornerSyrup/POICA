@@ -51,6 +51,9 @@ export default class Support extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.state = {
+            status: 0,
+        };
     }
 
     pay = () => {
