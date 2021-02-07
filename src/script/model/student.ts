@@ -1,4 +1,5 @@
 export interface BasicStudent {
     sid: string;
-    name: string;
+    fname: string;
+    lname: string;
 }
