@@ -38,11 +38,11 @@ try {
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
             if (isset($_REQUEST['e'])) {
-                require_once './apply/get_catalogue.php';
-                $handler = new apply\GetCatalogueHandler($logger);
-            } else {
                 require_once './apply/get.php';
                 $handler = new apply\GetHandler($logger, ['id' => $_REQUEST['e']]);
+            } else {
+                require_once './apply/get_catalogue.php';
+                $handler = new apply\GetCatalogueHandler($logger);
             }
             break;
         case 'POST':
