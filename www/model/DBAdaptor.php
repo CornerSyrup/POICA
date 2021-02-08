@@ -50,8 +50,8 @@ class DBAdaptor
      */
     public function obtain(string $command, array $params, string $errorMessage, bool $assoc = true): array
     {
+        // Resources of result
         $res = @pg_query_params($this->connection, $command, $params);
-
         if (!$res) {
             throw new RecordLookUpException(
                 $errorMessage,
@@ -60,7 +60,17 @@ class DBAdaptor
             );
         }
 
-        return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
+        // Result
+        $res = $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
+        if (!$res) {
+            throw new RecordLookUpException(
+                $errorMessage,
+                0,
+                new \Exception(pg_errormessage($this->connection))
+            );
+        }
+
+        return $res;
     }
     #endregion
 
