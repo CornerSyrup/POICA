@@ -29,7 +29,7 @@ class GetCatalogueHandler extends \model\GetHandler
             $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
         } catch (\model\RecordNotFoundException $rnf) {
             $this->logger->appendError($rnf);
-            $this->respond['status'] = 21;
+            $this->respond['status'] = 20;
         } finally {
             return $this->respond;
         }
