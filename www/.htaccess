@@ -16,27 +16,31 @@
         RewriteRule ^view/ / [R=404]
         RewriteRule ^controller/ / [R=404]
 
+    # cdn
+        RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
+        RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
+
     # api
-        # auth
-        RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
-        RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
-        RewriteRule ^signout/$ /controller/signout.php [NC,END]
-        RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
-        # apply
-        RewriteRule ^apply/form/$ /controller/apply_entry.php [NC,END]
-        RewriteRule ^apply/form/(\d+)/$ /controller/apply_entry.php?e=$1 [NC,END,QSA]
-        # suica
-        RewriteRule ^regis/suica/$ /controller/suica_entry.php [NC,END]
+        # temp api for demo
         RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
         RewriteRule ^departments/$ /controller/department_entry.php [NC,END]
         RewriteRule ^students/$ /controller/student_entry.php [NC,END]
         RewriteRule ^students/(\w{4})$ /controller/student_entry.php?c=$1 [NC,END,QSA]
 
-    # cdn
-        RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
-        RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
+        # auth
+        RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
+        RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
+        RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
+        RewriteRule ^signup/suica/$ /controller/suica_entry.php [NC,END]
+        RewriteRule ^signout/$ /controller/signout.php [NC,END]
+        # restful
+        RewriteRule ^forms/$ /controller/apply_entry.php [NC,END]
+        RewriteRule ^forms/(\d+)/$ /controller/apply_entry.php?e=$1 [NC,END,QSA]
 
     # page
+        RewriteCond %{HTTP_HOST} ^student\.
+        RewriteRule ^ /view/student.html [NC,END]
+        RewriteCond %{HTTP_HOST} ^teacher\.
         RewriteRule ^ /view/teacher.html [NC,END]
 
     # direct
