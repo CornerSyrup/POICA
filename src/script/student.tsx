@@ -5,37 +5,19 @@ import { Switch, Route, Redirect, NavLink as Link } from "react-router-dom";
 import "../style/insider.less";
 import "../page/student.pug";
 
-import Insider from "./insider";
+import Insider, { SideBarItem as Item } from "./insider";
 import Form from "./page/student/form";
 
 class SideBar extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Link to="/home" className="item" activeClassName="active">
-                    <i className="home icon"></i>
-                    ホーム
-                </Link>
-                <Link to="/form" className="item" activeClassName="active">
-                    <i className="tasks icon"></i>
-                    フォーム
-                </Link>
-                <Link to="/attend" className="item" activeClassName="active">
-                    <i className="calendar alternate icon"></i>
-                    出席
-                </Link>
-                <Link to="/user" className="item" activeClassName="active">
-                    <i className="user icon"></i>
-                    アカウント
-                </Link>
-                <Link to="/setting" className="item" activeClassName="active">
-                    <i className="sliders horizontal icon"></i>
-                    設定
-                </Link>
-                <Link to="/about" className="item" activeClassName="active">
-                    <i className="info icon"></i>
-                    情報
-                </Link>
+                <Item route="/home" icon="home" tag="ホーム" />
+                <Item route="/form" icon="tasks" tag="申し込み" />
+                <Item route="/attend" icon="calendar alternate" tag="出席" />
+                <Item route="/user" icon="user" tag="アカウント" />
+                <Item route="/setting" icon="sliders horizontal" tag="設定" />
+                <Item route="/about" icon="info" tag="情報" />
             </React.Fragment>
         );
     }
