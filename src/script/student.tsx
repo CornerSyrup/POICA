@@ -66,13 +66,13 @@ class Insider extends React.Component {
             <Router>
                 <aside
                     id="sidebar"
-                    className="ui three wide column secondary vertical pointing menu"
+                    className="ui three wide secondary vertical pointing menu column "
                 >
                     <SideBar />
                 </aside>
                 <section
                     id="core"
-                    className="ui thirteen wide column padded grid"
+                    className="ui thirteen wide padded grid stretched column"
                 >
                     <MainPart />
                 </section>
