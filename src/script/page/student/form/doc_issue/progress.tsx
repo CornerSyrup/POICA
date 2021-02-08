@@ -16,7 +16,11 @@ export default class Progress extends React.Component<Props> {
 
     render() {
         return (
-            <div id="progress" className="ui four ordered steps">
+            <div
+                id="progress"
+                className="ui four ordered steps"
+                style={{ flexGrow: 0 }}
+            >
                 <div className={this.stepState(1)}>
                     <div className="content">
                         <div className="title">基本情報</div>

@@ -199,7 +199,7 @@ export default class Attend extends React.Component<Props, State> {
 
     suicaRead = async () => {
         let cde = "";
-        
+
         try {
             cde = await ReadIDm(this.suicaReader);
         } catch (e) {
@@ -281,7 +281,7 @@ export default class Attend extends React.Component<Props, State> {
                 <div className="row">
                     <div
                         className="ui ten wide divided list column"
-                        style={{ overflowY: "scroll", maxHeight: "50vh" }}
+                        style={{ overflowY: "scroll" }}
                     >
                         {this.state?.students?.map((s: Basic) => (
                             <AttendItem

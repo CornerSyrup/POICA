@@ -201,7 +201,7 @@ export default class DocIssue extends React.Component<Props, State> {
             <React.Fragment>
                 <Progress step={this.state.step} />
 
-                <div className="ten wide column centered">
+                <div className="ten wide centered column">
                     {this.state.step == "1" && (
                         <StepOne
                             submit={this.submitStepOne}
