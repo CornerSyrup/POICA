@@ -40,7 +40,7 @@ try {
         throw new auth\UnauthorizeException();
     }
 
-    switch (strtoupper(strtoupper($_SERVER['REQUEST_METHOD']))) {
+    switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
             break;
