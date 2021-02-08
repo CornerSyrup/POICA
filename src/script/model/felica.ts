@@ -223,8 +223,8 @@ export async function pair(): Promise<any> {
 }
 
 /**
- *
- * @param reader
+ * Read idm with NFC reader via web usb API.
+ * @param reader reader to be used in reading process. Auto pair a new reader when null supplied.
  * @returns return IDm code.
  */
 export default async function ReadIDm(reader: any | null): Promise<string> {
@@ -243,8 +243,6 @@ export default async function ReadIDm(reader: any | null): Promise<string> {
             await sleep(500);
         }
     } while (code == "");
-
-    reader.close();
 
     return code;
 }

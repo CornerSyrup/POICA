@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     sign: path.join(path.resolve(__dirname, "src", "script"), "sign.tsx"), // sign page
     student: path.join(path.resolve(__dirname, "src", "script"), "student.tsx"), // student page
+    teacher: path.join(path.resolve(__dirname, "src", "script"), "teacher.tsx"), // teacher page
   },
   output: {
     filename: "[name].js",
