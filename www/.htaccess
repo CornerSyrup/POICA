@@ -22,8 +22,6 @@
 
     # api
         # temp api for demo
-        RewriteCond %{TIME_MON} ^2
-        RewriteRule  .?  -  [S=4]
         RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
         RewriteRule ^departments/$ /controller/department_entry.php [NC,END]
         RewriteRule ^students/$ /controller/student_entry.php [NC,END]
