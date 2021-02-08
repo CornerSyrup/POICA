@@ -1,16 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    NavLink as Link,
-} from "react-router-dom";
+import { Switch, Route, Redirect, NavLink as Link } from "react-router-dom";
 
 import "../style/insider.less";
 import "../page/student.pug";
 
+import Insider from "./insider";
 import Form from "./page/student/form";
 
 class SideBar extends React.Component {
@@ -60,25 +55,7 @@ class MainPart extends React.Component {
     }
 }
 
-class Insider extends React.Component {
-    render() {
-        return (
-            <Router>
-                <aside
-                    id="sidebar"
-                    className="ui three wide secondary vertical pointing menu column "
-                >
-                    <SideBar />
-                </aside>
-                <section
-                    id="core"
-                    className="ui thirteen wide padded grid stretched column"
-                >
-                    <MainPart />
-                </section>
-            </Router>
-        );
-    }
-}
-
-ReactDOM.render(<Insider />, document.querySelector("body>main"));
+ReactDOM.render(
+    <Insider side={SideBar} main={MainPart} />,
+    document.querySelector("body>main")
+);
