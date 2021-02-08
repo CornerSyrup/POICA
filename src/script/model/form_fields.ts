@@ -1,3 +1,10 @@
+interface Application {
+    /**
+     * Basic fields.
+     */
+    bc: CommonFields;
+}
+
 export interface CommonFields {
     /**
      * First name, given name.
@@ -30,11 +37,7 @@ export interface CommonFields {
 }
 
 //#region DocIssue
-export interface DocIssue {
-    /**
-     * Basic fields.
-     */
-    bc: CommonFields;
+export interface DocIssue extends Application {
     /**
      * Date of birth. As unix timestamp.
      */
