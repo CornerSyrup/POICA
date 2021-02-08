@@ -8,3 +8,17 @@ export function generateApplicationID(): Promise<string> {
                 .substr(0, 10);
         });
 }
+
+/**
+ * Translate type id to string.
+ * @param typeID As apply doc type enym
+ */
+export function typeIdTranslate(typeID: string) {
+    let ret: string = "";
+    switch (typeID) {
+        case "doc":
+            ret = "証明書発行願";
+    }
+
+    return ret;
+}
