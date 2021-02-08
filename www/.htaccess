@@ -16,6 +16,16 @@
         RewriteRule ^view/ / [R=404]
         RewriteRule ^controller/ / [R=404]
 
+    # cdn
+        RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
+        RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
+
+    # page
+        RewriteCond %{HTTP_HOST} ^student
+        RewriteRule ^ /view/student.html [NC,END]
+        RewriteCond %{HTTP_HOST} ^teacher
+        RewriteRule ^ /view/teacher.html [NC,END]
+
     # api
         # auth
         RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
@@ -31,13 +41,6 @@
         RewriteRule ^departments/$ /controller/department_entry.php [NC,END]
         RewriteRule ^students/$ /controller/student_entry.php [NC,END]
         RewriteRule ^students/(\w{4})$ /controller/student_entry.php?c=$1 [NC,END,QSA]
-
-    # cdn
-        RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
-        RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
-
-    # page
-        RewriteRule ^ /view/teacher.html [NC,END]
 
     # direct
         RewriteRule ^(.+)(?<!/)$ /$1/ [R]
