@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    MemoryRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    RouteComponentProps,
-} from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import {
     CommonFields as Common,
