@@ -21,9 +21,9 @@
         RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
 
     # page
-        RewriteCond %{HTTP_HOST} ^student
+        RewriteCond %{HTTP_HOST} ^student\.
         RewriteRule ^ /view/student.html [NC,END]
-        RewriteCond %{HTTP_HOST} ^teacher
+        RewriteCond %{HTTP_HOST} ^teacher\.
         RewriteRule ^ /view/teacher.html [NC,END]
 
     # api
