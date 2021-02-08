@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ths95049/hew2020#readme",
   "devDependencies": {
+    "@types/jquery": "^3.5.5",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
