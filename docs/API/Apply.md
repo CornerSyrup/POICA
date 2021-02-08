@@ -139,9 +139,10 @@ in JSON format.
 
 extra fields for GET respond.
 
-| field | description | type  |
-| :---: | ----------- | :---: |
-|  frm  | Form data.  | JSON  |
+|         field          | description              | type  |
+| :--------------------: | ------------------------ | :---: |
+|          frm           | Form data.               | JSON  |
+| [typ](#post-form-type) | Type of the application. | Enum  |
 
 ### GET catalogue respond
 
@@ -150,6 +151,15 @@ extra fields for GET catalogue respond.
 | field | description                     | type  |
 | :---: | ------------------------------- | :---: |
 |  cat  | Entry ids of applied form data. | array |
+
+fields included in `cat` object array.
+
+|          field          | description                  |  type  |
+| :---------------------: | ---------------------------- | :----: |
+|           id            | Entry id of the application. | number |
+| [type](#post-form-type) | Type of the application.     |  Enum  |
+|         status          | Status of the apply process. | binary |
+|          date           | Apply date.                  |  date  |
 
 ## Implementation
 
