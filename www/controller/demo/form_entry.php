@@ -2,22 +2,34 @@
 
 header('Content-Type: application/json');
 
-$forms = json_decode(file_get_contents('forms.json'));
+$forms = @json_decode(file_get_contents('forms.json'));
 
 switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
     case 'GET':
-        $data = [];
-
-        for ($i = 0; $i < count($forms); $i++) {
-            $data[] = [
-                'id' => $i,
-                'typs' => $forms[$i]->typ,
-                'status' => $forms[$i]->status,
-                'date' => $forms[$i]->date,
-            ];
+        // get one
+        if (isset($_REQUEST['e'])) {
+            echo json_encode(
+                [
+                    'typ' => $forms[$_REQUEST['e']]->typ,
+                    'frm' => $forms[$_REQUEST['e']]->frm
+                ]
+            );
         }
+        // get list
+        else {
+            $data = [];
 
-        echo json_encode(['status' => 1, 'cat' => $data]);
+            for ($i = 0; $i < count($forms); $i++) {
+                $data[] = [
+                    'id' => $i,
+                    'type' => $forms[$i]->typ,
+                    'status' => $forms[$i]->status,
+                    'date' => $forms[$i]->date,
+                ];
+            }
+
+            echo json_encode(['status' => 1, 'cat' => $data]);
+        }
         break;
     case 'POST':
         $post = json_decode(file_get_contents('php://input'), true);
@@ -28,5 +40,5 @@ switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         echo json_encode(['status' => 1]);
         break;
     default:
-        echo json_encode(['status' => 10]);
+        echo json_encode(['status' => 33]);
 }
