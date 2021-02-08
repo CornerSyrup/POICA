@@ -22,3 +22,30 @@ export function typeIdTranslate(typeID: string) {
 
     return ret;
 }
+
+export function status2Percent(status: number) {
+    return status / 4;
+}
+
+export function status2String(status: number) {
+    let ret: string = "";
+
+    switch (status) {
+        case 0:
+            ret = "申し込み済み";
+            break;
+        case 1:
+            ret = "処理待ち";
+            break;
+        case 2:
+            ret = "処理中";
+            break;
+        case 3:
+            ret = "完成";
+            break;
+        default:
+            break;
+    }
+
+    return ret;
+}
