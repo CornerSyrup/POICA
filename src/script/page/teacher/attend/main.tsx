@@ -67,6 +67,7 @@ export default class Attend extends React.Component<Props, State> {
                         <tbody>
                             {this.state?.list?.map((i: ResponseItem) => (
                                 <ClassItem
+                                    key={i.code}
                                     path={`${this.path}/${i.code}`}
                                     code={i.code}
                                     rate={(i.attend / i.total) * 100}
