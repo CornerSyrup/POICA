@@ -24,7 +24,7 @@ export function typeIdTranslate(typeID: string) {
 }
 
 export function status2Percent(status: number) {
-    return status / 4;
+    return status / 4 * 100;
 }
 
 export function status2String(status: number) {
