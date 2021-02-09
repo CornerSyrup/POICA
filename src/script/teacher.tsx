@@ -14,9 +14,9 @@ class SideBar extends React.Component {
             <React.Fragment>
                 <Item route="/home" icon="home" tag="ホーム" />
                 <Item route="/attend" icon="calendar alternate" tag="出席" />
-                <Item route="/user" icon="user" tag="アカウント" />
-                <Item route="/setting" icon="sliders horizontal" tag="設定" />
-                <Item route="/about" icon="info" tag="情報" />
+                {/* <Item route="/user" icon="user" tag="アカウント" /> */}
+                {/* <Item route="/setting" icon="sliders horizontal" tag="設定" /> */}
+                {/* <Item route="/about" icon="info" tag="情報" /> */}
             </React.Fragment>
         );
     }
