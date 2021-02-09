@@ -25,6 +25,8 @@
         RewriteRule ^forms/$ /controller/demo/form_entry.php [NC,END]
         RewriteRule ^forms/(\d+)/$ /controller/demo/form_entry.php?e=$1 [NC,END,QSA]
         RewriteRule ^teachers/$ /controller/demo/teacher_entry.php [NC,END]
+        RewriteRule ^class/$ /controller/demo/class_entry.php [NC,END]
+        RewriteRule ^class/(\w{2}\d\w)$ /controller/demo/class_entry.php?c=$1 [NC,END,QSA]
         RewriteRule ^departments/$ /controller/demo/department_entry.php [NC,END]
         RewriteRule ^students/$ /controller/demo/student_entry.php [NC,END]
         RewriteRule ^students/(\w{4})$ /controller/demo/student_entry.php?c=$1 [NC,END,QSA]
