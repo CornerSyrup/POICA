@@ -316,19 +316,21 @@ export default class AttendClass extends React.Component<Props, State> {
                     </div>
                 </div>
                 <div className="row">
-                    <div
-                        className="ui ten wide divided list column"
-                        style={{ overflowY: "scroll" }}
-                    >
-                        {this.state?.students?.map((s: Basic) => (
-                            <AttendItem
-                                key={s.sid}
-                                attend={this.state.attends.get(s.sid)}
-                                name={`${s.lname} ${s.fname}`}
-                                id={s.sid}
-                                toggle={this.toggleAttend}
-                            />
-                        ))}
+                    <div className="ten wide column">
+                        <div
+                            className="ui middle aligned divided list"
+                            style={{ overflowY: "scroll" }}
+                        >
+                            {this.state?.students?.map((s: Basic) => (
+                                <AttendItem
+                                    key={s.sid}
+                                    attend={this.state.attends.get(s.sid)}
+                                    name={`${s.lname} ${s.fname}`}
+                                    id={s.sid}
+                                    toggle={this.toggleAttend}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className="six wide column">
                         {(navigator as any).usb && (
