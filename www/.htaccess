@@ -19,6 +19,7 @@
     # cdn
         RewriteRule ^cdn/(.+).js$ /view/$1.js [END]
         RewriteRule ^cdn/(.+).css$ /view/$1.css [END]
+        RewriteRule ^cdn/(.+).png$ /image/$1.png [END]
 
     # api
         # temp api for demo
