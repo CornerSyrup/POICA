@@ -58,6 +58,10 @@ export default class AttendClass extends React.Component<Props, State> {
      */
     pushTimeout: any = undefined;
 
+    componentDidMount = () => {
+        document.title = `${this.props.match.params.class.toUpperCase()} - 出席管理`;
+    };
+
     componentWillUnmount = () => {
         clearTimeout(this.suicaTimeout);
     };

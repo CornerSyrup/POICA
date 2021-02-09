@@ -12,6 +12,10 @@ interface State {
 export default class Attend extends React.Component<Props, State> {
     path = this.props.match.path;
 
+    componentDidMount = () => {
+        document.title = "出席管理";
+    };
+
     componentDidUpdate = () => {
         $(".ui.progress").progress();
     };
