@@ -1,10 +1,10 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import "../../model/felica";
-import ReadIDm, { pair } from "../../model/felica";
-import { getSHA256 as getHash } from "../../model/hash";
-import { BasicStudent as Basic, SuicaStudent } from "../../model/student";
+import "../../../model/felica";
+import ReadIDm, { pair } from "../../../model/felica";
+import { getSHA256 as getHash } from "../../../model/hash";
+import { BasicStudent as Basic, SuicaStudent } from "../../../model/student";
 
 interface AttendPage {
     class: string;
@@ -43,7 +43,7 @@ interface State {
     };
 }
 
-export default class Attend extends React.Component<Props, State> {
+export default class AttendClass extends React.Component<Props, State> {
     /**
      * Suica read timeout interval.
      */

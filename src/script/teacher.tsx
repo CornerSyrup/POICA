@@ -6,7 +6,8 @@ import "../style/insider.less";
 import "../page/teacher.pug";
 
 import Insider, { SideBarItem as Item } from "./insider";
-import Attend from "./page/teacher/attend_class";
+import AttendClass from "./page/teacher/attend/class";
+import Attend from "./page/teacher/attend/main";
 
 class SideBar extends React.Component {
     render() {
@@ -29,7 +30,8 @@ class MainPart extends React.Component {
                 <Route path="/home">
                     <h1>ホーム</h1>
                 </Route>
-                <Route strict path="/attend/:class" component={Attend} />
+                <Route strict path="/attend/:class" component={AttendClass} />
+                <Route strict path="/attend" component={Attend} />
                 <Redirect to="/home" />
             </Switch>
         );
