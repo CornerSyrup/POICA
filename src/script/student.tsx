@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Switch, Route, Redirect, NavLink as Link } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import "../style/insider.less";
 import "../page/student.pug";
