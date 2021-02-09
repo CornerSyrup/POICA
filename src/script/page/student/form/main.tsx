@@ -209,7 +209,6 @@ function ApplyItem(props: {
                         props.status == 0 ? "teal" : "yellow"
                     } progress`}
                     data-percent={toPercent(props.status)}
-                    style={{ margin: 0 }}
                 >
                     <div className="bar"></div>
                     <div className="label"></div>
