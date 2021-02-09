@@ -266,7 +266,7 @@ export default class AttendClass extends React.Component<Props, State> {
     render() {
         return (
             <div className="ui grid">
-                <div className="centered row">
+                <div className="centered row" style={{ height: "min-content" }}>
                     <div className="eight wide column">
                         <div className="ui info icon message">
                             {this.state.suica_reading ? (
@@ -283,7 +283,7 @@ export default class AttendClass extends React.Component<Props, State> {
                         </div>
                     </div>
                 </div>
-                <div className="centered row">
+                <div className="centered row" style={{ height: "min-content" }}>
                     <div className="ten wide column">
                         <div className="ui three cards">
                             <StatCard
@@ -317,10 +317,7 @@ export default class AttendClass extends React.Component<Props, State> {
                 </div>
                 <div className="row">
                     <div className="ten wide column">
-                        <div
-                            className="ui middle aligned divided list"
-                            style={{ overflowY: "scroll" }}
-                        >
+                        <div className="ui middle aligned divided list">
                             {this.state?.students?.map((s: Basic) => (
                                 <AttendItem
                                     key={s.sid}
