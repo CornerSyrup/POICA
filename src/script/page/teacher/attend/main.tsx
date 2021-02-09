@@ -82,7 +82,6 @@ export default class Attend extends React.Component<Props, State> {
 }
 
 function ClassItem(props: { path: string; code: string; rate: number }) {
-    console.log(props.code);
     let colour = "";
 
     if (props.rate > 75) {
