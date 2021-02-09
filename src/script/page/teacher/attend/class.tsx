@@ -60,7 +60,6 @@ export default class AttendClass extends React.Component<Props, State> {
 
     componentWillUnmount = () => {
         clearTimeout(this.suicaTimeout);
-        clearTimeout(this.pushTimeout);
     };
 
     constructor(props: Props) {
@@ -82,7 +81,6 @@ export default class AttendClass extends React.Component<Props, State> {
         };
 
         this.fetchStudents();
-        this.pushTimeout = setInterval(this.pushStudent, 5000);
     }
 
     //#region Attendance
@@ -179,7 +177,6 @@ export default class AttendClass extends React.Component<Props, State> {
      * Push attend data to sever.
      */
     pushStudent = () => {
-        console.table(this.state.attends.keys());
         fetch(`/class/${this.props.match.params.class}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
