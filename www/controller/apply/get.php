@@ -34,7 +34,7 @@ class GetHandler extends \model\GetHandler
             $this->logger->appendRecord("[{$_SESSION['user']}] obtained application form entry [{$this->data['id']}].");
         } catch (\model\RecordNotFoundException $rnf) {
             $this->logger->appendError($rnf);
-            $this->respond['status'] = 21;
+            $this->respond['status'] = 20;
         } finally {
             return $this->respond;
         }

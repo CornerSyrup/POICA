@@ -24,12 +24,12 @@ class GetCatalogueHandler extends \model\GetHandler
             $dba = new \model\DBAdaptor();
 
             $this->respond['cat'] = $dba->obtain_catalogue($_SESSION['user']);
-            $res['status'] = 1;
+            $this->respond['status'] = 1;
 
             $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
         } catch (\model\RecordNotFoundException $rnf) {
             $this->logger->appendError($rnf);
-            $this->respond['status'] = 21;
+            $this->respond['status'] = 20;
         } finally {
             return $this->respond;
         }

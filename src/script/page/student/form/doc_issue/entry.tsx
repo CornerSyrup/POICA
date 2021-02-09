@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    MemoryRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    RouteComponentProps,
-} from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import {
     CommonFields as Common,
@@ -189,10 +183,23 @@ export default class DocIssue extends React.Component<Props, State> {
         });
     };
 
+    sendFormData = () => {
+        fetch("/forms/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ frm: this.data, typ: "doc" }),
+        })
+            .then((r) => r.json())
+            .then((r: any) => {
+                if (r.status != 2) {
+                    console.warn(r);
+                }
+            });
+    };
+
     paymentSettled = () => {
         // post to server,
         // tell server some application is paid.
-        console.table(this.data);
     };
     //#endregion
 
@@ -228,6 +235,7 @@ export default class DocIssue extends React.Component<Props, State> {
                             items={[this.fee]}
                             appID={this.appID}
                             OnSettled={this.paymentSettled}
+                            OnMount={this.sendFormData}
                         />
                     )}
                 </div>

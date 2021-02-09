@@ -45,13 +45,13 @@ class DBAdaptor
      * @param string $command SQL command.
      * @param array $params parameter to be used with supplied command.
      * @param string $errorMessage error message when fail to obtain.
-     * @return array
+     * @return array|boolean return result array or false on failure.
      * @throws RecordLookUpException throw when fail to obtain data from database, with supplied error message.
      */
-    public function obtain(string $command, array $params, string $errorMessage, bool $assoc = true): array
+    public function obtain(string $command, array $params, string $errorMessage, bool $assoc = true)
     {
+        // Resources of result
         $res = @pg_query_params($this->connection, $command, $params);
-
         if (!$res) {
             throw new RecordLookUpException(
                 $errorMessage,

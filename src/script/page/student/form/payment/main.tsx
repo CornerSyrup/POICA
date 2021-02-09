@@ -4,9 +4,12 @@ import { default as Support, Props as BaseProp } from "./support";
 
 interface Props extends BaseProp {
     OnSettled(): void;
+    OnMount(): void;
 }
 
 export default class Payment extends React.Component<Props> {
+    componentDidMount = () => this.props.OnMount();
+
     render() {
         return (
             <React.Fragment>
@@ -30,9 +33,9 @@ function NotSupport() {
             <h1 className="ui icon header">
                 <i className="warning icon"></i>
                 <div className="content">
-                    Payment APIのサポート
+                    申し込みは完成しました
                     <p className="sub header">
-                        申し訳ございません。 このブラウザはPayment
+                        申し訳ございません。このブラウザはPayment
                         APIをサポートしないため、
                         <br />
                         お手数ですがお支払いは学生カウンターまでお願い申し上げます。
