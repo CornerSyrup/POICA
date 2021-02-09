@@ -53,6 +53,16 @@ export default class AttendClass extends React.Component<Props, State> {
      */
     suicaReader: any = undefined;
 
+    /**
+     * Timeout of push to server.
+     */
+    pushTimeout: any = undefined;
+
+    componentWillUnmount = () => {
+        clearTimeout(this.suicaTimeout);
+        clearTimeout(this.pushTimeout);
+    };
+
     constructor(props: Props) {
         super(props);
 
@@ -72,6 +82,7 @@ export default class AttendClass extends React.Component<Props, State> {
         };
 
         this.fetchStudents();
+        this.pushTimeout = setInterval(this.pushStudent, 5000);
     }
 
     //#region Attendance
@@ -162,6 +173,23 @@ export default class AttendClass extends React.Component<Props, State> {
                     }
                 );
             });
+    };
+
+    /**
+     * Push attend data to sever.
+     */
+    pushStudent = () => {
+        console.table(this.state.attends.keys());
+        fetch(`/class/${this.props.match.params.class}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                code: this.props.match.params.class,
+                attend: this.state.stat.attend,
+                list: Array.from(this.state.attends.keys()),
+                total: this.state.stat.person,
+            }),
+        });
     };
 
     //#region Suica
