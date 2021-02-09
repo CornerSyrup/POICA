@@ -287,13 +287,21 @@ export default class AttendClass extends React.Component<Props, State> {
                     <div className="ten wide column">
                         <div className="ui three cards">
                             <StatCard
-                                colour="green"
+                                colour={
+                                    this.state.stat.rate > 50
+                                        ? "green"
+                                        : "yellow"
+                                }
                                 header="出席者人数"
                                 value={this.state.stat.attend}
                                 label="人"
                             />
                             <StatCard
-                                colour="green"
+                                colour={
+                                    this.state.stat.rate > 50
+                                        ? "green"
+                                        : "yellow"
+                                }
                                 header="出席率"
                                 value={this.state.stat.rate}
                                 label="%"
@@ -409,10 +417,7 @@ function AttendItem(props: {
                     </div>
                 </button>
             </div>
-            <img
-                className="ui avatar image"
-                src="https://semantic-ui.com/images/avatar2/small/lindsay.png"
-            />
+            <img className="ui avatar image" src="/cdn/user.png" />
             <div className="content">{props.name}</div>
         </div>
     );
