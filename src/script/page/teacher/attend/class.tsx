@@ -276,9 +276,9 @@ export default class AttendClass extends React.Component<Props, State> {
                             )}
                             <div className="content">
                                 <div className="header">
-                                    {`この時限は${this.props.match.params.class.toUpperCase()}の授業です`}
+                                    {`${this.props.match.params.class.toUpperCase()}の授業の出席管理ページです`}
                                 </div>
-                                スイカで出席登録を受け付けています
+                                出席登録を受け付けています
                             </div>
                         </div>
                     </div>
@@ -323,21 +323,23 @@ export default class AttendClass extends React.Component<Props, State> {
                         ))}
                     </div>
                     <div className="six wide column">
-                        <ButtonCard
-                            header="スイカリーダー"
-                            meta="Sony RC-S380"
-                            loading={this.state.suica_load}
-                            text={
-                                this.state.suica_reading
-                                    ? "読み取り停止"
-                                    : "読み取り開始"
-                            }
-                            onClick={
-                                this.state.suica_reading
-                                    ? this.finalSuicaRead
-                                    : this.initSuicaRead
-                            }
-                        />
+                        {(navigator as any).usb && (
+                            <ButtonCard
+                                header="スイカリーダー"
+                                meta="Sony RC-S380"
+                                loading={this.state.suica_load}
+                                text={
+                                    this.state.suica_reading
+                                        ? "読み取り停止"
+                                        : "読み取り開始"
+                                }
+                                onClick={
+                                    this.state.suica_reading
+                                        ? this.finalSuicaRead
+                                        : this.initSuicaRead
+                                }
+                            />
+                        )}
                         <ButtonCard
                             header="学生リスト更新"
                             meta="サーバーに授業の学生名簿を再度読み込み"
