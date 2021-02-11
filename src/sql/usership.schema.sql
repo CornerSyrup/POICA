@@ -32,6 +32,6 @@ CREATE TABLE Usership.Users(
 CREATE TABLE Usership.AccessLog(
     userID INT NOT NULL,
     -- postgre time stamp
-    moment TIMESTAMP NOT NULL DEFAULT now(),
+    moment TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT FK_Access_User FOREIGN KEY (userID) REFERENCES Usership.Users (userID)
 );
