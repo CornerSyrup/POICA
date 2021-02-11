@@ -6,23 +6,23 @@ CREATE SCHEMA IF NOT EXISTS Usership;
 CREATE TABLE Usership.Users (
     userID SERIAL,
     -- Student ID and Teacher ID common field.
-    studentID VARCHAR(5),
+    sid VARCHAR(5) NOT NULL,
     -- last 2 digit of year
-    studentYear CHAR(2) NOT NULL,
+    yr CHAR(2) NOT NULL,
     -- php return pwd hash in length of 60
     pwd CHAR(60) NOT NULL,
     -- triple size for ja, 4 char
-    jaFName VARCHAR(12) NOT NULL,
+    fName VARCHAR(12) NOT NULL,
     -- triple size for ja, 12 char
-    jaLName VARCHAR(36) NOT NULL,
+    lName VARCHAR(36) NOT NULL,
     -- triple size for ja, 30 char
-    jaFKana VARCHAR(90) NOT NULL,
-    jaLKana VARCHAR(45) NOT NULL,
+    fKana VARCHAR(90) NOT NULL,
+    lKana VARCHAR(45) NOT NULL,
     -- SHA256 hash result in length of 64
     suica CHAR(64),
     CONSTRAINT PK_User PRIMARY KEY (userID),
     CONSTRAINT UQ_Suica UNIQUE (suica),
-    CONSTRAINT UQ_Student UNIQUE (studentID, studentYear)
+    CONSTRAINT UQ_Student UNIQUE (sid, yr)
 );
 
 -- access control, logging
