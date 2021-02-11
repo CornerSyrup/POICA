@@ -100,9 +100,6 @@ class DocIssue extends AppForm
             throw new FormIncompleteException('required');
         }
 
-        // parse string JSON to array.
-        $data['bc'] = json_parse($data['bc']);
-
         return parent::Validate($data['bc']) &&
             self::valid_db($data) &&
             self::valid_st($data) &&
@@ -354,41 +351,13 @@ class DocIssue extends AppForm
      */
     private static function valid_gs(array $data): bool
     {
-        // check if 3 is set; if is set, value should not be less then 1
-        if (isset($data['dc'][3])) {
-            if ($data['dc'][3] < 1) {
-                return false;
-            }
-        }
-        // check if 3 is set; if is set, value should not be less then 1
-        else if (isset($data['dc'][4])) {
-            if ($data['dc'][4] < 1) {
-                return false;
-            }
-        }
-        // if both not set, that is omitted, which is omittable
-        else {
-            return true;
-        }
-
         // Grad subform is for applicants who status with 卒業生 only
         // if so, then carry on checks.
         if ($data['st'] != 2) {
             return true;
         }
 
-        $ret = false;
-
-        // check is set, and try parse
-        if (isset($data['gs'])) {
-            json_decode($data['gs']);
-
-            $ret = json_last_error() == JSON_ERROR_NONE;
-        } else {
-            throw new FormIncompleteException('gs', 'required when doc 3 or 4 is set');
-        }
-
-        return $ret;
+        return isset($data['gs']);
     }
 
     /**
@@ -408,18 +377,7 @@ class DocIssue extends AppForm
             return false;
         }
 
-        $ret = false;
-
-        // check is set, and try parse
-        if (isset($data['is'])) {
-            json_decode($data['is']);
-
-            $ret = json_last_error() == JSON_ERROR_NONE;
-        } else {
-            throw new FormIncompleteException('is', 'required when doc 6 is set');
-        }
-
-        return $ret;
+        return isset($data['is']);
     }
     #endregion
 }
