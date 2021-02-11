@@ -108,25 +108,25 @@ class DBAdaptor
     /**
      * Interface to obtain user credential with suica idm code.
      *
-     * @param string $code suica idm code.
+     * @param string $hash SHA256 hash of suica idm code.
      * @return string user id for the specified idm code.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public function obtain_suica(string $code): string
+    public function obtain_suica_user(string $hash): string
     {
-        $msg = "Fail to obtain credential with suica ID [{$code}].";
+        $msg = "Fail to obtain credential with suica ID hash [{$hash}].";
 
         $res = $this->obtain(
-            "SELECT u.studentid FROM Usership.Users u WHERE u.suica = $1 LIMIT 1;",
-            array($code),
+            "SELECT u.userID FROM Usership.Users u WHERE u.suica = $1 LIMIT 1;",
+            array($hash),
             $msg
         );
 
-        if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$code}].");
+        if (empty($res[0]['userid'])) {
+            throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$hash}].");
         }
 
-        return $res[0];
+        return $res[0]['userid'];
     }
 
     /**
