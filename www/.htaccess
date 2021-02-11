@@ -22,12 +22,12 @@
 
     # api
         # temp api for demo
-        RewriteRule ^forms/$ /controller/demo/form_entry.php [NC,END]
-        RewriteRule ^forms/(\d+)/$ /controller/demo/form_entry.php?e=$1 [NC,END,QSA]
-        RewriteRule ^teachers/$ /controller/demo/teacher_entry.php [NC,END]
-        RewriteRule ^departments/$ /controller/demo/department_entry.php [NC,END]
-        RewriteRule ^students/$ /controller/demo/student_entry.php [NC,END]
-        RewriteRule ^students/(\w{4})$ /controller/demo/student_entry.php?c=$1 [NC,END,QSA]
+        # RewriteRule ^forms/$ /controller/demo/form_entry.php [NC,END]
+        # RewriteRule ^forms/(\d+)/$ /controller/demo/form_entry.php?e=$1 [NC,END,QSA]
+        # RewriteRule ^teachers/$ /controller/demo/teacher_entry.php [NC,END]
+        # RewriteRule ^departments/$ /controller/demo/department_entry.php [NC,END]
+        # RewriteRule ^students/$ /controller/demo/student_entry.php [NC,END]
+        # RewriteRule ^students/(\w{4})$ /controller/demo/student_entry.php?c=$1 [NC,END,QSA]
 
         # auth
         RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
