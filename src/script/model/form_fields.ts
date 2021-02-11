@@ -25,7 +25,7 @@ export interface CommonFields {
     /**
      * Student ID.
      */
-    si: number;
+    si: string;
     /**
      * Class Code.
      */
@@ -33,7 +33,7 @@ export interface CommonFields {
     /**
      * Class Teacher.
      */
-    ct: number;
+    ct: string;
 }
 
 //#region DocIssue
