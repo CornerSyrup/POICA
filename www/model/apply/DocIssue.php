@@ -2,6 +2,7 @@
 
 namespace model\app_form;
 
+require_once 'model/Global.php';
 require_once 'model/Validation.php';
 require_once 'model/apply/AppForm.php';
 
@@ -122,8 +123,6 @@ class DocIssue extends AppForm
             if (empty($this->gradSub)) {
                 throw new FormIncompleteException('grad sub form', 'applying grad related document');
             }
-
-            $data['gs'] = $this->gradSub->Serialize();
         }
         if (empty($this->dob)) {
             throw new FormIncompleteException('date of birth');
@@ -202,7 +201,6 @@ class DocIssue extends AppForm
             }
 
             $doc[6] = 1;
-            $data['is'] = $this->interSub->Serialize();
         }
 
         if (!empty($this->document[7])) {
@@ -214,9 +212,6 @@ class DocIssue extends AppForm
         if (!empty($lan)) {
             $data['lg'] = $lan;
         }
-
-        // base class
-        $data['bc'] = parent::Serialize();
 
         return json_encode($data);
     }
@@ -230,7 +225,7 @@ class DocIssue extends AppForm
     public function Deserialize(string $json)
     {
         $data = json_parse($json);
-        parent::Deserialize($data['bc']);
+        parent::Deserialize(json_stringify($data['bc']));
 
         $this->status = $data['st'];
         $this->dob = $data['db'];
@@ -248,11 +243,11 @@ class DocIssue extends AppForm
         }
 
         if (isset($data['gs'])) {
-            $this->gradSub = GraduatesSubForm::Deserialize($data['gs']);
+            $this->gradSub = GraduatesSubForm::Deserialize(json_stringify($data['gs']));
         }
 
         if (isset($data['is'])) {
-            $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
+            $this->interSub = ResultAttendanceSubForm::Deserialize(json_stringify($data['is']));
         }
     }
     #endregion
