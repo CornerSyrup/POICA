@@ -91,7 +91,7 @@ class DBAdaptor
     {
         $this->insert(
             "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
-            array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
+            array($data['usr'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
         );
     }
 
