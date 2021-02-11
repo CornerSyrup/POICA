@@ -1,7 +1,7 @@
 # Sign Up
 
-Version: 1.0
-Last Edit: 19 Jan 2021
+Version: 1.1
+Last Edit: 11 Feb 2021
 
 ## Introduction
 
