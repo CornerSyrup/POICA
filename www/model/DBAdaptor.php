@@ -233,6 +233,7 @@ class DBAdaptor
     #endregion
 }
 
+#region Exception
 /**
  * Exception representing record not found in database.
  */
@@ -287,3 +288,4 @@ class RecordLookUpException extends \Exception
         parent::__construct("Fail to lookup record with following message:\n\t" . $message, $code, $innerException);
     }
 }
+#endregion
