@@ -215,10 +215,10 @@ class DocIssue extends AppForm
 
         #region Sub form  
         if (isset($this->interSub)) {
-            $data['is'] = $this->interSub;
+            $data['is'] = $this->interSub->Serialize();
         }
         if (isset($this->gradSub)) {
-            $data['gs'] = $this->gradSub;
+            $data['gs'] = $this->gradSub->Serialize();
         }
         #endregion
 
@@ -444,9 +444,9 @@ class ResultAttendanceSubForm
      *
      * @return string Serialized json as string.
      */
-    public function Serialize(): string
+    public function Serialize(): array
     {
-        $data = [
+        return [
             'ar' => $this->address ?? '',
             'na' => $this->nation ?? '',
             'rc' => $this->residentCard ?? '',
@@ -457,8 +457,6 @@ class ResultAttendanceSubForm
             'es' => $this->expireOfStay ?? 0,
             'gd' => $this->expGradDate ?? 0
         ];
-
-        return json_encode($data);
     }
 
     /**
@@ -526,9 +524,9 @@ class GraduatesSubForm
      *
      * @return string Serialized json as string.
      */
-    public function Serialize(): string
+    public function Serialize(): array
     {
-        $data = [
+        return [
             'dp' => $this->department ?? '',
             'gy' => $this->gradYear ?? 0,
             'gm' => $this->gradMonth ?? 0,
@@ -536,8 +534,6 @@ class GraduatesSubForm
             'ad' => $this->address ?? '',
             'tn' => $this->telNo ?? 0
         ];
-
-        return json_encode($data);
     }
 
     /**
