@@ -192,6 +192,23 @@ class DBAdaptor
 
     #region application form
     /**
+     * Interface to insert new application form data to database.
+     *
+     * @param integer $user user id of the applicant.
+     * @param AppForm $form form data to be stored in database.
+     * @param string $type identifier of the type of form to be inserted.
+     * @throws RecordInsertException throw when insertion fail.
+     * @return void
+     */
+    public function insert_form(int $user,  form\AppForm $form, string $type)
+    {
+        $this->insert(
+            "INSERT INTO Applic.Applications (applyUser, formData, formType) VALUES ($1, $2, $3)",
+            array($user, $form->Serialize(), $type)
+        );
+    }
+
+    /**
      * Interface to obtain form data with entry id.
      *
      * @param integer $id form data entry id.
@@ -215,23 +232,6 @@ class DBAdaptor
         }
 
         return $res[0]['formdata'];
-    }
-
-    /**
-     * Interface to insert new application form data to database.
-     *
-     * @param integer $user user id of the applicant.
-     * @param AppForm $form form data to be stored in database.
-     * @param string $type identifier of the type of form to be inserted.
-     * @throws RecordInsertException throw when insertion fail.
-     * @return void
-     */
-    public function insert_form(int $user,  form\AppForm $form, string $type)
-    {
-        $this->insert(
-            "INSERT INTO Applic.Applications (applyUser, formData, formType) VALUES ($1, $2, $3)",
-            array($user, $form->Serialize(), $type)
-        );
     }
 
     /**
