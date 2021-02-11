@@ -9,6 +9,10 @@ CREATE TABLE School.Teachers(
 	firstName VARCHAR(12) NOT NULL,
 	-- triple for ja, 12 char
 	lastName VARCHAR(36) NOT NULL,
+	-- php return pwd hash in length of 60
+    pwd CHAR(60) NOT NULL,
+	-- SHA256 hash result in length of 64
+    suica CHAR(64),
 	CONSTRAINT PK_Teacher PRIMARY KEY (teacherID)
 );
 

@@ -81,17 +81,15 @@ class DBAdaptor
      */
     public function obtain_credential(string $sid): string
     {
-        $res = pg_query_params($this->connection, "SELECT Usership.obtain_pwd($1);", array($sid));
+        $msg = "Fail to obtain credential with student ID [{$sid}].";
 
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain credential with student ID [{$sid}].",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
+        $res = $this->obtain(
+            "SELECT u.pwd FROM Usership.Users u WHERE u.TSID = $1;",
+            array($sid),
+            $msg
+        );
 
+        // check first row
         if (empty($res[0])) {
             throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
         }
@@ -108,16 +106,13 @@ class DBAdaptor
      */
     public function obtain_suica(string $code): string
     {
-        $res = pg_query_params($this->connection, "SELECT Usership.obtain_suica($1)", array($code));
+        $msg = "Fail to obtain credential with suica ID [{$code}].";
 
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain credential with suica ID [{$code}].",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
+        $res = $this->obtain(
+            "SELECT u.studentid FROM Usership.Users u WHERE u.suica = $1 LIMIT 1;",
+            array($code),
+            $msg
+        );
 
         if (empty($res[0])) {
             throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$code}].");
@@ -135,14 +130,10 @@ class DBAdaptor
      */
     public function insert_credential(array $data)
     {
-        // suppress warning message manually
-        if (!@pg_query_params(
-            $this->connection,
-            "CALL Usership.insert_cre($1, $2, $3, $4, $5, $6, $7)",
+        $this->insert(
+            "INSERT INTO Usership.Users (TSID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $2, $4, $5, $6, $7);",
             array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
-        }
+        );
     }
     #endregion
 
