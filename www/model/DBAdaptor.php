@@ -2,6 +2,10 @@
 
 namespace model;
 
+require 'model/apply/AppForm.php';
+
+use model\app_form as form;
+
 /**
  * adaptor to database and provide insertion and query services
  */
@@ -216,21 +220,18 @@ class DBAdaptor
     /**
      * Interface to insert new application form data to database.
      *
-     * @param AppForm $form form data to be insert to database.
-     * @return void
+     * @param integer $user user id of the applicant.
+     * @param AppForm $form form data to be stored in database.
+     * @param string $type identifier of the type of form to be inserted.
      * @throws RecordInsertException throw when insertion fail.
+     * @return void
      */
-    public function insert_form(int $user, app_form\AppForm $form)
+    public function insert_form(int $user,  form\AppForm $form, string $type)
     {
-        // TODO: create db function to replace
-        // suppress warning message manually
-        if (!@pg_query_params(
-            $this->connection,
-            "INSERT INTO Applic.Applications (applyUser, formData) SELECT userid, $2 FROM usership.users WHERE studentid=$1",
-            array($user, $form->Serialize())
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
-        }
+        $this->insert(
+            "INSERT INTO Applic.Applications (applyUser, formData, formType) VALUES ($1, $2, $3)",
+            array($user, $form, $type)
+        );
     }
 
     /**
