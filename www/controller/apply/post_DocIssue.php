@@ -50,13 +50,9 @@ class PostDocIssueHandler extends form\FormRequestHandler
      */
     public function Handle(): array
     {
-        var_dump($this->form);
-
         if (!isset($this->form)) {
             $this->form = new form\DocIssue();
-            var_dump($this->form);
             $this->form->Deserialize(json_encode($this->data));
-            var_dump($this->form);
         }
 
         (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form);
