@@ -81,6 +81,21 @@ class DBAdaptor
 
     #region credential
     /**
+     * Interface to insert user credential to database.
+     *
+     * @param array $data array of user credential.
+     * @return void
+     * @throws RecordInsertException throw when insertion fail
+     */
+    public function insert_credential_student(array $data)
+    {
+        $this->insert(
+            "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
+            array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
+        );
+    }
+
+    /**
      * Interface to obtain user credential from database.
      *
      * @param string $sid student id.
@@ -106,6 +121,22 @@ class DBAdaptor
     }
 
     /**
+     * Interface to update suica idm code for user.
+     *
+     * @param integer $user Student user id.
+     * @param string $idm SHA256 hash of idm code for suica card.
+     * @return void
+     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
+     */
+    public function update_suica_student(int $user, string $idm)
+    {
+        $this->insert(
+            "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
+            array($idm, $user)
+        );
+    }
+
+    /**
      * Interface to obtain user credential with suica idm code.
      *
      * @param string $hash SHA256 hash of suica idm code.
@@ -127,37 +158,6 @@ class DBAdaptor
         }
 
         return $res[0]['userid'];
-    }
-
-    /**
-     * Interface to insert user credential to database.
-     *
-     * @param array $data array of user credential.
-     * @return void
-     * @throws RecordInsertException throw when insertion fail
-     */
-    public function insert_credential_student(array $data)
-    {
-        $this->insert(
-            "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
-            array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
-        );
-    }
-
-    /**
-     * Interface to update suica idm code for user.
-     *
-     * @param integer $user Student user id.
-     * @param string $idm SHA256 hash of idm code for suica card.
-     * @return void
-     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
-     */
-    public function update_suica_student(int $user, string $idm)
-    {
-        $this->insert(
-            "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
-            array($idm, $user)
-        );
     }
     #endregion
 
