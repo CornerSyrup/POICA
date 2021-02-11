@@ -25,9 +25,10 @@ class PostDocIssueHandler extends form\FormRequestHandler
      * @param string $data form data assoc array.
      * @throws JsonException throw when supplied form data unable to be parsed.
      */
-    public function __construct(array $data)
+    public function __construct(array $data, string $type)
     {
         $this->data = $data;
+        $this->type = $type;
 
         $this->data = \model\Localizer::LocalizeArray($this->data);
     }
@@ -52,18 +53,10 @@ class PostDocIssueHandler extends form\FormRequestHandler
     {
         if (!isset($this->form)) {
             $this->form = new form\DocIssue();
-            $this->data['bc'] = json_stringify($this->data['bc']);
-            if (isset($this->data['gs'])) {
-                $this->data['gs'] = json_stringify($this->data['gs']);
-            }
-            if (isset($this->data['is'])) {
-                $this->data['is'] = json_stringify($this->data['is']);
-            }
-
             $this->form->Deserialize(json_stringify($this->data));
         }
 
-        (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form);
+        (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form, $this->type);
         $this->result['status'] = 2;
 
         return $this->result;
