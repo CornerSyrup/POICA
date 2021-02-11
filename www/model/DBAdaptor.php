@@ -237,14 +237,13 @@ class DBAdaptor
     /**
      * Interface to obtain list of applied form with student id.
      *
-     * @param string $user student id in string, to prevent missing leading 0.
+     * @param string $user user ID.
      * @return array
      */
     public function obtain_catalogue(string $user): array
     {
-        // TODO: create db function to replace
         return $this->obtain(
-            "SELECT appid id, stat \"status\", applydate \"date\" FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
+            "SELECT entry id, stat \"status\", applyDate \"date\" FROM Applic.Applications a WHERE a.applyUser=$1;",
             array($user),
             "Fail to obtain applied form list with [{$user}]"
         );
