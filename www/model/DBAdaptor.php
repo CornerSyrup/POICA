@@ -144,7 +144,21 @@ class DBAdaptor
         );
     }
 
-
+    /**
+     * Interface to update suica idm code for user.
+     *
+     * @param integer $user Student user id.
+     * @param string $idm SHA256 hash of idm code for suica card.
+     * @return void
+     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
+     */
+    public function update_suica(int $user, string $idm)
+    {
+        $this->insert(
+            "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
+            array($idm, $user)
+        );
+    }
     #endregion
 
     #region application form
@@ -208,27 +222,6 @@ class DBAdaptor
             array($user),
             "Fail to obtain applied form list with [{$user}]"
         );
-    }
-    #endregion
-
-    #region enrolments
-    /**
-     * Interface to update suica idm code for user.
-     *
-     * @param integer $user student id.
-     * @param string $idm idm code for suica card.
-     * @return void
-     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
-     */
-    public function update_suica(int $user, string $idm)
-    {
-        if (!@pg_query_params(
-            $this->connection,
-            "UPDATE usership.users u SET suica=$1 WHERE u.studentid=$2;",
-            array($idm, $user)
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
-        }
     }
     #endregion
 }
