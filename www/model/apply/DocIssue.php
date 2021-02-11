@@ -2,6 +2,7 @@
 
 namespace model\app_form;
 
+require_once 'model/Global.php';
 require_once 'model/Validation.php';
 require_once 'model/apply/AppForm.php';
 
@@ -13,6 +14,7 @@ use model\validation as valid;
  */
 class DocIssue extends AppForm
 {
+    #region Fields
     /**
      * Unix timestamp of date of birth, set with function setter SetDateOfBirth.
      */
@@ -46,7 +48,9 @@ class DocIssue extends AppForm
      * Only 1~4 accepted.
      */
     public array $language;
+    #endregion
 
+    #region Sub Form
     /**
      * Sub form for international student only and when require.
      */
@@ -55,7 +59,9 @@ class DocIssue extends AppForm
      * Sub form for graduates students who desired to apply graduation related documents
      */
     public GraduatesSubForm $gradSub;
+    #endregion
 
+    #region Getter and Setter
     /**
      * Getter for date of birth.
      *
@@ -78,42 +84,9 @@ class DocIssue extends AppForm
     {
         $this->dob = mktime(null, null, null, $month, $day, $year);
     }
+    #endregion
 
-    /**
-     * Check whether doc issue form data is valid.
-     *
-     * @param array $data complete data for doc issue application.
-     * @return boolean
-     * @throws FormIncompleteException throw when required field missing.
-     * @throws JsonException throw when supplied common field data unable to be parsed.
-     */
-    public static function Validate(array $data): bool
-    {
-        // check if required field is set
-        if (
-            !(isset($data['bc']) &&
-                isset($data['db']) &&
-                isset($data['st']) &&
-                isset($data['pp']) &&
-                isset($data['dc']) && !empty($data['dc']))
-        ) {
-            throw new FormIncompleteException('required');
-        }
-
-        // parse string JSON to array.
-        $data['bc'] = json_parse($data['bc']);
-
-        return parent::Validate($data['bc']) &&
-            self::valid_db($data) &&
-            self::valid_st($data) &&
-            self::valid_pp($data) &&
-            self::valid_dc($data) &&
-            self::valid_en($data) &&
-            self::valid_lg($data) &&
-            self::valid_gs($data) &&
-            self::valid_is($data);
-    }
-
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with DocIssue deserialize function.
      *
@@ -150,8 +123,6 @@ class DocIssue extends AppForm
             if (empty($this->gradSub)) {
                 throw new FormIncompleteException('grad sub form', 'applying grad related document');
             }
-
-            $data['gs'] = $this->gradSub->Serialize();
         }
         if (empty($this->dob)) {
             throw new FormIncompleteException('date of birth');
@@ -230,7 +201,6 @@ class DocIssue extends AppForm
             }
 
             $doc[6] = 1;
-            $data['is'] = $this->interSub->Serialize();
         }
 
         if (!empty($this->document[7])) {
@@ -243,8 +213,14 @@ class DocIssue extends AppForm
             $data['lg'] = $lan;
         }
 
-        // base class
-        $data['bc'] = parent::Serialize();
+        #region Sub form  
+        if (isset($this->interSub)) {
+            $data['is'] = $this->interSub->Serialize();
+        }
+        if (isset($this->gradSub)) {
+            $data['gs'] = $this->gradSub->Serialize();
+        }
+        #endregion
 
         return json_encode($data);
     }
@@ -258,7 +234,7 @@ class DocIssue extends AppForm
     public function Deserialize(string $json)
     {
         $data = json_parse($json);
-        parent::Deserialize($data['bc']);
+        parent::Deserialize(json_stringify($data['bc']));
 
         $this->status = $data['st'];
         $this->dob = $data['db'];
@@ -276,15 +252,48 @@ class DocIssue extends AppForm
         }
 
         if (isset($data['gs'])) {
-            $this->gradSub = GraduatesSubForm::Deserialize($data['gs']);
+            $this->gradSub = GraduatesSubForm::Deserialize(json_stringify($data['gs']));
         }
 
         if (isset($data['is'])) {
-            $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
+            $this->interSub = ResultAttendanceSubForm::Deserialize(json_stringify($data['is']));
         }
     }
+    #endregion
 
-    #region validation helper function
+    #region Validation
+    /**
+     * Check whether doc issue form data is valid.
+     *
+     * @param array $data complete data for doc issue application.
+     * @return boolean
+     * @throws FormIncompleteException throw when required field missing.
+     * @throws JsonException throw when supplied common field data unable to be parsed.
+     */
+    public static function Validate(array $data): bool
+    {
+        // check if required field is set
+        if (
+            !(isset($data['bc']) &&
+                isset($data['db']) &&
+                isset($data['st']) &&
+                isset($data['pp']) &&
+                isset($data['dc']) && !empty($data['dc']))
+        ) {
+            throw new FormIncompleteException('required');
+        }
+
+        return parent::Validate($data['bc']) &&
+            self::valid_db($data) &&
+            self::valid_st($data) &&
+            self::valid_pp($data) &&
+            self::valid_dc($data) &&
+            self::valid_en($data) &&
+            self::valid_lg($data) &&
+            self::valid_gs($data) &&
+            self::valid_is($data);
+    }
+
     private static function valid_db(array $data): bool
     {
         // field should be a date;
@@ -354,41 +363,13 @@ class DocIssue extends AppForm
      */
     private static function valid_gs(array $data): bool
     {
-        // check if 3 is set; if is set, value should not be less then 1
-        if (isset($data['dc'][3])) {
-            if ($data['dc'][3] < 1) {
-                return false;
-            }
-        }
-        // check if 3 is set; if is set, value should not be less then 1
-        else if (isset($data['dc'][4])) {
-            if ($data['dc'][4] < 1) {
-                return false;
-            }
-        }
-        // if both not set, that is omitted, which is omittable
-        else {
-            return true;
-        }
-
         // Grad subform is for applicants who status with 卒業生 only
         // if so, then carry on checks.
         if ($data['st'] != 2) {
             return true;
         }
 
-        $ret = false;
-
-        // check is set, and try parse
-        if (isset($data['gs'])) {
-            json_decode($data['gs']);
-
-            $ret = json_last_error() == JSON_ERROR_NONE;
-        } else {
-            throw new FormIncompleteException('gs', 'required when doc 3 or 4 is set');
-        }
-
-        return $ret;
+        return isset($data['gs']);
     }
 
     /**
@@ -408,18 +389,7 @@ class DocIssue extends AppForm
             return false;
         }
 
-        $ret = false;
-
-        // check is set, and try parse
-        if (isset($data['is'])) {
-            json_decode($data['is']);
-
-            $ret = json_last_error() == JSON_ERROR_NONE;
-        } else {
-            throw new FormIncompleteException('is', 'required when doc 6 is set');
-        }
-
-        return $ret;
+        return isset($data['is']);
     }
     #endregion
 }
@@ -429,6 +399,7 @@ class DocIssue extends AppForm
  */
 class ResultAttendanceSubForm
 {
+    #region Fields
     /**
      * Current living address.
      */
@@ -465,15 +436,17 @@ class ResultAttendanceSubForm
      * Expected graduation date.
      */
     public int $expGradDate;
+    #endregion
 
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with ResultAttendanceSubForm deserialize function.
      *
      * @return string Serialized json as string.
      */
-    public function Serialize(): string
+    public function Serialize(): array
     {
-        $data = [
+        return [
             'ar' => $this->address ?? '',
             'na' => $this->nation ?? '',
             'rc' => $this->residentCard ?? '',
@@ -484,8 +457,6 @@ class ResultAttendanceSubForm
             'es' => $this->expireOfStay ?? 0,
             'gd' => $this->expGradDate ?? 0
         ];
-
-        return json_encode($data);
     }
 
     /**
@@ -512,6 +483,7 @@ class ResultAttendanceSubForm
 
         return $ra;
     }
+    #endregion
 }
 
 /**
@@ -519,6 +491,7 @@ class ResultAttendanceSubForm
  */
 class GraduatesSubForm
 {
+    #region Fields
     /**
      * Department the applicant graduate from.
      */
@@ -543,15 +516,17 @@ class GraduatesSubForm
      * Telephone number of the applicant.
      */
     public string $telNo;
+    #endregion
 
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with GraduatesSubForm deserialize function.
      *
      * @return string Serialized json as string.
      */
-    public function Serialize(): string
+    public function Serialize(): array
     {
-        $data = [
+        return [
             'dp' => $this->department ?? '',
             'gy' => $this->gradYear ?? 0,
             'gm' => $this->gradMonth ?? 0,
@@ -559,8 +534,6 @@ class GraduatesSubForm
             'ad' => $this->address ?? '',
             'tn' => $this->telNo ?? 0
         ];
-
-        return json_encode($data);
     }
 
     /**
@@ -584,4 +557,5 @@ class GraduatesSubForm
 
         return $gd;
     }
+    #endregion
 }

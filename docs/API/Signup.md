@@ -1,7 +1,7 @@
 # Sign Up
 
-Version: 1.0
-Last Edit: 19 Jan 2021
+Version: 1.1
+Last Edit: 11 Feb 2021
 
 ## Introduction
 
@@ -9,16 +9,20 @@ Entry point of sign up handling.
 
 This entry have 1 handler, which handle sign up form data. Where sign-up form could only be requested with script.
 
+## URL
+
+/signup/
+
 ## POST
 
 | name  | description                   |             type             |
 | :---: | ----------------------------- | :--------------------------: |
 |  usr  | Student ID or Teacher ID.     | string (5 or 6 numeric char) |
 |  pwd  | New password for the account. |            string            |
-|  jfn  | Japanese first name           |            string            |
-|  jln  | Japanese last name            |            string            |
-|  jfk  | First name kana               |            string            |
-|  jlk  | Last name kana                |            string            |
+|  jfn  | Japanese first name           |       string (4 char)        |
+|  jln  | Japanese last name            |       string (12 char)       |
+|  jfk  | First name kana               |       string (30 char)       |
+|  jlk  | Last name kana                |       string (30 char)       |
 
 ## Respond
 

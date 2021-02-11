@@ -21,9 +21,7 @@ class GetCatalogueHandler extends \model\GetHandler
     public function Handle(): array
     {
         try {
-            $dba = new \model\DBAdaptor();
-
-            $this->respond['cat'] = $dba->obtain_catalogue($_SESSION['user']);
+            $this->respond['cat'] = (new \model\DBAdaptor())->obtain_catalogue($_SESSION['user']);
             $this->respond['status'] = 1;
 
             $this->logger->appendRecord("[{$_SESSION['user']}] obtained applied form list.");
@@ -37,8 +35,7 @@ class GetCatalogueHandler extends \model\GetHandler
 
     public function Validate(): bool
     {
-        $valid = isset($_SESSION['user'])
-            && valid\validate_sid($_SESSION['user']);
+        $valid = isset($_SESSION['user']);
 
         if (!$valid) {
             $this->respond['status'] = 14;

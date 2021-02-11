@@ -7,9 +7,11 @@
 namespace controller\signin;
 
 require_once 'model/Authentication.php';
+require_once 'model/DBAdaptor.php';
 require_once 'model/Handler.php';
 require_once 'model/Validation.php';
 
+use model;
 use model\authentication as auth;
 use model\validation as valid;
 
@@ -37,22 +39,31 @@ class PostFormHandler extends \model\PostHandler
      */
     public function Handle(): array
     {
+        $adapter = new model\DBAdaptor();
+
         try {
+            try {
+                $hash = $adapter->obtain_student_password($this->data['usr'], substr(date('Y'), 0, 2));
+            } catch (model\RecordNotFoundException $rnf) {
+                throw new auth\AuthenticationException("Student [{$this->data['usr']}] was not registered", 0, $rnf);
+            }
+
             // auth success
-            if (auth\authenticate_form($this->data['usr'], $this->data['pwd'])) {
-                $_SESSION['user'] = $this->data['usr'];
+            if (auth\verify_password($this->data['pwd'], $hash)) {
+                $_SESSION['user'] = $adapter->obtain_student_userid($this->data['usr']);
+                $_SESSION['sid'] = $this->data['usr'];
                 $_SESSION['log_in'] = true;
 
                 $this->respond['status'] = 1;
                 $this->logger->appendRecord(
-                    "[{$this->data['usr']}] logged in successfully."
+                    "Student [{$this->data['usr']}] logged in successfully."
                 );
             }
             // auth fail
             else {
                 $this->respond['status'] = 0;
                 $this->logger->appendRecord(
-                    "[{$this->data['usr']}] attempted but fail to login."
+                    "Student [{$this->data['usr']}] attempted but fail to login."
                 );
             }
         } catch (auth\AuthenticationException $ae) {

@@ -41,7 +41,7 @@ class PostHandler extends \model\PostHandler
             case 'doc':
                 require_once 'post_DocIssue.php';
                 $this->form = 'doc issue';
-                $this->model = new PostDocIssueHandler($this->data['frm']);
+                $this->model = new PostDocIssueHandler($this->data['frm'], $this->data['typ']);
                 break;
             default:
                 throw new \Exception('Unexpected application type.');

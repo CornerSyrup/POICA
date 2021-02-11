@@ -76,4 +76,4 @@ try {
 }
 
 header("Content-Type: application/json");
-echo json_encode($res);
+echo json_stringify($res);

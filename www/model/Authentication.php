@@ -34,25 +34,6 @@ function sign_out(): void
 }
 
 /**
- * Authenticate user with password.
- *
- * @param string $sid student id of the user.
- * @param string $password password of the user as plain string.
- * @return boolean
- * @throws AuthenticationException throw when credential cannot found in database.
- */
-function authenticate_form(string $sid, string $password): bool
-{
-    try {
-        $hash = (new model\DBAdaptor())->obtain_credential($sid);
-    } catch (model\RecordNotFoundException $rnf) {
-        throw new AuthenticationException("student id [{$sid}] was not registered", 0, $rnf);
-    }
-
-    return verify_password($password, $hash);
-}
-
-/**
  * Authenticate user with suica card.
  *
  * @param string $sid student id of the user.
@@ -69,29 +50,6 @@ function authenticate_suica(string $sid, string $idm): bool
     }
 
     return $sid == $uid;
-}
-
-/**
- * Validate and store credential to database.
- *
- * @param array $data array of basic credential of user.
- * @return boolean true on success, false on fail.
- * @throws AuthenticationException throw when fail to insert entry into database.
- */
-function enrol(array $data): bool
-{
-    $logger = new model\Logger('auth');
-
-    $data['yr'] = substr(date('Y'), 0, 2);
-    $data['pwd'] = get_password_hash($data['pwd']);
-
-    try {
-        (new model\DBAdaptor())->insert_credential($data);
-    } catch (model\RecordInsertException $rie) {
-        throw new AuthenticationException("suica [{$data['sid']}] was not registered", 0, $rie);
-    }
-
-    return true;
 }
 
 /**

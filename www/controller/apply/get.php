@@ -14,8 +14,6 @@ require_once 'model/Handler.php';
 require_once 'model/Logger.php';
 require_once 'model/Validation.php';
 
-use model\validation as valid;
-
 class GetHandler extends \model\GetHandler
 {
     /**
@@ -26,9 +24,7 @@ class GetHandler extends \model\GetHandler
     public function Handle(): array
     {
         try {
-            $dba = new \model\DBAdaptor();
-
-            $this->respond['frm'] = $dba->obtain_form($this->data['id'], $_SESSION['user']);
+            $this->respond['frm'] = (new \model\DBAdaptor())->obtain_form($this->data['id'], $_SESSION['user']);
             $this->respond['status'] = 1;
 
             $this->logger->appendRecord("[{$_SESSION['user']}] obtained application form entry [{$this->data['id']}].");

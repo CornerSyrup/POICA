@@ -62,8 +62,6 @@ class Localizer
      */
     private static function Encode(string $data): string
     {
-        $data = mb_convert_encoding($data, 'UTF-8', ['Shift_JIS', 'UTF-8', 'auto']);
-
-        return $data;
+        return mb_convert_encoding($data, 'UTF-8', ['UTF-8', 'SJIS']);
     }
 }

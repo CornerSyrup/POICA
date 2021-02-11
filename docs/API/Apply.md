@@ -7,6 +7,10 @@ Last Edit: 8 Jan 2021
 
 Entry point of application form data handling.
 
+## URL
+
+`/forms/`
+
 ## Entry Point
 
 | name  | description                              |  type  |
@@ -36,28 +40,28 @@ Entry point of application form data handling.
 
 Below are common fields, stored in field named `bc` as JSON:
 
-| field | description                               |
-| :---: | ----------------------------------------- |
-|  fn   | Japanese first name.                      |
-|  fk   | Japanese first name kana.                 |
-|  ln   | Japanese last name.                       |
-|  lk   | Japanese last name kana.                  |
-|  si   | Student ID.                               |
-|  cc   | Class code of the student.                |
-|  ct   | Teacher ID of class teacher of the class. |
+| field | description                               |  type  |
+| :---: | ----------------------------------------- | :----: |
+|  fn   | Japanese first name.                      | string |
+|  fk   | Japanese first name kana.                 | string |
+|  ln   | Japanese last name.                       | string |
+|  lk   | Japanese last name kana.                  | string |
+|  si   | Student ID.                               | string |
+|  cc   | Class code of the student.                | string |
+|  ct   | Teacher ID of class teacher of the class. | string |
 
 #### form type: doc
 
-| field | description                                              |
-| :---: | -------------------------------------------------------- |
-|  db   | Date of birth. As unix timestamp.                        |
-|  st   | Status of the applicant.                                 |
-|  pp   | Purpose of apply.                                        |
-|  dc   | Copies of documents to apply.                            |
-|  en   | English name of the applicant, optional.                 |
-|  lg   | True for English, false for Japanese. Only 1~4 accepted. |
-|  gs   | Sub form for applicant who status is 2. JSON.            |
-|  is   | Sub form for applicants who applied doc type 6. JSON.    |
+| field | description                                     |  type  |
+| :---: | ----------------------------------------------- | :----: |
+|  db   | Date of birth. As unix timestamp.               | number |
+|  st   | Status of the applicant.                        |  Enum  |
+|  pp   | Purpose of apply.                               |  Enum  |
+|  dc   | Copies of documents to apply.                   | Array  |
+|  en   | English name of the applicant, optional.        | string |
+|  lg   | True for English, false for Japanese. Only 1~4. | Array  |
+|  gs   | Sub form for applicant who status is 2.         |  JSON  |
+|  is   | Sub form for applicants who applied doc type 6. |  JSON  |
 
 - field `st` is enum, which values is
     1. 在校生
@@ -80,28 +84,28 @@ Below are common fields, stored in field named `bc` as JSON:
 
 ##### sub form: grd
 
-| field | description                                                |
-| :---: | ---------------------------------------------------------- |
-|  dp   | Department which the applicant is graduated from, in abbr. |
-|  gy   | Year of graduation.                                        |
-|  gm   | Month of graduation.                                       |
-|  pc   | Postal code of the applicant's address.                    |
-|  ad   | Applicant's address.                                       |
-|  tn   | Phone no. of to contact the applicant.                     |
+| field | description                             |     type      |
+| :---: | --------------------------------------- | :-----------: |
+|  dp   | Department the applicant graduated from | string (abbr) |
+|  gy   | Year of graduation.                     |    number     |
+|  gm   | Month of graduation.                    |    number     |
+|  pc   | Postal code of the applicant's address. |    string     |
+|  ad   | Applicant's address.                    |    string     |
+|  tn   | Phone no. of to contact the applicant.  |    string     |
 
 ##### sub form: int
 
-| field | description                                       |
-| :---: | ------------------------------------------------- |
-|  ar   | Applicant's address.                              |
-|  na   | Nation of the applicant. ISO 3166-1, 2 char attr. |
-|  rc   | Card number of the resident card.                 |
-|  gn   | True for male, false for female.                  |
-|  st   | Status of stay, default `student`.                |
-|  id   | Immigrant date, in UNIX timestamp.                |
-|  ad   | Admission date, in UNIX timestamp.                |
-|  es   | Expiration date of stay, in UNIX timestamp.       |
-|  gd   | Expected graduation date, in UNIX timestamp.      |
+| field | description                                       |  type   |
+| :---: | ------------------------------------------------- | :-----: |
+|  ar   | Applicant's address.                              | string  |
+|  na   | Nation of the applicant. ISO 3166-1, 2 char attr. | string  |
+|  rc   | Card number of the resident card.                 | string  |
+|  gn   | True for male, false for female.                  | boolean |
+|  st   | Status of stay, default `student`.                | string  |
+|  id   | Immigrant date, in UNIX timestamp.                | number  |
+|  ad   | Admission date, in UNIX timestamp.                | number  |
+|  es   | Expiration date of stay, in UNIX timestamp.       | number  |
+|  gd   | Expected graduation date, in UNIX timestamp.      | number  |
 
 ## Respond
 

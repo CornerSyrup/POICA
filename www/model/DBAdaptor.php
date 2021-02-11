@@ -2,6 +2,10 @@
 
 namespace model;
 
+require 'model/apply/AppForm.php';
+
+use model\app_form as form;
+
 /**
  * adaptor to database and provide insertion and query services
  */
@@ -62,63 +66,24 @@ class DBAdaptor
 
         return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
     }
+
+    /**
+     * Basic interface to insert data to database.
+     *
+     * @param string $command SQL command.
+     * @param array $params parameter to be used with supplied command.
+     * @return void
+     * @throws RecordInsertException throw when fail to insert data to database.
+     */
+    public function insert(string $command, array $params)
+    {
+        if (!@pg_query_params($this->connection, $command, $params)) {
+            throw new RecordInsertException(pg_errormessage($this->connection));
+        }
+    }
     #endregion
 
     #region credential
-    /**
-     * Interface to obtain user credential from database.
-     *
-     * @param string $sid student id.
-     * @return string password hash.
-     * @throws RecordNotFoundException throw when credential not found.
-     */
-    public function obtain_credential(string $sid): string
-    {
-        $res = pg_query_params($this->connection, "SELECT Usership.obtain_pwd($1);", array($sid));
-
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain credential with student ID [{$sid}].",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
-
-        if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
-        }
-
-        return $res[0];
-    }
-
-    /**
-     * Interface to obtain user credential with suica idm code.
-     *
-     * @param string $code suica idm code.
-     * @return string user id for the specified idm code.
-     * @throws RecordNotFoundException throw when credential not found.
-     */
-    public function obtain_suica(string $code): string
-    {
-        $res = pg_query_params($this->connection, "SELECT Usership.obtain_suica($1)", array($code));
-
-        if (!$res) {
-            throw new RecordNotFoundException(
-                "Fail to obtain credential with suica ID [{$code}].",
-                0,
-                new \Exception(pg_errormessage($this->connection))
-            );
-        }
-        $res = pg_fetch_row($res);
-
-        if (empty($res[0])) {
-            throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$code}].");
-        }
-
-        return $res[0];
-    }
-
     /**
      * Interface to insert user credential to database.
      *
@@ -126,24 +91,128 @@ class DBAdaptor
      * @return void
      * @throws RecordInsertException throw when insertion fail
      */
-    public function insert_credential(array $data)
+    public function insert_credential_student(array $data)
     {
-        // suppress warning message manually
-        if (!@pg_query_params(
-            $this->connection,
-            "CALL Usership.insert_cre($1, $2, $3, $4, $5, $6, $7)",
-            array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
+        $this->insert(
+            "INSERT INTO Usership.Users (sid, yr, pwd, fName, lName, fKana, lKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
+            array($data['usr'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
+        );
+    }
+
+    /**
+     * Interface to obtain user credential from database.
+     *
+     * @param string $sid student id.
+     * @return string password hash.
+     * @throws RecordNotFoundException throw when credential not found.
+     */
+    public function obtain_student_password(string $sid, string $yr): string
+    {
+        $msg = "Fail to obtain credential with student ID [{$sid}].";
+
+        $res = $this->obtain(
+            "SELECT u.pwd FROM Usership.Users u WHERE u.sid = $1 AND u.yr = $2 LIMIT 1;",
+            array($sid, $yr),
+            $msg
+        );
+
+        // check first row
+        if (empty($res[0]['pwd'])) {
+            throw new RecordNotFoundException($msg);
         }
+
+        return $res[0]['pwd'];
+    }
+
+    /**
+     * Interface to obtain user id from database.
+     *
+     * @param string $sid student id.
+     * @return string user id of specified student id.
+     * @throws RecordNotFoundException throw when user id not found.
+     */
+    public function obtain_student_userid(string $sid): string
+    {
+        $msg = "Fail to obtain user id with student ID [{$sid}]";
+
+        $res = $this->obtain(
+            "SELECT u.userID FROM Usership.Users u WHERE u.sid = $1 ORDER BY u.yr DESC LIMIT 1;",
+            array($sid),
+            $msg
+        );
+
+        // check first row
+        if (empty($res[0]['userid'])) {
+            throw new RecordNotFoundException($msg);
+        }
+
+        return $res[0]['userid'];
+    }
+
+    /**
+     * Interface to update suica idm code for user.
+     *
+     * @param integer $user Student user id.
+     * @param string $idm SHA256 hash of idm code for suica card.
+     * @return void
+     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
+     */
+    public function update_suica_student(int $user, string $idm)
+    {
+        $this->insert(
+            "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
+            array($idm, $user)
+        );
+    }
+
+    /**
+     * Interface to obtain user credential with suica idm code.
+     *
+     * @param string $hash SHA256 hash of suica idm code.
+     * @return string user id for the specified idm code.
+     * @throws RecordNotFoundException throw when credential not found.
+     */
+    public function obtain_suica_student(string $hash): string
+    {
+        $msg = "Fail to obtain credential with suica ID hash [{$hash}].";
+
+        $res = $this->obtain(
+            "SELECT u.userID FROM Usership.Users u WHERE u.suica = $1 LIMIT 1;",
+            array($hash),
+            $msg
+        );
+
+        if (empty($res[0]['userid'])) {
+            throw new RecordNotFoundException("Fail to obtain credential with suica ID [{$hash}].");
+        }
+
+        return $res[0]['userid'];
     }
     #endregion
 
     #region application form
     /**
+     * Interface to insert new application form data to database.
+     *
+     * @param integer $user user id of the applicant.
+     * @param AppForm $form form data to be stored in database.
+     * @param string $type identifier of the type of form to be inserted.
+     * @throws RecordInsertException throw when insertion fail.
+     * @return void
+     */
+    public function insert_form(int $user,  form\AppForm $form, string $type)
+    {
+        $this->insert(
+            "INSERT INTO Applic.Applications (applyUser, formData, formType) VALUES ($1, $2, $3)",
+            array($user, $form->Serialize(), $type)
+        );
+    }
+
+    /**
      * Interface to obtain form data with entry id.
      *
-     * @param integer $id form data entry id.
+     * @param integer $entry entry ID of the form.
+     * @param integer $user user ID of the applied user.
      * @return string form data as json string.
      * @throws RecordNotFoundException throw when form data not found with supplied entry id and user id.
      */
@@ -151,9 +220,8 @@ class DBAdaptor
     {
         $msg = "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]";
 
-        // TODO: create db function to replace
         $res = $this->obtain(
-            "SELECT a.formdata FROM applic.applications a WHERE a.appid=$1 AND a.applyuser in (select u.userid from usership.users u where studentid=$2 limit 1);",
+            "SELECT a.formData FROM Applic.Applications a WHERE a.entry=$1 AND a.applyUser=$2;",
             array($entry, $user),
             $msg
         );
@@ -167,64 +235,23 @@ class DBAdaptor
     }
 
     /**
-     * Interface to insert new application form data to database.
-     *
-     * @param AppForm $form form data to be insert to database.
-     * @return void
-     * @throws RecordInsertException throw when insertion fail.
-     */
-    public function insert_form(int $user, app_form\AppForm $form)
-    {
-        // TODO: create db function to replace
-        // suppress warning message manually
-        if (!@pg_query_params(
-            $this->connection,
-            "INSERT INTO Applic.Applications (applyUser, formData) SELECT userid, $2 FROM usership.users WHERE studentid=$1",
-            array($user, $form->Serialize())
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
-        }
-    }
-
-    /**
      * Interface to obtain list of applied form with student id.
      *
-     * @param string $user student id in string, to prevent missing leading 0.
+     * @param string $user user ID.
      * @return array
      */
     public function obtain_catalogue(string $user): array
     {
-        // TODO: create db function to replace
         return $this->obtain(
-            "SELECT appid id, stat \"status\", applydate \"date\" FROM applic.applications a WHERE a.applyuser in (select u.userid from usership.users u where studentid=$1 limit 1);",
+            "SELECT entry id, stat \"status\", applyDate \"date\" FROM Applic.Applications a WHERE a.applyUser=$1;",
             array($user),
             "Fail to obtain applied form list with [{$user}]"
         );
     }
     #endregion
-
-    #region enrolments
-    /**
-     * Interface to update suica idm code for user.
-     *
-     * @param integer $user student id.
-     * @param string $idm idm code for suica card.
-     * @return void
-     * @throws RecordInsertException throw when fail to insert or any problem on database connection.
-     */
-    public function update_suica(int $user, string $idm)
-    {
-        if (!@pg_query_params(
-            $this->connection,
-            "UPDATE usership.users u SET suica=$1 WHERE u.studentid=$2;",
-            array($idm, $user)
-        )) {
-            throw new RecordInsertException(pg_errormessage($this->connection));
-        }
-    }
-    #endregion
 }
 
+#region Exception
 /**
  * Exception representing record not found in database.
  */
@@ -279,3 +306,4 @@ class RecordLookUpException extends \Exception
         parent::__construct("Fail to lookup record with following message:\n\t" . $message, $code, $innerException);
     }
 }
+#endregion

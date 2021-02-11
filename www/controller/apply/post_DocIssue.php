@@ -22,28 +22,15 @@ class PostDocIssueHandler extends form\FormRequestHandler
     /**
      * Instantiate a new POST Handler specific for DocIssue AppForm model.
      *
-     * @param string $json form data as JSON string.
+     * @param string $data form data assoc array.
      * @throws JsonException throw when supplied form data unable to be parsed.
      */
-    public function __construct(string $json)
+    public function __construct(array $data, string $type)
     {
-        $this->data = json_parse($json);
-
-        if (isset($this->data['gs'])) {
-            $this->data['gs'] = json_parse($this->data['gs']);
-        }
-        if (isset($this->data['is'])) {
-            $this->data['is'] = json_parse($this->data['is']);
-        }
+        $this->data = $data;
+        $this->type = $type;
 
         $this->data = \model\Localizer::LocalizeArray($this->data);
-
-        if (isset($this->data['gs'])) {
-            $this->data['gs'] = json_stringify($this->data['gs']);
-        }
-        if (isset($this->data['is'])) {
-            $this->data['is'] = json_stringify($this->data['is']);
-        }
     }
 
     /**
@@ -66,10 +53,10 @@ class PostDocIssueHandler extends form\FormRequestHandler
     {
         if (!isset($this->form)) {
             $this->form = new form\DocIssue();
-            $this->form->Deserialize(json_encode($this->data));
+            $this->form->Deserialize(json_stringify($this->data));
         }
 
-        (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form);
+        (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form, $this->type);
         $this->result['status'] = 2;
 
         return $this->result;

@@ -135,6 +135,10 @@ abstract class FormRequestHandler implements \model\IHandleable
      * Form data model object.
      */
     protected AppForm $form;
+    /**
+     * Form type identifier.
+     */
+    protected string $type;
 }
 
 /**

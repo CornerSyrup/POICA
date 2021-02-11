@@ -7,11 +7,15 @@
 namespace controller\signup;
 
 require_once 'model/Authentication.php';
+require_once 'model/DBAdaptor.php';
 require_once 'model/Handler.php';
 require_once 'model/Validation.php';
 
+use model;
 use model\authentication as auth;
 use model\validation as valid;
+
+use function model\authentication\get_password_hash;
 
 /**
  * Form sign-up handler.
@@ -20,20 +24,21 @@ class PostHandler extends \model\PostHandler
 {
     public function Handle(): array
     {
-        try {        // enrol success
-            if (auth\enrol($this->data)) {
-                $this->respond['status'] = 1;
-                $this->logger->appendRecord(
-                    "[{$this->data['usr']}] sign up successfully."
-                );
+        try {
+            $this->data['yr'] = substr(date('Y'), 0, 2);
+            $this->data['pwd'] = get_password_hash($this->data['pwd']);
+
+            try {
+                $adapter = new model\DBAdaptor();
+                $adapter->insert_credential_student($this->data);
+            } catch (model\RecordInsertException $rie) {
+                throw new auth\AuthenticationException("Fail to register user with student id [{$this->data['usr']}].", 0, $rie);
             }
-            // enrol fail
-            else {
-                $this->respond['status'] = 0;
-                $this->logger->appendRecord(
-                    "Fail to enrol user with student id [{$this->data['usr']}]"
-                );
-            }
+
+            $this->respond['status'] = 1;
+            $this->logger->appendRecord(
+                "[{$this->data['usr']}] sign up successfully."
+            );
         } catch (auth\AuthenticationException $ae) {
             $this->logger->appendError($ae);
             $this->respond['status'] = 21;
