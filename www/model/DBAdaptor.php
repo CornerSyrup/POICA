@@ -114,10 +114,27 @@ class DBAdaptor
 
         // check first row
         if (empty($res[0]['pwd'])) {
-            throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
+            throw new RecordNotFoundException($msg);
         }
 
         return $res[0]['pwd'];
+    }
+
+    public function obtain_student_userid(string $sid): string {
+        $msg = "Fail to obtain user id with student ID [{$sid}]";
+
+        $res = $this->obtain(
+            "SELECT u.userID FROM Usership.Users u WHERE u.studentID = $1 ORDER BY u.yr DESC LIMIT 1;",
+            array($sid),
+            $msg
+        );
+
+        // check first row
+        if (empty($res[0]['userid'])) {
+            throw new RecordNotFoundException($msg);
+        }
+
+        return $res[0]['userid'];
     }
 
     /**
