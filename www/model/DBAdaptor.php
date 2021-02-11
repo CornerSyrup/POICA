@@ -131,7 +131,7 @@ class DBAdaptor
     public function insert_credential(array $data)
     {
         $this->insert(
-            "INSERT INTO Usership.Users (TSID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $2, $4, $5, $6, $7);",
+            "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
             array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
         );
     }
