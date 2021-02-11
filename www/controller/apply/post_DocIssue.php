@@ -52,7 +52,15 @@ class PostDocIssueHandler extends form\FormRequestHandler
     {
         if (!isset($this->form)) {
             $this->form = new form\DocIssue();
-            $this->form->Deserialize(json_encode($this->data));
+            $this->data['bc'] = json_stringify($this->data['bc']);
+            if (isset($this->data['gs'])) {
+                $this->data['gs'] = json_stringify($this->data['gs']);
+            }
+            if (isset($this->data['is'])) {
+                $this->data['is'] = json_stringify($this->data['is']);
+            }
+
+            $this->form->Deserialize(json_stringify($this->data));
         }
 
         (new \model\DBAdaptor())->insert_form($_SESSION['user'], $this->form);
