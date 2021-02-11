@@ -211,7 +211,8 @@ class DBAdaptor
     /**
      * Interface to obtain form data with entry id.
      *
-     * @param integer $id form data entry id.
+     * @param integer $entry entry ID of the form.
+     * @param integer $user user ID of the applied user.
      * @return string form data as json string.
      * @throws RecordNotFoundException throw when form data not found with supplied entry id and user id.
      */
@@ -219,9 +220,8 @@ class DBAdaptor
     {
         $msg = "Fail to obtain form data with entry id [{$entry}] and user id [{$user}]";
 
-        // TODO: create db function to replace
         $res = $this->obtain(
-            "SELECT a.formdata FROM applic.applications a WHERE a.appid=$1 AND a.applyuser in (select u.userid from usership.users u where studentid=$2 limit 1);",
+            "SELECT a.formData FROM Applic.Applications a WHERE a.entry=$1 AND a.applyUser=$2;",
             array($entry, $user),
             $msg
         );
