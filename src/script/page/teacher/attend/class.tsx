@@ -1,10 +1,10 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import "../../model/felica";
-import ReadIDm, { pair } from "../../model/felica";
-import { getSHA256 as getHash } from "../../model/hash";
-import { BasicStudent as Basic, SuicaStudent } from "../../model/student";
+import "../../../model/felica";
+import ReadIDm, { pair } from "../../../model/felica";
+import { getSHA256 as getHash } from "../../../model/hash";
+import { BasicStudent as Basic, SuicaStudent } from "../../../model/student";
 
 interface AttendPage {
     class: string;
@@ -43,7 +43,7 @@ interface State {
     };
 }
 
-export default class Attend extends React.Component<Props, State> {
+export default class AttendClass extends React.Component<Props, State> {
     /**
      * Suica read timeout interval.
      */
@@ -52,6 +52,19 @@ export default class Attend extends React.Component<Props, State> {
      * Suica reader web usb device object.
      */
     suicaReader: any = undefined;
+
+    /**
+     * Timeout of push to server.
+     */
+    pushTimeout: any = undefined;
+
+    componentDidMount = () => {
+        document.title = `${this.props.match.params.class.toUpperCase()} - 出席管理`;
+    };
+
+    componentWillUnmount = () => {
+        clearTimeout(this.suicaTimeout);
+    };
 
     constructor(props: Props) {
         super(props);
@@ -164,6 +177,22 @@ export default class Attend extends React.Component<Props, State> {
             });
     };
 
+    /**
+     * Push attend data to sever.
+     */
+    pushStudent = () => {
+        fetch(`/class/${this.props.match.params.class}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                code: this.props.match.params.class,
+                attend: this.state.stat.attend,
+                list: Array.from(this.state.attends.keys()),
+                total: this.state.stat.person,
+            }),
+        });
+    };
+
     //#region Suica
     /**
      * Filter list of students, produce map of idm and sid, and set to state.
@@ -237,7 +266,7 @@ export default class Attend extends React.Component<Props, State> {
     render() {
         return (
             <div className="ui grid">
-                <div className="centered row">
+                <div className="centered row" style={{ height: "min-content" }}>
                     <div className="eight wide column">
                         <div className="ui info icon message">
                             {this.state.suica_reading ? (
@@ -247,24 +276,32 @@ export default class Attend extends React.Component<Props, State> {
                             )}
                             <div className="content">
                                 <div className="header">
-                                    {`この時限は${this.props.match.params.class.toUpperCase()}の授業です`}
+                                    {`${this.props.match.params.class.toUpperCase()}の授業の出席管理ページです`}
                                 </div>
-                                スイカで出席登録を受け付けています
+                                出席登録を受け付けています
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="centered row">
+                <div className="centered row" style={{ height: "min-content" }}>
                     <div className="ten wide column">
                         <div className="ui three cards">
                             <StatCard
-                                colour="green"
+                                colour={
+                                    this.state.stat.rate > 50
+                                        ? "green"
+                                        : "yellow"
+                                }
                                 header="出席者人数"
                                 value={this.state.stat.attend}
                                 label="人"
                             />
                             <StatCard
-                                colour="green"
+                                colour={
+                                    this.state.stat.rate > 50
+                                        ? "green"
+                                        : "yellow"
+                                }
                                 header="出席率"
                                 value={this.state.stat.rate}
                                 label="%"
@@ -279,36 +316,37 @@ export default class Attend extends React.Component<Props, State> {
                     </div>
                 </div>
                 <div className="row">
-                    <div
-                        className="ui ten wide divided list column"
-                        style={{ overflowY: "scroll" }}
-                    >
-                        {this.state?.students?.map((s: Basic) => (
-                            <AttendItem
-                                key={s.sid}
-                                attend={this.state.attends.get(s.sid)}
-                                name={`${s.lname} ${s.fname}`}
-                                id={s.sid}
-                                toggle={this.toggleAttend}
-                            />
-                        ))}
+                    <div className="ten wide column">
+                        <div className="ui middle aligned divided list">
+                            {this.state?.students?.map((s: Basic) => (
+                                <AttendItem
+                                    key={s.sid}
+                                    attend={this.state.attends.get(s.sid)}
+                                    name={`${s.lname} ${s.fname}`}
+                                    id={s.sid}
+                                    toggle={this.toggleAttend}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className="six wide column">
-                        <ButtonCard
-                            header="スイカリーダー"
-                            meta="Sony RC-S380"
-                            loading={this.state.suica_load}
-                            text={
-                                this.state.suica_reading
-                                    ? "読み取り停止"
-                                    : "読み取り開始"
-                            }
-                            onClick={
-                                this.state.suica_reading
-                                    ? this.finalSuicaRead
-                                    : this.initSuicaRead
-                            }
-                        />
+                        {(navigator as any).usb && (
+                            <ButtonCard
+                                header="スイカリーダー"
+                                meta="Sony RC-S380"
+                                loading={this.state.suica_load}
+                                text={
+                                    this.state.suica_reading
+                                        ? "読み取り停止"
+                                        : "読み取り開始"
+                                }
+                                onClick={
+                                    this.state.suica_reading
+                                        ? this.finalSuicaRead
+                                        : this.initSuicaRead
+                                }
+                            />
+                        )}
                         <ButtonCard
                             header="学生リスト更新"
                             meta="サーバーに授業の学生名簿を再度読み込み"
@@ -378,10 +416,7 @@ function AttendItem(props: {
                     </div>
                 </button>
             </div>
-            <img
-                className="ui avatar image"
-                src="https://semantic-ui.com/images/avatar2/small/lindsay.png"
-            />
+            <img className="ui avatar image" src="/cdn/user.png" />
             <div className="content">{props.name}</div>
         </div>
     );
