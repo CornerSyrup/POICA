@@ -16,18 +16,6 @@ CREATE TABLE Usership.Users(
     -- triple size for ja, 30 char
     jaFKana VARCHAR(45) NOT NULL,
     jaLKana VARCHAR(45) NOT NULL,
-    enFName VARCHAR(30),
-    enLName VARCHAR(30),
-    birthDay DATE,
-    -- true for male, false for female
-    gender BIT(1),
-    -- triple size for ja, 100 char
-    addr VARCHAR(300),
-    -- 4 kinds enum
-    kind BIT(2),
-    -- graduate year and month, for graduates
-    gradMonth DATE,
-    phone CHAR(10),
     suica CHAR(16),
     CONSTRAINT PK_User PRIMARY KEY (userID),
     CONSTRAINT UQ_Suica UNIQUE (suica),
