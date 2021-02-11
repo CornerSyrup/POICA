@@ -15,10 +15,10 @@ This entry have 1 handler, which handle sign up form data. Where sign-up form co
 | :---: | ----------------------------- | :--------------------------: |
 |  usr  | Student ID or Teacher ID.     | string (5 or 6 numeric char) |
 |  pwd  | New password for the account. |            string            |
-|  jfn  | Japanese first name           |            string            |
-|  jln  | Japanese last name            |            string            |
-|  jfk  | First name kana               |            string            |
-|  jlk  | Last name kana                |            string            |
+|  jfn  | Japanese first name           |       string (4 char)        |
+|  jln  | Japanese last name            |       string (12 char)       |
+|  jfk  | First name kana               |       string (30 char)       |
+|  jlk  | Last name kana                |       string (30 char)       |
 
 ## Respond
 
