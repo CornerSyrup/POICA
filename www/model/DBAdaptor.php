@@ -62,6 +62,13 @@ class DBAdaptor
 
         return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
     }
+
+    public function insert(string $command, array $params)
+    {
+        if (!@pg_query_params($this->connection, $command, $params)) {
+            throw new RecordInsertException(pg_errormessage($this->connection));
+        }
+    }
     #endregion
 
     #region credential
