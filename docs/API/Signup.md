@@ -9,6 +9,10 @@ Entry point of sign up handling.
 
 This entry have 1 handler, which handle sign up form data. Where sign-up form could only be requested with script.
 
+## URL
+
+/signup/
+
 ## POST
 
 | name  | description                   |             type             |

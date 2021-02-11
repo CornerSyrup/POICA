@@ -53,29 +53,6 @@ function authenticate_suica(string $sid, string $idm): bool
 }
 
 /**
- * Validate and store credential to database.
- *
- * @param array $data array of basic credential of user.
- * @return boolean true on success, false on fail.
- * @throws AuthenticationException throw when fail to insert entry into database.
- */
-function enrol(array $data): bool
-{
-    $logger = new model\Logger('auth');
-
-    $data['yr'] = substr(date('Y'), 0, 2);
-    $data['pwd'] = get_password_hash($data['pwd']);
-
-    try {
-        (new model\DBAdaptor())->insert_credential($data);
-    } catch (model\RecordInsertException $rie) {
-        throw new AuthenticationException("suica [{$data['sid']}] was not registered", 0, $rie);
-    }
-
-    return true;
-}
-
-/**
  * Get password hash.
  *
  * @param string $password plain password string to be hashed.

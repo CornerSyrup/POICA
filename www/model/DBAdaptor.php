@@ -90,7 +90,7 @@ class DBAdaptor
     public function insert_credential_student(array $data)
     {
         $this->insert(
-            "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
+            "INSERT INTO Usership.Users (sid, yr, pwd, fName, lName, fKana, lKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
             array($data['usr'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
         );
     }
