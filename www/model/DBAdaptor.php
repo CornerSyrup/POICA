@@ -102,12 +102,12 @@ class DBAdaptor
      * @return string password hash.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public function obtain_credential_student(string $sid): string
+    public function obtain_student_password(string $sid): string
     {
         $msg = "Fail to obtain credential with student ID [{$sid}].";
 
         $res = $this->obtain(
-            "SELECT u.pwd FROM Usership.Users u WHERE u.studentID = $1 LIMIT 1;",
+            "SELECT u.pwd FROM Usership.Users u WHERE u.studentID = $1 ORDER BY u.yr DESC LIMIT 1;",
             array($sid),
             $msg
         );
