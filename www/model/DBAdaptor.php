@@ -230,7 +230,7 @@ class DBAdaptor
     {
         $this->insert(
             "INSERT INTO Applic.Applications (applyUser, formData, formType) VALUES ($1, $2, $3)",
-            array($user, $form, $type)
+            array($user, $form->Serialize(), $type)
         );
     }
 

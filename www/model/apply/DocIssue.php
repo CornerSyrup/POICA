@@ -213,6 +213,15 @@ class DocIssue extends AppForm
             $data['lg'] = $lan;
         }
 
+        #region Sub form  
+        if (isset($this->interSub)) {
+            $data['is'] = $this->interSub;
+        }
+        if (isset($this->gradSub)) {
+            $data['gs'] = $this->gradSub;
+        }
+        #endregion
+
         return json_encode($data);
     }
 
