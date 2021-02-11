@@ -63,6 +63,14 @@ class DBAdaptor
         return $assoc ? pg_fetch_all($res) : pg_fetch_all($res, PGSQL_NUM);
     }
 
+    /**
+     * Basic interface to insert data to database.
+     *
+     * @param string $command SQL command.
+     * @param array $params parameter to be used with supplied command.
+     * @return void
+     * @throws RecordInsertException throw when fail to insert data to database.
+     */
     public function insert(string $command, array $params)
     {
         if (!@pg_query_params($this->connection, $command, $params)) {
@@ -135,6 +143,8 @@ class DBAdaptor
             array($data['sid'], $data['yr'], $data['pwd'], $data['jfn'], $data['jln'], $data['jfk'], $data['jlk'])
         );
     }
+
+
     #endregion
 
     #region application form
