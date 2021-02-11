@@ -13,6 +13,7 @@ use model\validation as valid;
  */
 class DocIssue extends AppForm
 {
+    #region Fields
     /**
      * Unix timestamp of date of birth, set with function setter SetDateOfBirth.
      */
@@ -46,7 +47,9 @@ class DocIssue extends AppForm
      * Only 1~4 accepted.
      */
     public array $language;
+    #endregion
 
+    #region Sub Form
     /**
      * Sub form for international student only and when require.
      */
@@ -55,7 +58,9 @@ class DocIssue extends AppForm
      * Sub form for graduates students who desired to apply graduation related documents
      */
     public GraduatesSubForm $gradSub;
+    #endregion
 
+    #region Getter and Setter
     /**
      * Getter for date of birth.
      *
@@ -78,39 +83,9 @@ class DocIssue extends AppForm
     {
         $this->dob = mktime(null, null, null, $month, $day, $year);
     }
+    #endregion
 
-    /**
-     * Check whether doc issue form data is valid.
-     *
-     * @param array $data complete data for doc issue application.
-     * @return boolean
-     * @throws FormIncompleteException throw when required field missing.
-     * @throws JsonException throw when supplied common field data unable to be parsed.
-     */
-    public static function Validate(array $data): bool
-    {
-        // check if required field is set
-        if (
-            !(isset($data['bc']) &&
-                isset($data['db']) &&
-                isset($data['st']) &&
-                isset($data['pp']) &&
-                isset($data['dc']) && !empty($data['dc']))
-        ) {
-            throw new FormIncompleteException('required');
-        }
-
-        return parent::Validate($data['bc']) &&
-            self::valid_db($data) &&
-            self::valid_st($data) &&
-            self::valid_pp($data) &&
-            self::valid_dc($data) &&
-            self::valid_en($data) &&
-            self::valid_lg($data) &&
-            self::valid_gs($data) &&
-            self::valid_is($data);
-    }
-
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with DocIssue deserialize function.
      *
@@ -280,8 +255,41 @@ class DocIssue extends AppForm
             $this->interSub = ResultAttendanceSubForm::Deserialize($data['is']);
         }
     }
+    #endregion
 
-    #region validation helper function
+    #region Validation
+    /**
+     * Check whether doc issue form data is valid.
+     *
+     * @param array $data complete data for doc issue application.
+     * @return boolean
+     * @throws FormIncompleteException throw when required field missing.
+     * @throws JsonException throw when supplied common field data unable to be parsed.
+     */
+    public static function Validate(array $data): bool
+    {
+        // check if required field is set
+        if (
+            !(isset($data['bc']) &&
+                isset($data['db']) &&
+                isset($data['st']) &&
+                isset($data['pp']) &&
+                isset($data['dc']) && !empty($data['dc']))
+        ) {
+            throw new FormIncompleteException('required');
+        }
+
+        return parent::Validate($data['bc']) &&
+            self::valid_db($data) &&
+            self::valid_st($data) &&
+            self::valid_pp($data) &&
+            self::valid_dc($data) &&
+            self::valid_en($data) &&
+            self::valid_lg($data) &&
+            self::valid_gs($data) &&
+            self::valid_is($data);
+    }
+
     private static function valid_db(array $data): bool
     {
         // field should be a date;
@@ -387,6 +395,7 @@ class DocIssue extends AppForm
  */
 class ResultAttendanceSubForm
 {
+    #region Fields
     /**
      * Current living address.
      */
@@ -423,7 +432,9 @@ class ResultAttendanceSubForm
      * Expected graduation date.
      */
     public int $expGradDate;
+    #endregion
 
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with ResultAttendanceSubForm deserialize function.
      *
@@ -470,6 +481,7 @@ class ResultAttendanceSubForm
 
         return $ra;
     }
+    #endregion
 }
 
 /**
@@ -477,6 +489,7 @@ class ResultAttendanceSubForm
  */
 class GraduatesSubForm
 {
+    #region Fields
     /**
      * Department the applicant graduate from.
      */
@@ -501,7 +514,9 @@ class GraduatesSubForm
      * Telephone number of the applicant.
      */
     public string $telNo;
+    #endregion
 
+    #region Serialization
     /**
      * Serialize form data into json, which must be deserialize with GraduatesSubForm deserialize function.
      *
@@ -542,4 +557,5 @@ class GraduatesSubForm
 
         return $gd;
     }
+    #endregion
 }
