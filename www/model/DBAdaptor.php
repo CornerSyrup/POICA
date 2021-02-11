@@ -120,6 +120,13 @@ class DBAdaptor
         return $res[0]['pwd'];
     }
 
+    /**
+     * Interface to obtain user id from database.
+     *
+     * @param string $sid student id.
+     * @return string user id of specified student id.
+     * @throws RecordNotFoundException throw when user id not found.
+     */
     public function obtain_student_userid(string $sid): string {
         $msg = "Fail to obtain user id with student ID [{$sid}]";
 
