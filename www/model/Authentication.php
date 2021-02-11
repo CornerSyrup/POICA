@@ -34,25 +34,6 @@ function sign_out(): void
 }
 
 /**
- * Authenticate user with password.
- *
- * @param string $sid student id of the user.
- * @param string $password password of the user as plain string.
- * @return boolean
- * @throws AuthenticationException throw when credential cannot found in database.
- */
-function authenticate_form(string $sid, string $password): bool
-{
-    try {
-        $hash = (new model\DBAdaptor())->obtain_credential($sid);
-    } catch (model\RecordNotFoundException $rnf) {
-        throw new AuthenticationException("student id [{$sid}] was not registered", 0, $rnf);
-    }
-
-    return verify_password($password, $hash);
-}
-
-/**
  * Authenticate user with suica card.
  *
  * @param string $sid student id of the user.
