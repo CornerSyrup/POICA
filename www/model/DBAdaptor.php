@@ -87,7 +87,7 @@ class DBAdaptor
      * @return string password hash.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public function obtain_credential(string $sid): string
+    public function obtain_credential_student(string $sid): string
     {
         $msg = "Fail to obtain credential with student ID [{$sid}].";
 
@@ -112,7 +112,7 @@ class DBAdaptor
      * @return string user id for the specified idm code.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public function obtain_suica_user(string $hash): string
+    public function obtain_suica_student(string $hash): string
     {
         $msg = "Fail to obtain credential with suica ID hash [{$hash}].";
 
@@ -136,7 +136,7 @@ class DBAdaptor
      * @return void
      * @throws RecordInsertException throw when insertion fail
      */
-    public function insert_credential(array $data)
+    public function insert_credential_student(array $data)
     {
         $this->insert(
             "INSERT INTO Usership.Users (studentID, studentYear, pwd, jaFName, jaLName, jaFKana, jaLKana) VALUES ($1, $2, $3, $4, $5, $6, $7);",
@@ -152,7 +152,7 @@ class DBAdaptor
      * @return void
      * @throws RecordInsertException throw when fail to insert or any problem on database connection.
      */
-    public function update_suica(int $user, string $idm)
+    public function update_suica_student(int $user, string $idm)
     {
         $this->insert(
             "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
