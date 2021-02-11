@@ -43,7 +43,7 @@ class PostFormHandler extends \model\PostHandler
 
         try {
             try {
-                $hash = $adapter->obtain_student_password($this->data['usr']);
+                $hash = $adapter->obtain_student_password($this->data['usr'], substr(date('Y'), 0, 2));
             } catch (model\RecordNotFoundException $rnf) {
                 throw new auth\AuthenticationException("Student [{$this->data['usr']}] was not registered", 0, $rnf);
             }
