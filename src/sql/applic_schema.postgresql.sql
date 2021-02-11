@@ -16,7 +16,8 @@ CREATE TABLE Applic.Applications (
 
 CREATE TABLE Applic.Prefills (
 	entryID SERIAL,
-	userID INT NOT NULL enFName VARCHAR(30),
+	userID INT NOT NULL,
+	enFName VARCHAR(30),
 	enLName VARCHAR(30),
 	birthDay DATE,
 	-- true for male, false for female
