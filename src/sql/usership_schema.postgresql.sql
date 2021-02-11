@@ -6,12 +6,9 @@ CREATE SCHEMA IF NOT EXISTS Usership;
 CREATE TABLE Usership.Users(
     userID SERIAL,
     -- Student ID and Teacher ID common field.
-    TSID VARCHAR(6) NOT NULL CHECK (
-        char_length(TSID) = 5
-        OR char_length(TSID) = 6
-    ),
+    TSID VARCHAR(6) NOT NULL CHECK ( char_length(TSID) = 5 OR char_length(TSID) = 6 ),
     -- last 2 digit of year
-    studentYear CHAR(2) NOT NUL,
+    studentYear CHAR(2) NOT NULL,
     -- php return pwd hash in length of 60
     pwd CHAR(60) NOT NULL,
     -- triple size for ja, 4 char
