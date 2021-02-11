@@ -107,7 +107,7 @@ class DBAdaptor
         $msg = "Fail to obtain credential with student ID [{$sid}].";
 
         $res = $this->obtain(
-            "SELECT u.pwd FROM Usership.Users u WHERE u.studentID = $1 AND u.yr = $2 LIMIT 1;",
+            "SELECT u.pwd FROM Usership.Users u WHERE u.sid = $1 AND u.yr = $2 LIMIT 1;",
             array($sid, $yr),
             $msg
         );
@@ -127,11 +127,12 @@ class DBAdaptor
      * @return string user id of specified student id.
      * @throws RecordNotFoundException throw when user id not found.
      */
-    public function obtain_student_userid(string $sid): string {
+    public function obtain_student_userid(string $sid): string
+    {
         $msg = "Fail to obtain user id with student ID [{$sid}]";
 
         $res = $this->obtain(
-            "SELECT u.userID FROM Usership.Users u WHERE u.studentID = $1 ORDER BY u.yr DESC LIMIT 1;",
+            "SELECT u.userID FROM Usership.Users u WHERE u.sid = $1 ORDER BY u.yr DESC LIMIT 1;",
             array($sid),
             $msg
         );

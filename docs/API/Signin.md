@@ -1,7 +1,7 @@
 # Sign In
 
-Version: 1.0
-Last Edit: 8 Jan 2021
+Version: 1.1
+Last Edit: 11 Feb 2021
 
 ## Introduction
 
@@ -10,6 +10,10 @@ Entry point of sign in handling.
 This entry have 2 handler, which handle form sign-in and suica sign-in respectively. Where form sign-in could only be requested with script.
 
 The script for form sign-in need to determine what to do after. Like redirect to landing page after receiving success sign-in signal.
+
+## URL
+
+`/signin/`
 
 ## Form Handler
 
