@@ -84,17 +84,17 @@ class DBAdaptor
         $msg = "Fail to obtain credential with student ID [{$sid}].";
 
         $res = $this->obtain(
-            "SELECT u.pwd FROM Usership.Users u WHERE u.TSID = $1;",
+            "SELECT u.pwd FROM Usership.Users u WHERE u.studentID = $1 LIMIT 1;",
             array($sid),
             $msg
         );
 
         // check first row
-        if (empty($res[0])) {
+        if (empty($res[0]['pwd'])) {
             throw new RecordNotFoundException("Fail to obtain credential with student ID [{$sid}].");
         }
 
-        return $res[0];
+        return $res[0]['pwd'];
     }
 
     /**
