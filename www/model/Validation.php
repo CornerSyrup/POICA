@@ -20,10 +20,6 @@ function validate_sid(string $sid): bool
  */
 function validate_tid(string $tid): bool
 {
-    if (empty($tid)) {
-        return false;
-    }
-
     return preg_match('/^\d{6}$/', $tid);
 }
 
@@ -32,9 +28,15 @@ function validate_pwd(string $password): bool
     return preg_match('/^.+$/', $password);
 }
 
-function validate_suica(string $idm): bool
+/**
+ * Validate suica IDm hash. Hashed with SHA256.
+ *
+ * @param string $hash Hash of suica IDm code with SHA 256.
+ * @return boolean
+ */
+function validate_suica(string $hash): bool
 {
-    return preg_match('/^[A-Za-z0-9]{16}$/', $idm);
+    return preg_match('/^[A-Za-z0-9]{64}$/', $hash);
 }
 #endregion
 

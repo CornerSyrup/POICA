@@ -55,28 +55,24 @@ abstract class Handler implements IHandleable
      *
      * @var array
      */
-    protected $respond;
+    protected $respond = [];
 
     /**
      * Instantiate a new Handler object.
      *
      * @param Logger $logger Logger.
-     * @param array $data Data array. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array.
+     * @param array $data Data array. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array. Else input from php://input will be set to data as it.
      * @throws JsonException throw when data to be parse is invalid JSON.
      */
     public function __construct(Logger $logger, array $data = null)
     {
         $this->logger = $logger;
 
-        if (is_null($data)) {
-            $this->data = file_get_contents('php://input');
-
-            if (
-                isset($_SERVER["CONTENT_TYPE"]) &&
-                strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json'
-            ) {
-                $this->data = json_parse($this->data);
-            }
+        if (
+            is_null($data) && isset($_SERVER["CONTENT_TYPE"]) &&
+            strtolower($_SERVER["CONTENT_TYPE"]) == 'application/json'
+        ) {
+            $this->data = json_parse(file_get_contents('php://input'));
         } else {
             $this->data = $data;
         }
@@ -94,10 +90,10 @@ abstract class GetHandler extends Handler
      * Instantiate a new GET Handler object.
      *
      * @param Logger $logger Logger.
-     * @param array $data Data array, usually $_GET. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array.
+     * @param array $data Data array, usually $_GET. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array. Else input from php://input will be set to data as it.
      * @throws JsonException throw when data to be parse is invalid JSON.
      */
-    public function __construct(Logger $logger, $data = null)
+    public function __construct(Logger $logger, $data = [])
     {
         parent::__construct($logger, $data);
         $this->logger->SetTag('get');
@@ -110,12 +106,46 @@ abstract class PostHandler extends Handler
      * Instantiate a new POST Handler object.
      *
      * @param Logger $logger Logger.
-     * @param array $data Data array, usually $_POST. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array.
+     * @param array $data Data array, usually $_POST. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array. Else input from php://input will be set to data as it.
      * @throws JsonException throw when data to be parse is invalid JSON.
      */
     public function __construct(Logger $logger, $data = null)
     {
         parent::__construct($logger, $data);
         $this->logger->SetTag('post');
+    }
+}
+
+abstract class DeleteHandler extends Handler
+{
+    /**
+     * Instantiate a new DELETE Handler object.
+     *
+     * @param Logger $logger Logger.
+     * @param array $data Data array. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array. Else input from php://input will be set to data as it.
+     * @throws JsonException throw when data to be parse is invalid JSON.
+     */
+    public function __construct(Logger $logger, $data = null)
+    {
+        parent::__construct($logger, $data);
+        $this->logger->SetTag('del');
+    }
+}
+
+abstract class LocalizedDeleteHandler extends DeleteHandler
+{
+    /**
+     * Instantiate a new DELETE Handler object.
+     *
+     * @param Logger $logger Logger.
+     * @param array $data Data array. If null given, it will absorb data from php://input. If content type is application/json, it will parse into assoc array. Else input from php://input will be set to data as it.
+     * @throws JsonException throw when data to be parse is invalid JSON.
+     */
+    public function __construct(Logger $logger, $data = null)
+    {
+        parent::__construct($logger, $data);
+        if (!empty($this->data)) {
+            $this->data = \model\Localizer::LocalizeArray($this->data);
+        }
     }
 }

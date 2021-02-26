@@ -7,10 +7,13 @@
 namespace controller\signin;
 
 require_once 'model/Authentication.php';
+require_once 'model/DBAdaptor.php';
 require_once 'model/Handler.php';
 require_once 'model/Validation.php';
 
+use model;
 use model\authentication as auth;
+use model\DBAdaptor;
 use model\validation as valid;
 
 /**
@@ -32,24 +35,22 @@ class PostSuicaHandler extends \model\PostHandler
 
     public function Handle(): array
     {
-        try {
-            // auth success
-            if (auth\authenticate_suica($this->data['usr'], $this->data['idm'])) {
-                $_SESSION['user'] = $this->data['usr'];
-                $_SESSION['log_in'] = true;
+        $adapter = new DBAdaptor();
 
-                $this->respond['status'] = 2;
-                $this->logger->appendRecord(
-                    "[{$this->data['usr']}] logged in successfully."
-                );
+        try {
+            try {
+                $_SESSION['user'] = $adapter->obtain_suica_student($this->data['idm']);
+            } catch (model\RecordNotFoundException $rnf) {
+                throw new auth\AuthenticationException("Suica [{$this->data['idm']}] was not registered", 0, $rnf);
             }
-            // auth fail
-            else {
-                $this->respond['status'] = 0;
-                $this->logger->appendRecord(
-                    "[{$this->data['usr']}] attempted but fail to login."
-                );
-            }
+
+            $_SESSION['sid'] = $adapter->obtain_student_id($_SESSION['user']);
+            $_SESSION['log_in'] = true;
+
+            $this->respond['status'] = 2;
+            $this->logger->appendRecord(
+                "[{$_SESSION['user']}] logged in successfully."
+            );
         } catch (auth\AuthenticationException $ae) {
             $this->logger->appendError($ae);
             $this->respond['status'] = 22;
@@ -60,10 +61,7 @@ class PostSuicaHandler extends \model\PostHandler
 
     public function Validate(): bool
     {
-        $valid = isset($this->data['usr']) &&
-            isset($this->data['idm']) &&
-            valid\validate_sid($this->data['usr']) &&
-            valid\validate_pwd($this->data['idm']);
+        $valid = isset($this->data['idm']) && valid\validate_pwd($this->data['idm']);
 
         if (!$valid) {
             $this->respond['status'] = 13;

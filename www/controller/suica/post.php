@@ -33,15 +33,14 @@ class PostHandler extends \model\PostHandler
     public function Handle(): array
     {
         try {
-            // update attribute of suica
-            // TODO: check if not registered before, return registered if so. 
-            (new \model\DBAdaptor())->update_suica($_SESSION['user'], $this->data['idm']);
+            // update suica hash of user
+            (new \model\DBAdaptor())->update_suica_student($_SESSION['user'], $this->data['idm']);
 
             $this->logger->appendRecord(
                 "Success to register suica card with idm [{$this->data['idm']}] to user with student id [{$_SESSION['user']}]"
             );
 
-            $this->respond['status'] = 1;
+            $this->respond['status'] = 2;
         } catch (\model\RecordInsertException $rie) {
             $this->logger->appendError($rie);
             $this->respond['status'] = 30;
@@ -58,7 +57,7 @@ class PostHandler extends \model\PostHandler
         if (!$valid) {
             $this->respond['status'] = 14;
             $this->logger->appendRecord(
-                "User [{$_SESSION['user']}] attempt to register suica with code [{$this->data['idm']}] which is invalid."
+                "User [{$_SESSION['user']}] attempt to register suica with hash [{$this->data['idm']}] which is invalid."
             );
         }
 

@@ -1,22 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import Respond from "../../model/respond";
 import { default as ReadIDm } from "../../model/felica";
+import { getSHA256 } from "../../model/hash";
+import Response from "../../model/response";
+import { HOST } from "../../model/server";
 
 //#region form
 interface Fields {
     usr: string;
     pwd: string;
 }
-
-interface FormProps {
-    submit(data: Fields): void;
-    waiting: boolean;
-}
-
-function SignInForm(props: FormProps) {
+function SignInForm(props: { submit(data: Fields): void; waiting: boolean }) {
     const { register, handleSubmit, errors } = useForm<Fields>();
 
     return (
@@ -72,6 +68,7 @@ function SignInForm(props: FormProps) {
                         (props.waiting ? " loading" : "")
                     }
                     type="submit"
+                    disabled={props.waiting}
                 >
                     サインイン
                 </button>
@@ -82,7 +79,7 @@ function SignInForm(props: FormProps) {
 //#endregion
 
 //#region message
-function Message(props: Respond) {
+function Message(props: { status: number }) {
     let header: string = "";
     let content: JSX.Element = <React.Fragment />;
 
@@ -90,6 +87,7 @@ function Message(props: Respond) {
         case 0:
             header = "パスワードが誤っています";
             content = <p>ご確認のうえ、再度ご入力ください。</p>;
+            break;
         case -1:
         case 1:
         case 2:
@@ -108,6 +106,7 @@ function Message(props: Respond) {
             break;
         default:
             content = <p>もう一度試してみてください</p>;
+            break;
     }
 
     return (
@@ -119,15 +118,15 @@ function Message(props: Respond) {
 }
 //#endregion
 
-interface SignInProps {}
-interface SignInState {
+interface Props extends RouteComponentProps {}
+interface State {
     formWait: boolean;
     suicaWait: boolean;
     respond: number;
 }
 
-export default class SignIn extends React.Component<SignInProps, SignInState> {
-    constructor(props: SignInProps) {
+export default class SignIn extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             suicaWait: false,
@@ -137,10 +136,10 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
     }
 
     componentDidMount = () => {
-        document.title = "サインイン - IH12A Group 5";
+        document.title = "サインイン";
     };
 
-    formSignIn = (data: Fields) => {
+    formSignIn = async (data: Fields) => {
         this.setState({
             formWait: true,
         });
@@ -151,14 +150,13 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
             body: JSON.stringify(data),
         })
             .then((r) => r.json())
-            .then((respond: Respond) => {
+            .then((respond: Response) => {
                 this.setState({
                     respond: respond.status,
                 });
 
                 if (respond.status == 1) {
-                    //* Replace log with redirection method
-                    console.log("sign in succeed");
+                    this.redirect2Insider();
                 }
             })
             .finally(() => {
@@ -173,23 +171,25 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
             suicaWait: true,
         });
 
-        let idm = await ReadIDm(null);
+        let hash = await ReadIDm()
+            .then((c) => getSHA256(c))
+            .catch(() => {
+                this.setState({ suicaWait: false });
+            });
 
         fetch("/signin/suica/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idm: idm }),
+            body: JSON.stringify({ idm: hash }),
         })
             .then((r) => r.json())
-            .then((respond: Respond) => {
-                console.table(respond);
+            .then((response: Response) => {
                 this.setState({
-                    respond: respond.status,
+                    respond: response.status,
                 });
 
-                if (respond.status == 2) {
-                    //* Replace log with redirection method
-                    console.log("sign in succeed");
+                if (response.status == 2) {
+                    this.redirect2Insider();
                 }
             })
             .finally(() => {
@@ -197,6 +197,10 @@ export default class SignIn extends React.Component<SignInProps, SignInState> {
                     suicaWait: false,
                 });
             });
+    };
+
+    redirect2Insider = () => {
+        window.location.href = `http://${HOST}`;
     };
 
     render() {

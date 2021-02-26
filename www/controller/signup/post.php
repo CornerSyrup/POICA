@@ -25,12 +25,16 @@ class PostHandler extends \model\PostHandler
     public function Handle(): array
     {
         try {
-            $this->data['yr'] = substr(date('Y'), 0, 2);
+            $this->data['yr'] = substr(date('Y'), 2, 2);
             $this->data['pwd'] = get_password_hash($this->data['pwd']);
 
             try {
                 $adapter = new model\DBAdaptor();
-                $adapter->insert_credential_student($this->data);
+                if (strlen($this->data['usr']) == 5) {
+                    $adapter->insert_credential_student($this->data);
+                } else if (strlen($this->data['usr']) == 6) {
+                    $adapter->insert_credential_teacher($this->data);
+                }
             } catch (model\RecordInsertException $rie) {
                 throw new auth\AuthenticationException("Fail to register user with student id [{$this->data['usr']}].", 0, $rie);
             }
@@ -49,18 +53,29 @@ class PostHandler extends \model\PostHandler
 
     public function Validate(): bool
     {
-        $valid = isset($this->data['usr']) &&
-            isset($this->data['pwd']) &&
+        if (!isset($this->data['usr'])) {
+            return false;
+        }
+
+        $valid = isset($this->data['pwd']) &&
             isset($this->data['jfn']) &&
             isset($this->data['jln']) &&
-            isset($this->data['jfk']) &&
-            isset($this->data['jlk']) &&
-            valid\validate_sid($this->data['usr']) &&
             valid\validate_pwd($this->data['pwd']) &&
             valid\validate_jname($this->data['jfn']) &&
-            valid\validate_jname($this->data['jln']) &&
-            valid\validate_jkana($this->data['jfk']) &&
-            valid\validate_jkana($this->data['jlk']);
+            valid\validate_jname($this->data['jln']);
+
+        if (strlen($this->data['usr']) == 5) {
+            $valid = $valid &&
+                valid\validate_sid($this->data['usr']) &&
+                isset($this->data['jfk']) &&
+                isset($this->data['jlk']) &&
+                valid\validate_jkana($this->data['jfk']) &&
+                valid\validate_jkana($this->data['jlk']);
+        } else if (strlen($this->data['usr']) == 6) {
+            $valid = $valid && valid\validate_tid($this->data['usr']);
+        } else {
+            return false;
+        }
 
         if (!$valid) {
             $this->respond['status'] = 13;

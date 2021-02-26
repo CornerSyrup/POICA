@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { useForm } from "react-hook-form";
+
+import Response from "../../model/response";
 
 //#region form
 interface Fields {
@@ -8,21 +10,17 @@ interface Fields {
     pwd: string;
     jfn: string;
     jln: string;
-    jfk: string;
-    jlk: string;
+    jfk?: string;
+    jlk?: string;
     con: boolean;
 }
 
-interface FormProps {
-    submit(data: Fields): void;
-}
+function SignUpForm(props: { submit(data: Fields): void; waiting: boolean }) {
+    const { register, handleSubmit, errors, watch } = useForm<Fields>();
 
-function SignUpForm(props: FormProps) {
-    const { register, handleSubmit, errors } = useForm<Fields>();
+    let fieldTag = (error: any) => (error ? "error " : "") + "field";
 
-    let fieldTag = (error: any) => {
-        return (error ? "error " : "") + "field";
-    };
+    let kanaReq = (): boolean => watch("usr")?.length == 5;
 
     return (
         <form className="ui form" onSubmit={handleSubmit(props.submit)}>
@@ -107,7 +105,9 @@ function SignUpForm(props: FormProps) {
                             type="text"
                             placeholder="フリガナ (苗字)"
                             ref={register({
-                                required: "苗字のフリガナを入力してください",
+                                required:
+                                    kanaReq() &&
+                                    "苗字のフリガナを入力してください",
                             })}
                         />
                     </div>
@@ -117,7 +117,9 @@ function SignUpForm(props: FormProps) {
                             type="text"
                             placeholder="フリガナ (名前)"
                             ref={register({
-                                required: "名前のフリガナを入力してください",
+                                required:
+                                    kanaReq() &&
+                                    "名前のフリガナを入力してください",
                             })}
                         />
                     </div>
@@ -145,37 +147,123 @@ function SignUpForm(props: FormProps) {
                 すでに登録済みですか? <Link to="/signin/">サインイン</Link>
             </p>
             <div className="field">
-                <input
-                    className="ui right floated circular small primary button"
+                <button
+                    className={`ui right floated circular small primary ${
+                        props.waiting ? "loading " : ""
+                    }button`}
                     type="submit"
-                    value="登録する"
-                />
+                    disabled={props.waiting}
+                >
+                    登録する
+                </button>
             </div>
         </form>
     );
 }
 //#endregion
 
-export default class SignUp extends React.Component {
+//#region message
+function Message(props: { status: number }) {
+    let header: string = "";
+    let content: JSX.Element = <React.Fragment />;
+
+    switch (props.status) {
+        case 0:
+            header = "登録できません";
+            content = (
+                <p>
+                    <a>システム管理者に連絡</a>
+                    してください。
+                </p>
+            );
+            break;
+        case -1:
+        case 1:
+            return <React.Fragment />;
+        case 13:
+            header = "不正なデータが入力されています";
+            break;
+        case 21:
+            header = "このアカウントは登録済みです";
+            content = (
+                <p>
+                    登録したことがなければ、<a>システム管理者に連絡</a>
+                    してください。
+                </p>
+            );
+            break;
+        case 10:
+        case 11:
+        case 12:
+        default:
+            header = "しばらくお待ちして、もう一度試してみてください";
+            break;
+    }
+
+    return (
+        <div className="ui negative message">
+            <span className="header">{header}</span>
+            {content}
+        </div>
+    );
+}
+//#endregion
+
+interface Props extends RouteComponentProps {}
+interface State {
+    response: number;
+    formWait: boolean;
+}
+
+export default class SignUp extends React.Component<Props, State> {
     componentDidMount = () => {
-        document.title = "サインアップ - IH12A Group 5";
+        document.title = "サインアップ";
     };
 
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            response: -1,
+            formWait: false,
+        };
+    }
+
     submitSignUp = (data: Fields) => {
-        console.table(data);
+        this.setState({
+            formWait: true,
+        });
+
+        fetch("/signup/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+            .then((r) => r.json())
+            .then((response: Response) => {
+                this.setState({
+                    response: response.status,
+                });
+
+                if (response.status == 1) {
+                    this.props.history.push("/signin/");
+                }
+            })
+            .finally(() => {
+                this.setState({
+                    formWait: false,
+                });
+            });
     };
 
     render() {
         return (
             <React.Fragment>
-                <div className="ui negative message">
-                    <span className="header">このアカウントは登録済みです</span>
-                    <p>
-                        登録したことがなければ、<a>システム管理者に連絡</a>
-                        してください。
-                    </p>
-                </div>
-                <SignUpForm submit={this.submitSignUp} />
+                <Message status={this.state.response} />
+                <SignUpForm
+                    submit={this.submitSignUp}
+                    waiting={this.state.formWait}
+                />
             </React.Fragment>
         );
     }

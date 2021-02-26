@@ -21,6 +21,12 @@ use model\validation as valid;
 class PostFormHandler extends \model\PostHandler
 {
     /**
+     * Kind of handler, true for student, false for teacher.
+     * @var boolean
+     */
+    private $kind;
+
+    /**
      * Instantiate a POST Handler object for form sing-in.
      *
      * @param Logger $logger Logger.
@@ -30,6 +36,12 @@ class PostFormHandler extends \model\PostHandler
     {
         parent::__construct($logger, null);
         $this->logger->SetTag('form');
+
+        if (strlen($this->data['usr']) == 5) {
+            $this->kind =  true;
+        } else if (strlen($this->data['usr'])) {
+            $this->kind =  false;
+        }
     }
 
     /**
@@ -43,15 +55,24 @@ class PostFormHandler extends \model\PostHandler
 
         try {
             try {
-                $hash = $adapter->obtain_student_password($this->data['usr'], substr(date('Y'), 0, 2));
+                if ($this->kind) {
+                    $hash = $adapter->obtain_student_password($this->data['usr']);
+                } else {
+                    $hash = $adapter->obtain_teacher_password($this->data['usr']);
+                }
             } catch (model\RecordNotFoundException $rnf) {
                 throw new auth\AuthenticationException("Student [{$this->data['usr']}] was not registered", 0, $rnf);
             }
 
             // auth success
             if (auth\verify_password($this->data['pwd'], $hash)) {
-                $_SESSION['user'] = $adapter->obtain_student_userid($this->data['usr']);
-                $_SESSION['sid'] = $this->data['usr'];
+                if ($this->kind) {
+                    $_SESSION['user'] = $adapter->obtain_student_userid($this->data['usr']);
+                    $_SESSION['sid'] = $this->data['usr'];
+                } else {
+                    $_SESSION['tid'] = $this->data['usr'];
+                }
+
                 $_SESSION['log_in'] = true;
 
                 $this->respond['status'] = 1;
@@ -78,8 +99,15 @@ class PostFormHandler extends \model\PostHandler
     {
         $valid = isset($this->data['usr']) &&
             isset($this->data['pwd']) &&
-            valid\validate_sid($this->data['usr']) &&
             valid\validate_pwd($this->data['pwd']);
+
+        if (strlen($this->data['usr']) == 5) {
+            $valid = $valid && valid\validate_sid($this->data['usr']);
+        } else if (strlen($this->data['usr']) == 6) {
+            $valid = $valid && valid\validate_tid($this->data['usr']);
+        } else {
+            return false;
+        }
 
         if (!$valid) {
             $this->respond['status'] = 13;

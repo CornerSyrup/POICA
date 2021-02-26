@@ -6,8 +6,8 @@ import "../style/insider.less";
 import "../page/teacher.pug";
 
 import Insider, { SideBarItem as Item } from "./insider";
-import AttendClass from "./page/teacher/attend/class";
-import Attend from "./page/teacher/attend/main";
+import AttendClass from "./page/attend/teacher/class";
+import Attend from "./page/attend/teacher";
 
 class SideBar extends React.Component {
     render() {

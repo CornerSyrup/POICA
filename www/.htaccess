@@ -1,5 +1,6 @@
 # php
     php_value include_path "/code/hew2020/www/"
+    php_value session.gc_maxlifetime 3600
 
 # Defaults
     DirectoryIndex None
@@ -23,30 +24,23 @@
 
     # api
         # temp api for demo
-        RewriteRule ^forms/$ /controller/demo/form_entry.php [NC,END]
-        RewriteRule ^forms/(\d+)/$ /controller/demo/form_entry.php?e=$1 [NC,END,QSA]
-        RewriteRule ^teachers/$ /controller/demo/teacher_entry.php [NC,END]
-        RewriteRule ^class/$ /controller/demo/class_entry.php [NC,END]
-        RewriteRule ^class/(\w{2}\d\w)$ /controller/demo/class_entry.php?c=$1 [NC,END,QSA]
         RewriteRule ^departments/$ /controller/demo/department_entry.php [NC,END]
-        RewriteRule ^students/$ /controller/demo/student_entry.php [NC,END]
-        RewriteRule ^students/(\w{4})$ /controller/demo/student_entry.php?c=$1 [NC,END,QSA]
 
         # auth
         RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
         RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
         RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
-        RewriteRule ^signup/suica/$ /controller/suica_entry.php [NC,END]
+        RewriteRule ^suica/$ /controller/suica_entry.php [NC,END]
         RewriteRule ^signout/$ /controller/signout.php [NC,END]
         # restful
-        RewriteRule ^forms/$ /controller/apply_entry.php [NC,END]
-        RewriteRule ^forms/(\d+)/$ /controller/apply_entry.php?e=$1 [NC,END,QSA]
+        RewriteRule ^students/(\w{2}\d\w)/$ /controller/student_entry.php?c=$1 [NC,END,QSA]
+        RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
+        RewriteRule ^lessons/$ /controller/lesson_entry.php [NC,END]
+        RewriteRule ^forms/$ /controller/form_entry.php [NC,END]
+        RewriteRule ^forms/(\d+)/$ /controller/form_entry.php?e=$1 [NC,END,QSA]
 
     # page
-        RewriteCond %{HTTP_HOST} ^student\.
-        RewriteRule ^ /view/student.html [NC,END]
-        RewriteCond %{HTTP_HOST} ^teacher\.
-        RewriteRule ^ /view/teacher.html [NC,END]
+        RewriteRule ^ /controller/general.php [NC,END]
 
     # direct
         RewriteRule ^(.+)(?<!/)$ /$1/ [R]

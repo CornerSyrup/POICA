@@ -10,8 +10,6 @@ require_once 'DBAdaptor.php';
 require_once 'Logger.php';
 require_once 'Validation.php';
 
-use model;
-
 /**
  * Authenticate whether user logged in wih session data.
  *
@@ -23,6 +21,16 @@ function authenticate(): bool
 }
 
 /**
+ * Authenticate whether user logged in and is teacher.
+ *
+ * @return boolean
+ */
+function authenticate_teacher(): bool
+{
+    return ($_SESSION['log_in'] ?? false)  && isset($_SESSION['tid']);
+}
+
+/**
  * Sign out from this server. Basically unset credential.
  *
  * @return void
@@ -30,26 +38,9 @@ function authenticate(): bool
 function sign_out(): void
 {
     unset($_SESSION['user']);
+    unset($_SESSION['sid']);
+    unset($_SESSION['tid']);
     unset($_SESSION['log_in']);
-}
-
-/**
- * Authenticate user with suica card.
- *
- * @param string $sid student id of the user.
- * @param string $idm idm code of the suica card.
- * @return boolean
- * @throws AuthenticationException throw when suica card data cannot found in database.
- */
-function authenticate_suica(string $sid, string $idm): bool
-{
-    try {
-        $uid = (new model\DBAdaptor())->obtain_suica($idm);
-    } catch (model\RecordNotFoundException $rnf) {
-        throw new AuthenticationException("suica [{$idm}] was not registered", 0, $rnf);
-    }
-
-    return $sid == $uid;
 }
 
 /**

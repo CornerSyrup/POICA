@@ -227,7 +227,9 @@ export async function pair(): Promise<any> {
  * @param reader reader to be used in reading process. Auto pair a new reader when null supplied.
  * @returns return IDm code.
  */
-export default async function ReadIDm(reader: any | null): Promise<string> {
+export default async function ReadIDm(
+    reader: any | null = null
+): Promise<string> {
     let code = "";
 
     // if no reader supplied, then paired one

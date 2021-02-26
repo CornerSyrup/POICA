@@ -83,7 +83,7 @@ class DBAdaptor
     }
     #endregion
 
-    #region credential
+    #region student credential
     /**
      * Interface to insert user credential to database.
      *
@@ -106,13 +106,13 @@ class DBAdaptor
      * @return string password hash.
      * @throws RecordNotFoundException throw when credential not found.
      */
-    public function obtain_student_password(string $sid, string $yr): string
+    public function obtain_student_password(string $sid): string
     {
         $msg = "Fail to obtain credential with student ID [{$sid}].";
 
         $res = $this->obtain(
-            "SELECT u.pwd FROM Usership.Users u WHERE u.sid = $1 AND u.yr = $2 LIMIT 1;",
-            array($sid, $yr),
+            "SELECT u.pwd FROM Usership.Users u WHERE u.sid = $1 ORDER BY u.yr DESC LIMIT 1;",
+            array($sid),
             $msg
         );
 
@@ -147,6 +147,24 @@ class DBAdaptor
         }
 
         return $res[0]['userid'];
+    }
+
+    public function obtain_student_id(string $uid): string
+    {
+        $msg = "Fail to obtain student ID with user ID [{$uid}]";
+
+        $res = $this->obtain(
+            "SELECT u.sid FROM Usership.Users u WHERE u.userID = $1 ORDER BY u.yr DESC LIMIT 1;",
+            array($uid),
+            $msg
+        );
+
+        // check first row
+        if (empty($res[0]['sid'])) {
+            throw new RecordNotFoundException($msg);
+        }
+
+        return $res[0]['sid'];
     }
 
     /**
@@ -187,6 +205,48 @@ class DBAdaptor
         }
 
         return $res[0]['userid'];
+    }
+    #endregion
+
+    #region teacher credential
+    /**
+     * Interface to insert teacher user credential to database.
+     *
+     * @param array $data array of user credential.
+     * @return void
+     * @throws RecordInsertException throw when insertion fail.
+     */
+    public function insert_credential_teacher(array $data)
+    {
+        $this->insert(
+            "INSERT INTO School.Teachers (tid, fname, lname, pwd) VALUES ($1, $2, $3, $4);",
+            array($data['usr'], $data['jfn'], $data['jln'], $data['pwd'])
+        );
+    }
+
+    /**
+     * Interface to obtain teacher credential from database.
+     *
+     * @param string $tid teacher ID.
+     * @return string password hash.
+     * @throws RecordNotFoundException throw when credential not found.
+     */
+    public function obtain_teacher_password(string $tid): string
+    {
+        $msg = "Fail to obtain credential with teacher ID [{$tid}]";
+
+        $res = $this->obtain(
+            "SELECT t.pwd FROM School.Teachers t WHERE t.tid = $1 LIMIT 1;",
+            array($tid),
+            $msg
+        );
+
+        // check data
+        if (empty($res[0]['pwd'])) {
+            throw new RecordNotFoundException($msg);
+        }
+
+        return $res[0]['pwd'];
     }
     #endregion
 
@@ -242,11 +302,56 @@ class DBAdaptor
      */
     public function obtain_catalogue(string $user): array
     {
-        return $this->obtain(
-            "SELECT entry id, stat \"status\", applyDate \"date\" FROM Applic.Applications a WHERE a.applyUser=$1;",
+        $msg = "Fail to obtain applied form list with [{$user}]";
+
+        $res = $this->obtain(
+            "SELECT entry id, stat \"status\", applyDate \"date\", formType \"type\" FROM Applic.Applications a WHERE a.applyUser=$1;",
             array($user),
-            "Fail to obtain applied form list with [{$user}]"
+            $msg
         );
+
+        return $res ? $res : [];
+    }
+    #endregion
+
+    #region teacher api
+    public function obtain_teacher_list(): array
+    {
+        $msg = "Fail to obtain teacher list";
+
+        $res = $this->obtain(
+            "SELECT tid, fname, lname FROM School.Teachers;",
+            [],
+            $msg
+        );
+
+        return $res ? $res : [];
+    }
+    #endregion
+
+    #region lesson api
+    public function obtain_teacher_lesson_list(string $tid): array
+    {
+        $msg = "Fail to obtain list of lesson for teacher [{$tid}]";
+
+        $cmd = "SELECT l.code code, s.total total, coalesce(a.attend, 0) attend FROM Attendance.Lessons l RIGHT OUTER JOIN ( SELECT s.lesson lesson, count(s.student) total FROM Attendance.Lesson_Student s GROUP BY s.lesson ) s ON l.lessonID = s.lesson LEFT OUTER JOIN ( SELECT a.lessonID lessonID, count(a.userID) attend FROM Attendance.AttendLog a GROUP BY a.lessonID ) a ON l.lessonID = a.lessonID WHERE l.teacher = $1;";
+
+        $res = $this->obtain($cmd, array($tid), $msg);
+
+        return $res ? $res : [];
+    }
+    #endregion
+
+    #region Student API
+    public function obtain_student_list(string $tid, string $lesson): array
+    {
+        $msg = "Fail to obtain student list for class [{$lesson}] with teacher ID [{$tid}]";
+        
+        $cmd = "SELECT u.sid sid, u.fname fname, u.lname lname, u.suica suica FROM usership.users u WHERE u.userid IN (SELECT s.student FROM attendance.lesson_student s WHERE lesson IN (SELECT l.lessonid FROM attendance.lessons l WHERE l.teacher = $1 AND l.code = $2));";
+
+        $res = $this->obtain($cmd, array($tid, $lesson), $msg);
+
+        return $res ? $res : [];
     }
     #endregion
 }

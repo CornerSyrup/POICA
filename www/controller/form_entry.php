@@ -1,7 +1,7 @@
 <?php
 
 /**
- * entry point of suica related handler.
+ * entry point of application form data handling.
  */
 
 namespace controller;
@@ -18,7 +18,7 @@ session_regenerate_id(true);
 /**
  * Logger to keep data record.
  */
-$logger = new \model\Logger('entry', 'suica');
+$logger = new \model\Logger('entry', 'form');
 /**
  * Respond to request.
  */
@@ -36,13 +36,18 @@ try {
     }
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
-        case 'POST':
-            require './suica/post.php';
-            $handler = new suica\PostHandler($logger);
+        case 'GET':
+            if (isset($_REQUEST['e'])) {
+                require_once './form/get.php';
+                $handler = new from\GetHandler($logger, ['id' => $_REQUEST['e']]);
+            } else {
+                require_once './form/get_catalogue.php';
+                $handler = new from\GetCatalogueHandler($logger);
+            }
             break;
-        case 'DELETE':
-            require './suica/delete.php';
-            $handler = new suica\DeleteHandler($logger);
+        case 'POST':
+            require_once './form/post.php';
+            $handler = new from\PostHandler($logger);
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
@@ -51,17 +56,16 @@ try {
 
     if (empty($handler)) {
         throw new \Exception('Null handler');
-    }
-    else if ($handler->Validate()) {
+    } else if ($handler->Validate()) {
         $handler->Handle();
     }
 
     $res = $handler->GetResult();
 } catch (auth\UnauthorizeException $uax) {
-    $logger->appendError($uex);
+    $logger->appendError($uax);
     $res['status'] = 11;
-} catch (\RequestMethodException $re) {
-    $logger->appendError($re);
+} catch (\RequestMethodException $rmx) {
+    $logger->appendError($rmx);
     $res['status'] = 12;
 } catch (\JsonException $je) {
     $logger->appendError($je);
@@ -72,4 +76,4 @@ try {
 }
 
 header("Content-Type: application/json");
-echo json_encode($res);
+echo json_stringify($res);

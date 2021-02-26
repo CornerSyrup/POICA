@@ -1,17 +1,17 @@
-# Teacher
+# Lesson
 
-Version 1.1
+Version 1.0
 Last Edit: 11 Feb 2021
 
 ## Introduction
 
-Entry point of teacher info manipulation API.
+Entry point of lesson info manipulation API.
 
 Accept CRUD actions. (read only for now)
 
 ## URL
 
-`/teachers/`
+`/lessons/`
 
 ## Response
 
@@ -41,12 +41,12 @@ Accept CRUD actions. (read only for now)
 
 Extra fields for GET response.
 
-Array of teacher object in JSON format, in name of `teachers`.
+Array of lesson object in JSON format, in name of `lessons`.
 
 Teacher object as follow.
 
-| field | description                |       type       |
-| :---: | -------------------------- | :--------------: |
-|  tid  | Teacher ID, 6 digit.       | number (6 digit) |
-| fname | First name of the teacher. |      string      |
-| lname | Last name of the teacher.  |      string      |
+| field  | description                  |        type        |
+| :----: | ---------------------------- | :----------------: |
+|  code  | code of the lesson           | string (\w{2}\d\w) |
+| total  | total students of the lesson |       number       |
+| attend | no. of students has attended |       number       |

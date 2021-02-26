@@ -1,13 +1,17 @@
 # Suica
 
-Version: 1.1
-Last Edit: 8 Jan 2021
+Version: 1.2
+Last Edit: 12 Feb 2021
+
+## URL
+
+`/suica/`
 
 ## POST Handler
 
-| name  | description             |    type     |
-| :---: | ----------------------- | :---------: |
-|  idm  | IDm code of suica card. | string (16) |
+| name  | description             |    type    |
+| :---: | ----------------------- | :--------: |
+|  idm  | IDm code of suica card. | string(64) |
 
 ## Respond
 
@@ -21,9 +25,10 @@ in JSON format.
 
 #### success status
 
-| code  | action          |
-| :---: | --------------- |
-|   2   | register (POST) |
+| code  | action              |
+| :---: | ------------------- |
+|   2   | register (POST)     |
+|   4   | deregister (DELETE) |
 
 #### error status
 
@@ -35,3 +40,4 @@ in JSON format.
 |  13   | Json encoding         |
 |  14   | Invalid data supplied |
 |  30   | Fail to insert        |
+|  50   | Fail to reset         |

@@ -1,8 +1,10 @@
 <?php
 
-session_start();
-session_regenerate_id(true);
-session_destroy();
+require_once 'model/Authentication.php';
 
+use  model\authentication as auth;;
 
-header("Location: http://{$_SERVER['HTTP_HOST']}");
+@session_start();
+auth\sign_out();
+
+header("Location: http://{$_SERVER['HTTP_HOST']}/");
