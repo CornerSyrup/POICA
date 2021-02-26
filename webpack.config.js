@@ -68,7 +68,6 @@ module.exports = {
     "react-dom": "ReactDOM",
     "react-router-dom": "ReactRouterDOM",
   },
-  watch: true,
   watchOptions: {
     aggregateTimeout: 2000,
     poll: 1000,
