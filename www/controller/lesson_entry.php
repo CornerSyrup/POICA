@@ -18,7 +18,7 @@ session_regenerate_id(true);
 /**
  * Logger to keep data record.
  */
-$logger = new \model\Logger('entry', 'class');
+$logger = new \model\Logger('entry', 'lesson');
 /**
  * Respond to request.
  */
