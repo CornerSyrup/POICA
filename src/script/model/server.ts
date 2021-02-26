@@ -26,8 +26,8 @@ export function Fetch(
     };
 
     if (body) {
-        (init.headers = { "Content-Type": "application/json" }),
-            (init.body = JSON.stringify(body));
+        init.headers = { "Content-Type": "application/json" };
+        init.body = JSON.stringify(body);
     }
 
     return fetch(dest, init).then((r) => r.json());
