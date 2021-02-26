@@ -90,7 +90,6 @@ export default class DocIssue extends React.Component<Props, State> {
     //#region data fetcher
     setTeachers = async () => {
         Fetch("/teachers/", "GET").then((response: TeacherListResponse) => {
-            console.log(response);
             if (response.status == 1) {
                 this.setState({
                     teachers: response.teachers,
