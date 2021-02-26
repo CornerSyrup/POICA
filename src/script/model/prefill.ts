@@ -1,7 +1,7 @@
 export interface UserInfo {
     sid: string;
-    fname: stirng;
-    lname: stirng;
-    fkana: stirng;
-    lkana: stirng;
+    fname: string;
+    lname: string;
+    fkana: string;
+    lkana: string;
 }
