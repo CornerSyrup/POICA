@@ -37,8 +37,10 @@ try {
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
-            require_once './prefill/get_user.php';
-            $handler = new prefill\GetUserHandler($logger);
+            if ($_REQUEST['m'] = 'u') {
+                require_once './prefill/get_user.php';
+                $handler = new prefill\GetUserHandler($logger);
+            }
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
