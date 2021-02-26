@@ -27,8 +27,8 @@ class GetUserHandler extends \model\GetHandler
                 "Fail to obtain user info with student ID [{$_SESSION['sid']}]"
             );
 
-            if ($foo) {
-                $this->respond['data'] = $foo;
+            if ($foo && !empty($foo)) {
+                $this->respond['data'] = $foo[0];
             } else {
                 throw new model\RecordNotFoundException(
                     "Fail to obtain user info with student ID [{$_SESSION['sid']}]"
