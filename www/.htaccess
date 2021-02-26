@@ -1,6 +1,6 @@
 # php
     <IfModule mod_php5.c>
-        php_value include_path "www/"
+        php_value include_path ".:./www/"
         php_value session.gc_maxlifetime 3600
     </IfModule>
 
