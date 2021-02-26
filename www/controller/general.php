@@ -1,7 +1,7 @@
 <?php
 
 @session_start();
-@session_regenerate_id(true);
+@session_regenerate_id();
 
 if (isset($_SESSION['log_in']) && $_SESSION['log_in']) {
     if (isset($_SESSION['sid'])) {

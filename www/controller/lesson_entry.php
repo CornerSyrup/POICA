@@ -10,17 +10,15 @@ require_once 'model/Authentication.php';
 require_once 'model/Global.php';
 require_once 'model/Logger.php';
 
-use controller\apply\GetHandler;
-use controller\apply\GetTeacherListHandler;
 use model\authentication as auth;
 
 session_start();
-session_regenerate_id(true);
+session_regenerate_id();
 
 /**
  * Logger to keep data record.
  */
-$logger = new \model\Logger('entry', 'class');
+$logger = new \model\Logger('entry', 'lesson');
 /**
  * Respond to request.
  */

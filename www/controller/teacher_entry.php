@@ -14,7 +14,7 @@ use controller\apply\GetHandler;
 use model\authentication as auth;
 
 session_start();
-session_regenerate_id(true);
+session_regenerate_id();
 
 /**
  * Logger to keep data record.

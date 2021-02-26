@@ -7,7 +7,10 @@ import {
     DocIssue_Grad as Grad,
     DocIssue_Intl as Intl,
 } from "../../../model/form";
-import { TeacherListResponse } from "../../../model/response";
+import {
+    PrefillUserResponse,
+    TeacherListResponse,
+} from "../../../model/response";
 import { Teacher } from "../../../model/teacher";
 import { Department } from "../../../model/department";
 import { buildCurrencyAmount } from "../../../model/payment";
@@ -67,6 +70,10 @@ export default class DocIssue extends React.Component<Props, State> {
         label: "発行料",
     };
     appID: string = "";
+    /**
+     *
+     */
+    prefill_common?: Common;
 
     constructor(props: Props) {
         super(props);
@@ -75,8 +82,27 @@ export default class DocIssue extends React.Component<Props, State> {
             teachers: [],
             departments: [],
             countries: [],
-            step: "1",
+            step: "0",
         };
+
+        Fetch("/prefill/users/", "GET")
+            .then((response: PrefillUserResponse) => {
+                console.table(response);
+                if (response.status == 1) {
+                    this.prefill_common = {
+                        si: response.data.sid,
+                        fn: response.data.fname,
+                        fk: response.data.fkana,
+                        ln: response.data.lname,
+                        lk: response.data.lkana,
+                        cc: "",
+                        ct: "",
+                    };
+                }
+            })
+            .finally(() => {
+                this.setState({ step: "1" });
+            });
 
         this.setTeachers();
 
@@ -90,7 +116,6 @@ export default class DocIssue extends React.Component<Props, State> {
     //#region data fetcher
     setTeachers = async () => {
         Fetch("/teachers/", "GET").then((response: TeacherListResponse) => {
-            console.log(response);
             if (response.status == 1) {
                 this.setState({
                     teachers: response.teachers,
@@ -212,6 +237,7 @@ export default class DocIssue extends React.Component<Props, State> {
                         <StepOne
                             submit={this.submitStepOne}
                             teachers={this.state.teachers}
+                            data={this.prefill_common}
                         />
                     )}
                     {this.state.step == "2" && (

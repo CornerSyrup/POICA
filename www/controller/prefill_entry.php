@@ -1,7 +1,7 @@
 <?php
 
 /**
- * standard sign up process with student id and password
+ * entry point of class data handling.
  */
 
 namespace controller;
@@ -12,14 +12,13 @@ require_once 'model/Logger.php';
 
 use model\authentication as auth;
 
-// clear previous login status
 session_start();
 session_regenerate_id();
 
 /**
  * Logger to keep data record.
  */
-$logger = new \model\Logger('entry', 'signup');
+$logger = new \model\Logger('entry', 'prefill');
 /**
  * Respond to request.
  */
@@ -32,19 +31,19 @@ $res = [
 $handler = null;
 
 try {
+    if (!auth\authenticate()) {
+        throw new auth\UnauthorizeException();
+    }
+
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
-            ob_start();
-            include "view/sign.html";
-            ob_end_flush();
-            exit;
-        case 'POST':
-            require_once './signup/post.php';
-            $handler = new signup\PostHandler($logger);
+            if ($_REQUEST['m'] = 'u') {
+                require_once './prefill/get_user.php';
+                $handler = new prefill\GetUserHandler($logger);
+            }
             break;
         default:
             throw new \RequestMethodException('', strtoupper($_SERVER['REQUEST_METHOD']));
-
             break;
     }
 
@@ -55,14 +54,19 @@ try {
     }
 
     $res = $handler->GetResult();
-} catch (\RequestMethodException $re) {
-    // inappropriate request method
-    $logger->appendError($re);
+} catch (auth\UnauthorizeException $uax) {
+    $logger->appendError($uax);
     $res['status'] = 11;
+} catch (\RequestMethodException $rmx) {
+    $logger->appendError($rmx);
+    $res['status'] = 12;
+} catch (\JsonException $je) {
+    $logger->appendError($je);
+    $res['status'] = 13;
 } catch (\Throwable $th) {
     $logger->appendError($th);
-    $res['status'] = 11;
+    $res['status'] = 10;
 }
 
 header("Content-Type: application/json");
-echo json_encode($res);
+echo json_stringify($res);

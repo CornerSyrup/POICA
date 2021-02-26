@@ -36,6 +36,7 @@
         RewriteRule ^students/(\w{2}\d\w)/$ /controller/student_entry.php?c=$1 [NC,END,QSA]
         RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
         RewriteRule ^lessons/$ /controller/lesson_entry.php [NC,END]
+        RewriteRule ^prefill/users/$ /controller/prefill_entry.php?m=u [NC,END,QSA]
         RewriteRule ^forms/$ /controller/form_entry.php [NC,END]
         RewriteRule ^forms/(\d+)/$ /controller/form_entry.php?e=$1 [NC,END,QSA]
 
