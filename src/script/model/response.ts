@@ -2,6 +2,7 @@ import { FormCatalogueItem } from "./form";
 import { LessonItem } from "./lesson";
 import { BriefStudent } from "./student";
 import { Teacher } from "./teacher";
+import { UserInfo } from "./prefill";
 
 export default interface Response {
     /**
@@ -34,11 +35,5 @@ export interface StudentListRespond extends Response {
 
 //#region Prefill API
 export interface PrefillUserResponse extends Response {
-    data: {
-        sid: string;
-        fname: stirng;
-        lname: stirng;
-        fkana: stirng;
-        lkana: stirng;
-    };
+    data: UserInfo;
 }
