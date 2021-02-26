@@ -14,7 +14,7 @@ use model\authentication as auth;
 
 // clear previous login status
 session_start();
-session_regenerate_id(true);
+session_regenerate_id();
 
 /**
  * Logger to keep data record.
