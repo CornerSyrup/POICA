@@ -31,3 +31,14 @@ export interface StudentListRespond extends Response {
     students: Array<BriefStudent>;
 }
 //#endregion
+
+//#region Prefill API
+export interface PrefillUserResponse extends Response {
+    data: {
+        sid: string;
+        fname: stirng;
+        lname: stirng;
+        fkana: stirng;
+        lkana: stirng;
+    };
+}
