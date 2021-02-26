@@ -177,6 +177,8 @@ class DBAdaptor
      */
     public function update_suica_student(int $user, string $idm)
     {
+        $idm = empty($idm) ? null : $idm;
+
         $this->insert(
             "UPDATE Usership.Users u SET suica=$1 WHERE u.userID=$2;",
             array($idm, $user)
