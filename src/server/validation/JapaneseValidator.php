@@ -1,6 +1,6 @@
 <?php
 
-namespace POICA\model\validation {
+namespace POICA\validation {
     class JapaneseValidator
     {
         /**

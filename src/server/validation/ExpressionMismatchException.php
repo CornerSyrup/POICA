@@ -1,6 +1,6 @@
 <?php
 
-namespace POICA\model\validation {
+namespace POICA\validation {
     /**
      * Exception representing some string do not match an expression rule.
      */

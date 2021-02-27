@@ -1,6 +1,6 @@
 <?php
 
-namespace POICA\model\validation {
+namespace POICA\validation {
     /**
      * Data validation function service provider.
      */
