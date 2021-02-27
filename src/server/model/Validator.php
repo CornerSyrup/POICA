@@ -39,5 +39,31 @@ namespace POICA\model {
             return preg_match('/^[A-Za-z0-9]{64}$/', $hash);
         }
         #endregion
+
+        #region japanese
+        /**
+         * Validate if the given string is all Japanese kanji.
+         */
+        static function validate_kanji(string $value)
+        {
+            return preg_match('/^[\x{4E00}-\x{9FBF}]+$/u', $value);
+        }
+
+        /**
+         * Validate if the given string is al Japanese hiragana.
+         */
+        static function validate_hiragana(string $value)
+        {
+            return preg_match('/^[\x{3040}-\x{309F}]+$/u', $value);
+        }
+
+        /**
+         * Validate if the given string is al Japanese katakana.
+         */
+        static function validate_katakana(string $value)
+        {
+            return preg_match('/^[\x{30A0}-\x{30FF}]+$/u', $value);
+        }
+        #endregion
     }
 }
