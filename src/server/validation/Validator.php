@@ -10,7 +10,7 @@ namespace POICA\validation {
         /**
          * Validate student ID.
          */
-        static function validate_sid(string $id): bool
+        public static function validate_sid(string $id): bool
         {
             return preg_match('/^\d{5}$/', $id);
         }
@@ -18,7 +18,7 @@ namespace POICA\validation {
         /**
          * Validate teacher ID.
          */
-        static function validate_tid(string $id): bool
+        public static function validate_tid(string $id): bool
         {
             return preg_match('/^\d{6}$/', $id);
         }
@@ -26,7 +26,7 @@ namespace POICA\validation {
         /**
          * Validate password.
          */
-        static function validate_password(string $pwd): bool
+        public static function validate_password(string $pwd): bool
         {
             return   preg_match('/^[A-Za-z0-9]+$/', $pwd);
         }
@@ -34,7 +34,7 @@ namespace POICA\validation {
         /**
          * Validate suica IDm hash, which hashed with SHA256.
          */
-        static function validate_suica(string $hash): bool
+        public static function validate_suica(string $hash): bool
         {
             return preg_match('/^[A-Za-z0-9]{64}$/', $hash);
         }
@@ -44,7 +44,7 @@ namespace POICA\validation {
         /**
          * Validate if the given string is valid class code, in form of ih12a092, case insensitive.
          */
-        function validate_class_code(string $code): bool
+        public static function validate_class_code(string $code): bool
         {
             return empty($code) ? false : preg_match('/^\w{2}\d{2}\w\d{3}$/', $code);
         }
@@ -52,7 +52,7 @@ namespace POICA\validation {
         /**
          * Validate if the given string is valid resident card code.
          */
-        function validate_resident_card(string $code): bool
+        public static function validate_resident_card(string $code): bool
         {
             return empty($code) ? false : preg_match('/^\w{2}\d{8}\w{2}$/', $code);
         }
