@@ -9,9 +9,6 @@ namespace POICA\model {
         #region authentication
         /**
          * Validate student ID.
-         *
-         * @param string $id Student ID to be validated.
-         * @return boolean
          */
         static function validate_sid(string $id): bool
         {
@@ -20,9 +17,6 @@ namespace POICA\model {
 
         /**
          * Validate teacher ID.
-         *
-         * @param string $id Teacher ID to be validated.
-         * @return boolean
          */
         static function validate_tid(string $id): bool
         {
@@ -31,9 +25,6 @@ namespace POICA\model {
 
         /**
          * Validate password.
-         *
-         * @param string $pwd Password to be validated.
-         * @return boolean
          */
         static function validate_password(string $pwd): bool
         {
@@ -42,9 +33,6 @@ namespace POICA\model {
 
         /**
          * Validate suica IDm hash, which hashed with SHA256.
-         *
-         * @param string $hash Hash of suica IDm code.
-         * @return boolean
          */
         static function validate_suica(string $hash): bool
         {
