@@ -99,5 +99,23 @@ namespace POICA\model {
                 || self::is_include_kanji($value);
         }
         #endregion
+
+        #region form applications
+        /**
+         * Validate if the given string is valid class code, in form of ih12a092, case insensitive.
+         */
+        function validate_class_code(string $code): bool
+        {
+            return empty($code) ? false : preg_match('/^\w{2}\d{2}\w\d{3}$/', $code);
+        }
+
+        /**
+         * Validate if the given string is valid resident card code.
+         */
+        function validate_resident_card(string $code): bool
+        {
+            return empty($code) ? false : preg_match('/^\w{2}\d{8}\w{2}$/', $code);
+        }
+        #endregion
     }
 }
