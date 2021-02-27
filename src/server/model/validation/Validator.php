@@ -40,7 +40,6 @@ namespace POICA\model\validation {
         }
         #endregion
 
-
         #region form applications
         /**
          * Validate if the given string is valid class code, in form of ih12a092, case insensitive.
