@@ -20,7 +20,11 @@ namespace POICA\model\validation {
         {
             $this->var = $varName;
 
-            parent::__construct("Variable [${varName}] revived unexpected value of [${value}] mismatching its expected expression rule.", $code, $innerException);
+            parent::__construct(
+                "Variable [${varName}] revived, unexpected value of [${value}] mismatching its expected expression rule.",
+                $code,
+                $innerException
+            );
         }
     }
 }
