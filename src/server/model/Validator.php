@@ -39,6 +39,17 @@ namespace POICA\model {
         {
             return   preg_match('/^[A-Za-z0-9]+$/', $pwd);
         }
+
+        /**
+         * Validate suica IDm hash, which hashed with SHA256.
+         *
+         * @param string $hash Hash of suica IDm code.
+         * @return boolean
+         */
+        static function validate_suica(string $hash): bool
+        {
+            return preg_match('/^[A-Za-z0-9]{64}$/', $hash);
+        }
         #endregion
     }
 }
