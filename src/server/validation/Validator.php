@@ -57,5 +57,10 @@ namespace POICA\validation {
             return empty($code) ? false : preg_match('/^\w{2}\d{8}\w{2}$/', $code);
         }
         #endregion
+
+        public static function validate_date(int $value): bool
+        {
+            return is_numeric($value);
+        }
     }
 }
