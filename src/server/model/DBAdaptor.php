@@ -1,6 +1,9 @@
 <?php
 
 namespace POICA\model {
+
+    use POICA\model\exception\RecordLookUpException;
+
     /**
      * Database related service provider.
      */
@@ -34,6 +37,29 @@ namespace POICA\model {
             if (!$this->connection) {
                 throw new \Exception("Fail to connect to database");
             }
+        }
+
+        public function query(string $command, array $params, string $errMsg, bool $assoc = true)
+        {
+            $res = @pg_query_params($this->connection, $command, $params);
+
+            if (!$res) {
+                throw new RecordLookUpException($errMsg, 0, new \Exception(pg_errormessage($this->connection)));
+            } else {
+                if ($assoc)
+                    $res = pg_fetch_all($res);
+                else
+                    $res = pg_fetch_all($res, PGSQL_NUM);
+            }
+
+            if (!$res) {
+                $msg = pg_errormessage($this->connection);
+                if (empty($msg))
+                    $msg = 'No row fetched or other error encountered.';
+                throw new RecordLookUpException($errMsg, 0, new \Exception($msg));
+            }
+
+            return $res;
         }
     }
 }
