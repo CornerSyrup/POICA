@@ -18,6 +18,7 @@
         RewriteRule ^cdn/(.+).png$ /image/$1.png [END]
 
     # api
+        RewriteRule ^apis/students/(\w{2}\d\w)/$ /controller/student.php?c=$1 [NC,END,QSA]
         RewriteRule ^apis/(.+)(?<!/)$ /$1/ [R]
 
     # page
