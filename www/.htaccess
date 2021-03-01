@@ -1,15 +1,8 @@
-# php
-    <IfModule mod_php5.c>
-        php_value include_path ".:./www/"
-        php_value session.gc_maxlifetime 3600
-    </IfModule>
-
 # Defaults
     DirectoryIndex None
 
 # ErrorDoc
-    #ErrorDocument 404 /error/404.html
-    ErrorDocument 404 "its 404"
+    ErrorDocument 404 "ページが見つかりませんでした"
 
 # Rewrites
     RewriteEngine On
@@ -25,26 +18,7 @@
         RewriteRule ^cdn/(.+).png$ /image/$1.png [END]
 
     # api
-        # temp api for demo
-        RewriteRule ^departments/$ /controller/demo/department_entry.php [NC,END]
-
-        # auth
-        RewriteRule ^signin/$ /controller/signin_entry.php [NC,END]
-        RewriteRule ^signin/suica/$ /controller/signin_entry.php?m=s [NC,END,QSA]
-        RewriteRule ^signup/$ /controller/signup_entry.php [NC,END]
-        RewriteRule ^suica/$ /controller/suica_entry.php [NC,END]
-        RewriteRule ^signout/$ /controller/signout.php [NC,END]
-        # restful
-        RewriteRule ^students/(\w{2}\d\w)/$ /controller/student_entry.php?c=$1 [NC,END,QSA]
-        RewriteRule ^teachers/$ /controller/teacher_entry.php [NC,END]
-        RewriteRule ^lessons/$ /controller/lesson_entry.php [NC,END]
-        RewriteRule ^prefill/users/$ /controller/prefill_entry.php?m=u [NC,END,QSA]
-        RewriteRule ^forms/$ /controller/form_entry.php [NC,END]
-        RewriteRule ^forms/(\d+)/$ /controller/form_entry.php?e=$1 [NC,END,QSA]
+        RewriteRule ^apis/(.+)(?<!/)$ /$1/ [R]
 
     # page
-        RewriteRule ^ /index.php [NC,END]
-        RewriteRule ^ /controller/general.php [NC,END]
-
-    # direct
-        RewriteRule ^(.+)(?<!/)$ /$1/ [R]
+        RewriteRule ^ /controller/index.php [NC,END]
