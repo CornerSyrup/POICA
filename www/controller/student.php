@@ -7,9 +7,9 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use POICA\authentication as auth;
+use POICA\model as model;
 use POICA\model\exception as ex;
 use POICA\controller\student as handler;
-use POICA\model as model;
 
 session_start();
 
@@ -50,11 +50,10 @@ try {
             );
     }
 
-    if (is_null($handler)) {
+    if (is_null($handler))
         throw new \Exception('null handler');
-    } elseif ($handler->validate()) {
+    elseif ($handler->validate())
         $handler->handle();
-    }
 
     $response = $handler->get_result();
 }
