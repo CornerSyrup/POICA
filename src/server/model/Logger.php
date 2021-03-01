@@ -18,7 +18,7 @@ namespace POICA\model {
         public function __construct(string $tag, string $file = null)
         {
             $this->set_tag($tag);
-            $dir = getcwd() . DIRECTORY_SEPARATOR . 'logs';
+            $dir = dirname(getcwd()) . DIRECTORY_SEPARATOR . 'logs';
             $this->file = $dir . DIRECTORY_SEPARATOR . (is_null($file) ? $tag : $file) . '.log';
 
             if (!file_exists($dir)) mkdir($dir);
