@@ -62,5 +62,10 @@ namespace POICA\validation {
         {
             return is_numeric($value);
         }
+
+        public static function validate_lesson_code(string $value): bool
+        {
+            return preg_match('/^[a-z]{2}\d\w$/', $value);
+        }
     }
 }
