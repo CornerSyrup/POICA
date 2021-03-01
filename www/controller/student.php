@@ -61,16 +61,16 @@ try {
 #region exception
 catch (auth\UnauthorizeException $uax) {
     $logger->append_error($uax);
-    $response['status'] = 11;
+    $response = ['status' => 11];
 } catch (ex\RequestMethodException $rmx) {
     $logger->append_error($rmx);
-    $response['status'] = 12;
+    $response = ['status' => 12];
 } catch (\JsonException $jsx) {
     $logger->append_error($jsx);
-    $response['status'] = 13;
+    $response = ['status' => 13];
 } catch (\Throwable $th) {
     $logger->append_error($th);
-    $response['status'] = 10;
+    $response = ['status' => 10];
 }
 #endregion
 
