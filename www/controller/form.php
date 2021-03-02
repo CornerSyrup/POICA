@@ -38,7 +38,11 @@ try {
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
         case 'GET':
-            $handler = new handler\GetHandler($logger);
+            if (!isset($_REQUEST['e']))
+                $handler = new handler\GetHandler(
+                    $logger,
+                    ['id' => $_REQUEST['e']]
+                );
             break;
         default:
             throw new ex\RequestMethodException(
