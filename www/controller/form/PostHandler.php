@@ -80,8 +80,8 @@ namespace POICA\controller\form {
                     );
                 }
             } catch (apply\FormIncompleteException $fie) {
-                $this->result['status'] = 31;
                 $this->logger->append_error($fie);
+                $this->result['status'] = 31;
             }
 
             return $valid;
