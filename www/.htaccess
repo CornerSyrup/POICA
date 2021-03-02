@@ -28,5 +28,11 @@
 
         RewriteRule ^apis/(.+)(?<!/)$ /$1/ [R]
 
+    #auth
+        RewriteRule ^auth/signin/$ /controller/auth.php?m=in [NC,ENC,QSA]
+        RewriteRule ^auth/signout/$ /controller/auth.php?m=out [NC,ENC,QSA]
+        RewriteRule ^auth/signup/$ /controller/auth.php?m=up [NC,ENC,QSA]
+        RewriteRule ^auth/suica/$ /controller/auth.php?m=in&d=s [NC,ENC,QSA]
+
     # page
         RewriteRule ^ /controller/index.php [NC,END]
