@@ -185,8 +185,8 @@ namespace POICA\apply\docissue {
          */
         public function deserialize(string $json)
         {
-            $data = json_parse($json);
-            parent::Deserialize(json_stringify($data['bc']));
+            $data = Helper::json_parse($json);
+            parent::Deserialize(Helper::json_stringify($data['bc']));
 
             $this->status = $data['st'];
             $this->dob = $data['db'];
@@ -204,11 +204,11 @@ namespace POICA\apply\docissue {
             }
 
             if (isset($data['gs'])) {
-                $this->gradSub = GraduatesSubForm::Deserialize(json_stringify($data['gs']));
+                $this->gradSub = GraduatesSubForm::Deserialize(Helper::json_stringify($data['gs']));
             }
 
             if (isset($data['is'])) {
-                $this->interSub = ResultAttendanceSubForm::Deserialize(json_stringify($data['is']));
+                $this->interSub = ResultAttendanceSubForm::Deserialize(Helper::json_stringify($data['is']));
             }
         }
 
