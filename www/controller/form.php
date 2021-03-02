@@ -51,7 +51,7 @@ try {
             break;
         default:
             throw new ex\RequestMethodException(
-                ['get'],
+                ['get', 'post'],
                 $_SERVER['REQUEST_METHOD']
             );
     }
