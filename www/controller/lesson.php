@@ -33,7 +33,7 @@ $handler = null;
 #endregion
 
 try {
-    if (!auth\Authenticator::authenticate())
+    if (!auth\Authenticator::authenticate_teacher())
         throw new auth\UnauthorizeException();
 
     switch (strtoupper($_SERVER['REQUEST_METHOD'])) {

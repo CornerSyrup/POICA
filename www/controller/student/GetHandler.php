@@ -49,16 +49,16 @@ namespace POICA\controller\student {
         {
             $msg = '';
 
-            if (!(isset($_SESSION['tid']) && isset($this->data['c'])) || empty($_SESSION['tid']))
-                $msg = 'Insufficient data supplied';
-            elseif (!Valid::validate_tid($_SESSION['tid']))
-                $msg = 'User attempted to obtain list of students, but tid was not set in session.';
+            if (!isset($this->data['c']))
+                $msg = 'insufficient data supplied.';
             elseif (!Valid::validate_lesson_code($this->data['c']))
-                $msg = "Supplied class code [{$this->data['c']}] is invalid.";
+                $msg = "supplied class code [{$this->data['c']}] is invalid.";
 
             if (!empty($msg)) {
                 $this->result['status'] = 14;
-                $this->logger->append_record($msg);
+                $this->logger->append_record(
+                    "Teacher [{$_SESSION['tid']}] attempted to obtain list of students, but " . $msg
+                );
             }
 
             return empty($msg);

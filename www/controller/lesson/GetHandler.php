@@ -45,17 +45,7 @@ namespace POICA\controller\lesson {
 
         public function validate(): bool
         {
-            $msg = '';
-
-            if (!isset($_SESSION['tid']) || empty($_SESSION['tid']))
-                $msg = 'Teacher attempt to obtain lesson list, but teacher ID was not set in session.';
-
-            if (!empty($msg)) {
-                $this->result['status'] = 14;
-                $this->logger->append_record($msg);
-            }
-
-            return empty($msg);
+            return true;
         }
     }
 }
