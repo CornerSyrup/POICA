@@ -19,7 +19,7 @@ namespace POICA\model\exception {
                 $expected[$key] = strtoupper($value);
             }
 
-            $exp = implode(', ', $this->expected);
+            $exp = implode(', ', $expected);
 
             parent::__construct(
                 "Request method expected [{$exp}] instead of [{$actual}].",
