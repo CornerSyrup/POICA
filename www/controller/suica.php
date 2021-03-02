@@ -40,9 +40,12 @@ try {
         case 'POST':
             $handler = new handler\PostHandler($logger);
             break;
+        case 'DELETE':
+            $handler = new handler\DeleteHandler($logger);
+            break;
         default:
             throw new ex\RequestMethodException(
-                ['post'],
+                ['post', 'delete'],
                 $_SERVER['REQUEST_METHOD']
             );
     }
