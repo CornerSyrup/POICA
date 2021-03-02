@@ -16,7 +16,9 @@ namespace POICA\authentication {
          */
         public static function authenticate_student(): bool
         {
-            return self::authenticate() && isset($_SESSION['sid']);
+            return self::authenticate()
+                && isset($_SESSION['user'])
+                && isset($_SESSION['sid']);
         }
 
         /**
