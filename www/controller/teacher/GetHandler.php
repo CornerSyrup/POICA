@@ -1,15 +1,14 @@
 <?php
 
-/**
- * Teacher data manipulation GET method sub-handler.
- */
-
 namespace POICA\controller\teacher {
 
     use POICA\model\exception as ex;
     use POICA\model\DBAdaptor;
     use POICA\handler\GetHandler as Handler;
 
+    /**
+     * Teacher data manipulation GET method sub-handler.
+     */
     class GetHandler extends Handler
     {
         public function handle(): array

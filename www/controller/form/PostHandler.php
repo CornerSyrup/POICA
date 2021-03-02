@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Form data manipulation POST method sub-handler.
- */
-
 namespace POICA\controller\form {
 
     use POICA\model as model;
@@ -11,6 +7,9 @@ namespace POICA\controller\form {
     use POICA\apply as apply;
     use POICA\handler\PostHandler as Handler;
 
+    /**
+     * Form data manipulation POST method sub-handler.
+     */
     class PostHandler extends Handler
     {
         #region fields

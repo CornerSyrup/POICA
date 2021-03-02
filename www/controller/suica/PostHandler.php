@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Suica related manipulation POST method sub-handler.
- */
-
 namespace POICA\controller\suica {
 
     use POICA\model\exception as ex;
@@ -11,6 +7,9 @@ namespace POICA\controller\suica {
     use POICA\handler\PostHandler as Handler;
     use POICA\validation\Validator as Valid;
 
+    /**
+     * Suica related manipulation POST method sub-handler.
+     */
     class PostHandler extends Handler
     {
         public function handle(): array

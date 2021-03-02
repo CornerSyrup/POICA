@@ -1,15 +1,14 @@
 <?php
 
-/**
- * Prefill data GET method sub-handler.
- */
-
 namespace POICA\controller\prefill {
-
+    
     use POICA\model\exception as ex;
     use POICA\model\DBAdaptor;
     use POICA\handler\GetHandler as Handler;
-
+    
+    /**
+     * Prefill data GET method sub-handler.
+     */
     class GetUserHandler extends Handler
     {
         public function handle(): array

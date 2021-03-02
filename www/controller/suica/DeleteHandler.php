@@ -1,15 +1,14 @@
 <?php
 
-/**
- * Suica related manipulation DELETE method sub-handler.
- */
-
 namespace POICA\controller\suica {
 
     use POICA\model\exception as ex;
     use POICA\model\DBAdaptor;
     use POICA\handler\DeleteHandler as Handler;
 
+    /**
+     * Suica related manipulation DELETE method sub-handler.
+     */
     class DeleteHandler extends Handler
     {
         public function handle(): array

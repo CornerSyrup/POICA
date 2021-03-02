@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Student data manipulation GET method sub-handler.
- */
-
 namespace POICA\controller\student {
 
     use POICA\model\exception as ex;
@@ -11,6 +7,9 @@ namespace POICA\controller\student {
     use POICA\validation\Validator as Valid;
     use POICA\handler\GetHandler as Handler;
 
+    /**
+     * Student data manipulation GET method sub-handler.
+     */
     class GetHandler extends Handler
     {
         public function handle(): array
