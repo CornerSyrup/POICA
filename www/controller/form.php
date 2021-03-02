@@ -32,6 +32,10 @@ $response = ['status' => 0];
 $handler = null;
 #endregion
 
+$_SESSION['log_in'] = true;
+$_SESSION['user'] = '1';
+$_SESSION['sid'] = '95049';
+
 try {
     if (!auth\Authenticator::authenticate_student())
         throw new auth\UnauthorizeException();
@@ -45,6 +49,9 @@ try {
                 );
             else
                 $handler = new handler\GetListHandler($logger);
+            break;
+        case 'POST':
+            $handler = new handler\PostHandler($logger);
             break;
         default:
             throw new ex\RequestMethodException(
