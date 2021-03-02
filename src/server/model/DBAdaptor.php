@@ -40,6 +40,23 @@ namespace POICA\model {
         }
 
         /**
+         * Insert to database.
+         *
+         * @param string $command Insert command with param placeholder.
+         * @param array $params Array of params.
+         * @param string $errMsg Message to be used as exception when thrown.
+         * @throws ex\RecordInsertException throws when error encountered on insertion process.
+         */
+        public function insert(string $command, array $params)
+        {
+            if (!pg_query_params($this->connection, $command, $params)) {
+                throw new ex\RecordInsertException(
+                    pg_errormessage($this->connection)
+                );
+            }
+        }
+
+        /**
          * Query to database.
          *
          * @param string $command Query command with param placeholder.
