@@ -61,7 +61,7 @@ namespace POICA\controller\student {
                 $this->logger->append_record($msg);
             }
 
-            return true;
+            return empty($msg);
         }
     }
 }
