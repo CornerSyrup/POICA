@@ -21,7 +21,8 @@
         RewriteRule ^apis/students/(\w{2}\d\w)/$ /controller/student.php?c=$1 [NC,END,QSA]
         RewriteRule ^apis/teachers/$ /controller/teacher.php [NC,END]
         RewriteRule ^apis/lessons/$ /controller/lesson.php [NC,END]
-        RewriteRule ^forms/(\d+)/$ /controller/form.php?e=$1 [NC,END,QSA]
+        RewriteRule ^apis/forms/$ /controller/form.php [NC,END]
+        RewriteRule ^apis/forms/(\d+)/$ /controller/form.php?e=$1 [NC,END,QSA]
 
         RewriteRule ^apis/(.+)(?<!/)$ /$1/ [R]
 
