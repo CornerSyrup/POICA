@@ -24,6 +24,7 @@
         RewriteRule ^apis/forms/$ /controller/form.php [NC,END]
         RewriteRule ^apis/forms/(\d+)/$ /controller/form.php?e=$1 [NC,END,QSA]
         RewriteRule ^apis/prefill/users/$ /controller/prefill.php?m=u [NC,END,QSA]
+        RewriteRule ^apis/suica/$ /controller/suica.php [NC,END]
 
         RewriteRule ^apis/(.+)(?<!/)$ /$1/ [R]
 
