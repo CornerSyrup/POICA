@@ -29,7 +29,7 @@
 
     #auth
         RewriteRule ^auth/signin/$ /controller/auth.php?m=in&d=f [NC,END,QSA]
-        RewriteRule ^auth/signout/$ /controller/auth.php?m=out [NC,END,QSA]
+        RewriteRule ^auth/signout/$ /controller/auth/signout.php [NC,END]
         RewriteRule ^auth/signup/$ /controller/auth.php?m=up [NC,END,QSA]
         RewriteRule ^auth/suica/$ /controller/auth.php?m=in&d=s [NC,END,QSA]
 
