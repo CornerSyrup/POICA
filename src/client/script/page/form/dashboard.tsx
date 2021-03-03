@@ -49,7 +49,7 @@ export default class Main extends React.Component<Props, State> {
             fetchWait: true,
         });
 
-        Fetch("apis/forms/", "GET")
+        Fetch("/apis/forms/", "GET")
             .then((res: Response) => {
                 this.setState({
                     fetchRes: res.status,

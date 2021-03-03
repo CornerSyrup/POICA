@@ -32,7 +32,7 @@ export default class Attend extends React.Component<Props, State> {
     }
 
     fetchClassAttend = async () => {
-        Fetch("apis/lessons/", "GET").then((response: Response) => {
+        Fetch("/apis/lessons/", "GET").then((response: Response) => {
             this.setState({
                 list: response.lessons,
             });

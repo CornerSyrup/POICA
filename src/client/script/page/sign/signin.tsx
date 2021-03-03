@@ -144,7 +144,7 @@ export default class SignIn extends React.Component<Props, State> {
             formWait: true,
         });
 
-        Fetch("auth/signin/", "POST", data)
+        Fetch("/auth/signin/", "POST", data)
             .then((respond: Response) => {
                 this.setState({
                     respond: respond.status,
@@ -172,7 +172,7 @@ export default class SignIn extends React.Component<Props, State> {
                 this.setState({ suicaWait: false });
             });
 
-        Fetch("auth/signin/suica/", "POST", { idm: hash })
+        Fetch("/auth/signin/suica/", "POST", { idm: hash })
             .then((response: Response) => {
                 this.setState({
                     respond: response.status,

@@ -236,7 +236,7 @@ export default class SignUp extends React.Component<Props, State> {
             formWait: true,
         });
 
-        Fetch("auth/signup/", "POST", data)
+        Fetch("/auth/signup/", "POST", data)
             .then((response: Response) => {
                 this.setState({
                     response: response.status,
