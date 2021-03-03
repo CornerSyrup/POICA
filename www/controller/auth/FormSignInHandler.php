@@ -11,7 +11,7 @@ namespace POICA\controller\auth {
     /**
      * Form sign in handler.
      */
-    class SignInHandler extends Handler
+    class FormSignInHandler extends Handler
     {
         #region fields
         /**
