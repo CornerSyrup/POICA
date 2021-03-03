@@ -87,7 +87,6 @@ export default class DocIssue extends React.Component<Props, State> {
 
         Fetch("/apis/prefill/users/", "GET")
             .then((response: PrefillUserResponse) => {
-                console.table(response);
                 if (response.status == 1) {
                     this.prefill_common = {
                         si: response.data.sid,
