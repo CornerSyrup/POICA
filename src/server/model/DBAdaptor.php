@@ -49,7 +49,7 @@ namespace POICA\model {
          */
         public function insert(string $command, array $params)
         {
-            if (!pg_query_params($this->connection, $command, $params)) {
+            if (!@pg_query_params($this->connection, $command, $params)) {
                 throw new ex\RecordInsertException(
                     pg_errormessage($this->connection)
                 );
