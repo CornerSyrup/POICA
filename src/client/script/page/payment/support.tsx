@@ -61,7 +61,6 @@ class Support extends React.Component<Props, State> {
                 }, 2500);
             })
             .catch((reason) => {
-                console.table(reason);
                 this.setState({
                     status: -1,
                 });

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { default as ReadIDm } from "../../model/felica";
 import { getSHA256 } from "../../model/hash";
 import Response from "../../model/response";
-import { HOST } from "../../model/server";
+import { HOST, Fetch } from "../../model/server";
 
 //#region form
 interface Fields {
@@ -144,12 +144,7 @@ export default class SignIn extends React.Component<Props, State> {
             formWait: true,
         });
 
-        fetch("/signin/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        })
-            .then((r) => r.json())
+        Fetch("/auth/signin/", "POST", data)
             .then((respond: Response) => {
                 this.setState({
                     respond: respond.status,
@@ -177,12 +172,7 @@ export default class SignIn extends React.Component<Props, State> {
                 this.setState({ suicaWait: false });
             });
 
-        fetch("/signin/suica/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idm: hash }),
-        })
-            .then((r) => r.json())
+        Fetch("/auth/signin/suica/", "POST", { idm: hash })
             .then((response: Response) => {
                 this.setState({
                     respond: response.status,
