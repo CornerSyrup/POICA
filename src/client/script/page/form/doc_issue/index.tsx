@@ -85,7 +85,7 @@ export default class DocIssue extends React.Component<Props, State> {
             step: "0",
         };
 
-        Fetch("/prefill/users/", "GET")
+        Fetch("apis/prefill/users/", "GET")
             .then((response: PrefillUserResponse) => {
                 console.table(response);
                 if (response.status == 1) {
@@ -115,7 +115,7 @@ export default class DocIssue extends React.Component<Props, State> {
 
     //#region data fetcher
     setTeachers = async () => {
-        Fetch("/teachers/", "GET").then((response: TeacherListResponse) => {
+        Fetch("apis/teachers/", "GET").then((response: TeacherListResponse) => {
             if (response.status == 1) {
                 this.setState({
                     teachers: response.teachers,
@@ -125,17 +125,11 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     setDepartments = async () => {
-        fetch("/departments/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            // body: JSON.stringify(data),
-        })
-            .then((r) => r.json())
-            .then((respond: Array<Department>) => {
-                this.setState({
-                    departments: respond,
-                });
+        Fetch("apis/departments/", "POST").then((respond: Array<Department>) => {
+            this.setState({
+                departments: respond,
             });
+        });
     };
 
     setCountries = async () => {
@@ -208,17 +202,13 @@ export default class DocIssue extends React.Component<Props, State> {
     };
 
     sendFormData = () => {
-        fetch("/forms/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ frm: this.data, typ: "doc" }),
-        })
-            .then((r) => r.json())
-            .then((r: any) => {
+        Fetch("apis/forms/", "POST", { frm: this.data, typ: "doc" }).then(
+            (r: any) => {
                 if (r.status != 2) {
                     console.warn(r);
                 }
-            });
+            }
+        );
     };
 
     paymentSettled = () => {

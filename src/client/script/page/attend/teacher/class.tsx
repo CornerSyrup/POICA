@@ -214,7 +214,7 @@ export default class AttendClass extends React.Component<Props, State> {
             student_load: true,
         });
 
-        Fetch(`/students/${this.props.match.params.class}/`, "GET").then(
+        Fetch(`apis/students/${this.props.match.params.class}/`, "GET").then(
             (response: Response) => {
                 if (response.status == 1) {
                     this.filterSuica(response.students);
@@ -239,7 +239,7 @@ export default class AttendClass extends React.Component<Props, State> {
      * Push attend data to sever.
      */
     pushStudent = () => {
-        Fetch(`/students/${this.props.match.params.class}`, 'POST', {
+        Fetch(`apis/students/${this.props.match.params.class}`, 'POST', {
             code: this.props.match.params.class,
             attend: this.state.stat.attend,
             list: Array.from(this.state.attends.keys()),

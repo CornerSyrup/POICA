@@ -2,6 +2,8 @@ import React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { Fetch } from "../../model/server";
+
 import Response from "../../model/response";
 
 //#region form
@@ -234,12 +236,7 @@ export default class SignUp extends React.Component<Props, State> {
             formWait: true,
         });
 
-        fetch("/signup/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        })
-            .then((r) => r.json())
+        Fetch("auth/signup/", "POST", data)
             .then((response: Response) => {
                 this.setState({
                     response: response.status,

@@ -8,7 +8,7 @@ import {
 } from "../../model/apply";
 import { FormCatalogueResponse as Response } from "../../model/response";
 import { FormCatalogueItem as Item } from "../../model/form";
-import { CreateURL } from "../../model/server";
+import { CreateURL, Fetch } from "../../model/server";
 
 interface Props extends RouteComponentProps {}
 interface State {
@@ -49,11 +49,7 @@ export default class Main extends React.Component<Props, State> {
             fetchWait: true,
         });
 
-        fetch("/forms/", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        })
-            .then((r) => r.json())
+        Fetch("apis/forms/", "GET")
             .then((res: Response) => {
                 this.setState({
                     fetchRes: res.status,

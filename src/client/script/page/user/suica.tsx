@@ -36,7 +36,7 @@ export default class Suica extends React.Component<Props, State> {
         ReadIDm()
             .then((code) => getSHA256(code))
             .then((hash) => {
-                Fetch("/suica/", "POST", { idm: hash })
+                Fetch("apis/suica/", "POST", { idm: hash })
                     .then((response: Response) => {
                         let msg: string = "";
 
@@ -78,7 +78,7 @@ export default class Suica extends React.Component<Props, State> {
             stateText: "スイカカード利用停止中...",
         });
 
-        Fetch("/suica/", "DELETE")
+        Fetch("apis/suica/", "DELETE")
             .then((response: Response) => {
                 let msg: string = "";
 
