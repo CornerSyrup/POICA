@@ -14,7 +14,7 @@ namespace POICA\controller\teacher {
         public function handle(): array
         {
             try {
-                $this->result['students'] = (new DBAdaptor)->query(
+                $this->result['teachers'] = (new DBAdaptor)->query(
                     'SELECT tid, fname, lname FROM School.Teachers;',
                     [],
                     'Fail to obtain list of teachers.'
