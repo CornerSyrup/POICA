@@ -8,6 +8,9 @@ namespace POICA\controller\auth {
     use POICA\validation\Validator as Valid;
     use POICA\handler\Handler;
 
+    /**
+     * Suica sign in handler.
+     */
     class SuicaSignInHandler extends Handler
     {
         public function __construct(model\Logger $logger)
