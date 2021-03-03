@@ -18,7 +18,7 @@ namespace POICA\controller\lesson {
             #endregion
 
             try {
-                $this->result['students'] = (new DBAdaptor)->query(
+                $this->result['lessons'] = (new DBAdaptor)->query(
                     $cmd,
                     [$_SESSION['tid']],
                     "Fail to obtain list of lesson for teacher [{$_SESSION['tid']}]"
