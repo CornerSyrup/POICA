@@ -29,6 +29,21 @@ namespace POICA\authentication {
             return self::authenticate() && isset($_SESSION['tid']);
         }
 
+        /**
+         * Sign out the user.
+         */
+        public static function sign_out()
+        {
+            if (isset($_SESSION['user'])) {
+                unset($_SESSION['user']);
+                unset($_SESSION['sid']);
+            } elseif (isset($_SESSION['tid'])) {
+                unset($_SESSION['tid']);
+            }
+
+            unset($_SESSION['log_in']);
+        }
+
         public static function get_password_hash(string $pwd)
         {
             return password_hash($pwd, PASSWORD_DEFAULT);
