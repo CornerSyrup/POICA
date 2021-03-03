@@ -1,4 +1,4 @@
-export const HOST = "localhost";
+export const HOST = window.location.host;
 
 /**
  * Navigate to path in the same server.
