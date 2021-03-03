@@ -172,7 +172,7 @@ export default class SignIn extends React.Component<Props, State> {
                 this.setState({ suicaWait: false });
             });
 
-        Fetch("/auth/signin/suica/", "POST", { idm: hash })
+        Fetch("/auth/suica/", "POST", { idm: hash })
             .then((response: Response) => {
                 this.setState({
                     respond: response.status,
