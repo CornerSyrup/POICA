@@ -2,26 +2,24 @@
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
+use POICA\authentication\Authenticator;
 use POICA\model\Logger;
 
 @session_start();
 
-$logger = new Logger('off', 'auth');
-$msg = '';
-
 if (isset($_SESSION['user'])) {
     $msg = "User [{$_SESSION['user']}]";
-    unset($_SESSION['user']);
-    unset($_SESSION['sid']);
 } elseif (isset($_SESSION['tid'])) {
     $msg = "Teacher [{$_SESSION['tid']}]";
-    unset($_SESSION['tid']);
+} else {
+    $msg = '';
 }
 
-unset($_SESSION['log_in']);
+Authenticator::sign_out();
 
-$logger->append_record(
-    $msg . ' has been signed out successfully.'
+Logger::append(
+    $msg . ' has been signed out successfully.',
+    __DIR__ . '/../../logs/auth.log'
 );
 
 include __DIR__ . '/../../view/sign.html';
