@@ -18,6 +18,7 @@
         RewriteRule ^cdn/(.+).png$ /image/$1.png [END]
 
     # api
+        RewriteRule ^apis/departments/$ /controller/department.php [NC,END]
         RewriteRule ^apis/forms/$ /controller/form.php [NC,END]
         RewriteRule ^apis/forms/(\d+)/$ /controller/form.php?e=$1 [NC,END,QSA]
         RewriteRule ^apis/lessons/$ /controller/lesson.php [NC,END]
