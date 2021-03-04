@@ -1,0 +1,146 @@
+﻿[Self-Diagnostics]
+No.1
+Reader/Writer Type: External (RC-S380/P)
+Firm Ver.: 1.11
+Driver Ver.: 1.5.9.1
+Mutual Authentication: ----
+Self-Diagnostics: ----
+Communicate with Card(PC/SC): OK
+  ATR		: 3B8F8001804F0CA00000030611003B0000000042
+  Target Name	: FeliCa
+  Target Type	: FeliCa
+  Baud Rate	: PCD->PICC : 424, PICC->PCD : 424
+Disconnect: ----
+
+[Application Version]
+NFC Port Self-Diagnosis:3.4.9.0
+NFC Port Software:5.6.13.0
+NFC Proxy Service:1.2.2.6
+FeliCa Service Manager:1.3.4.1
+PC/SC Activator for Type B:Unknown
+FeliCa Launcher:Unknown
+SFCard Viewer 2:Unknown
+FeliCa Logon:Unknown
+FeliCa PKI Option:Unknown
+
+[Application Status]
+NFC Proxy Service
+  Current Status:Running
+  Start Type:Auto Start
+  Event Log:No record is found.
+Smart Card Service
+  Current Status:Running
+  Start Type:Auto Start
+  Event Log:No record is found.
+FeliCa Library Status
+  FeliCa Lib:initialize OK, open OK, close OK, dispose OK
+  FeliCa NFC Lib:initialize OK, open NG, close NG, uninitialize OK
+
+[OS]
+Microsoft Windows 10 Professional (x64)
+
+[Memory]
+3977 Mbyte
+
+[System Hard Disk]
+460 GB
+
+[Environment Path]
+C:\Program Files\Sony\FeliCaRW;C:\app\STUDY\product\19.0.0\client_1;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Program Files\Microsoft MPI\Bin\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Mozilla Firefox;C:\Program Files\Vim\vim82;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files (x86)\Google\Chrome\Application;C:\ProgramData\chocolatey\bin;C:\xampp;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\heroku\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\java\jdk-15\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Common Files\Sony Shared\FeliCaLibrary;C:\Program Files\Common Files\Sony Shared\FeliCaLibrary;C:\Program Files (x86)\Common Files\Sony Shared\FeliCaNFCLibrary;C:\Program Files\Common Files\Sony Shared\FeliCaNFCLibrary;C:\Users\STUDY\AppData\Local\Microsoft\WindowsApps;C:\Users\STUDY\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\STUDY\AppData\Roaming\Composer\vendor\bin;C:\Users\STUDY\AppData\Roaming\npm;C:\Users\STUDY\.dotnet\tools;C:\Users\STUDY\.dotnet\tools;C:\Users\STUDY\AppData\Local\Microsoft\WindowsApps;C:\Users\STUDY\Desktop\shortcut
+
+[Chip Set]
+@oem5.inf,%rts5227cr%;Realtek PCIE CardReader
+@rt640x64.inf,%rtl8168.devicedesc%;Realtek PCIe GbE Family Controller
+@oem6.inf,%ihswgt2m%;Intel(R) HD Graphics 4600
+@oem2.inf,%nic_7260agn_2x2_hmc%;Intel(R) Dual Band Wireless-N 7260
+@machine.inf,%pci\cc_0600_desc%;PCI standard host CPU bridge
+@hdaudbus.inf,%hdaudio.devicedesc%;High Definition Audio Controller
+@mshdc.inf,%pci\cc_010601.devicedesc%;Standard SATA AHCI Controller
+@oem151.inf,%pci\ven_8086&dev_8c10desc%;Intel(R) 8 Series/C220 Series PCI Express Root Port #1 - 8C10
+@oem151.inf,%pci\ven_8086&dev_8c1adesc%;Intel(R) 8 Series/C220 Series PCI Express Root Port #6 - 8C1A
+@oem151.inf,%pci\ven_8086&dev_8c1cdesc%;Intel(R) 8 Series/C220 Series PCI Express Root Port #7 - 8C1C
+@oem151.inf,%pci\ven_8086&dev_8c1edesc%;Intel(R) 8 Series/C220 Series PCI Express Root Port #8 - 8C1E
+@hdaudbus.inf,%hdaudio.devicedesc%;High Definition Audio Controller
+@usbport.inf,%pci\ven_8086&dev_8c26.devicedesc%;Intel(R) 8 Series/C220 Series USB EHCI #1 - 8C26
+@usbport.inf,%pci\ven_8086&dev_8c2d.devicedesc%;Intel(R) 8 Series/C220 Series USB EHCI #2 - 8C2D
+@usbxhci.inf,%pci\cc_0c0330.devicedesc%;USB xHCI Compliant Host Controller
+@oem142.inf,%tee_devicedesc%;Intel(R) Management Engine Interface 
+@oem151.inf,%pci\ven_8086&dev_8c4bdesc%;Intel(R) HM87 LPC Controller - 8C4B
+
+[Device Driver Registry]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Port Driver Software]
+CurrentVersion = 5.6.13.0
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Port 2.0 Driver Software]
+CurrentVersion = 5.6.13.0
+DriverVersion = 1.1.11.0
+
+[Device Driver Files]
+<File Name>                        <Time>         <Version> 
+C:\Program Files (x86)\Sony\FeliCaRW\Drivers\TEN64
+felicaport_cls.dll                 2020/ 5/18     1.0.2.0   
+felica_coinst1050.dll              2020/ 5/18     1, 0, 5, 0
+sonyfelicaportm.sys                2020/ 5/18     1,1,4,0   
+sonynfcport100.cat                 2020/ 5/18               
+sonynfcport100.inf                 2020/ 5/18               
+sonynfcport100c.sys                2020/ 5/18     1.1.5.1   
+sonynfcport100f.sys                2020/ 5/18     1.1.15.4  
+sonyrcs956.cat                     2020/ 5/18               
+sonyrcs956.inf                     2020/ 5/18               
+sonyrcs956c.sys                    2020/ 5/18     1,1,18,5  
+sonyrcs956f.sys                    2020/ 5/18     1,2,20,0  
+C:\WINDOWS\system32\Drivers\
+sonyfelicaportm.sys                2020/ 5/18     1,1,4,0   
+
+[FeliCa Library Files]
+<File Name>                        <Time>         <Version> 
+C:\Program Files\Common Files\Sony Shared\FeliCaLibrary
+felica.dll                         2015/ 2/17     2.5.0.1   
+rw.dll                             2015/ 2/17     2, 5, 0, 1
+C:\Program Files\Common Files\Sony Shared\FeliCaLibrary\plugins\command
+basic.gp                           2009/ 8/20     2, 3, 3, 2
+mobile2.gp                         2009/ 8/20     2, 3, 3, 2
+C:\Program Files\Common Files\Sony Shared\FeliCaLibrary\plugins\device
+usb.gp                             2014/ 3/19     2, 3, 4, 0
+C:\Program Files\Common Files\Sony Shared\FeliCaNFCLibrary
+felica_nfc_library.dll             2015/ 6/10     1, 0, 3, 1
+C:\Program Files\Common Files\Sony Shared\FeliCaNFCLibrary\plugins
+felica_nfc_plugin_usb.gp           2013/ 2/26     1, 0, 1, 2
+C:\Program Files (x86)\Common Files\Sony Shared\FeliCaLibrary
+felica.dll                         2015/ 2/17     2.5.0.1   
+felica_for_vb.dll                  2012/ 3/30     2, 3, 7, 0
+rw.dll                             2015/ 2/17     2, 5, 0, 1
+C:\Program Files (x86)\Common Files\Sony Shared\FeliCaLibrary\plugins\command
+basic.gp                           2009/ 8/20     2, 3, 3, 2
+mobile2.gp                         2009/ 8/20     2, 3, 3, 2
+C:\Program Files (x86)\Common Files\Sony Shared\FeliCaLibrary\plugins\device
+usb.gp                             2014/ 3/19     2, 3, 4, 0
+C:\Program Files (x86)\Common Files\Sony Shared\FeliCaNFCLibrary
+felica_nfc_library.dll             2015/ 6/10     1, 0, 3, 1
+C:\Program Files (x86)\Common Files\Sony Shared\FeliCaNFCLibrary\plugins
+felica_nfc_plugin_usb.gp           2013/ 2/26     1, 0, 1, 2
+
+[FeliCa Library Registry]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Sony Corporation\FeliCa Reader Writer Control Library]
+plugins_home_directory = C:\Program Files\Common Files\Sony Shared\FeliCaLibrary\plugins
+[HKEY_LOCAL_MACHINE\SOFTWARE\Sony Corporation\FeliCa Access Library\ModeList]
+port_name_list = USB0,USB1,COM1,COM2
+priority_external = ON
+[HKEY_LOCAL_MACHINE\SOFTWARE\Sony Corporation\FeliCa NFC Library]
+category_name_list = USB
+plugins_home_directory = C:\Program Files\Common Files\Sony Shared\FeliCaNFCLibrary\plugins
+port_name_list = USB0
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Port Software]
+CurrentVersion = 5.6.13.0
+Language = 9
+Kind = c4
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Port Software\5.6.13.0]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Reader Writer Control Library]
+plugins_home_directory = C:\Program Files (x86)\Common Files\Sony Shared\FeliCaLibrary\plugins
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa Access Library\ModeList]
+port_name_list = USB0,USB1,COM1,COM2
+priority_external = ON
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Sony Corporation\FeliCa NFC Library]
+category_name_list = USB
+plugins_home_directory = C:\Program Files (x86)\Common Files\Sony Shared\FeliCaNFCLibrary\plugins
+port_name_list = USB0
+
