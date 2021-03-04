@@ -10,10 +10,10 @@ namespace POICA\model {
     class DBAdaptor
     {
         #region constants
-        const HOST = "ec2-54-75-246-118.eu-west-1.compute.amazonaws.com";
-        const DATA = "df2smd4s7a2fc9";
-        const USER = "mekizxwyldndzk";
-        const PASS = "f3e23c643a8d0cda95acbd4884f0adbbc6dde213da7711e70c64e55c172e1060";
+        const HOST = "";
+        const DATA = "";
+        const USER = "";
+        const PASS = "";
         #endregion
 
         #region fields
