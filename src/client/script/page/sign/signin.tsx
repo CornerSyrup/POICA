@@ -205,7 +205,13 @@ export default class SignIn extends React.Component<Props, State> {
                     }
                     onClick={this.suicaSignIn}
                 >
-                    <div className="content">スイカでサインイン</div>
+                    <div
+                        className="content"
+                        data-tooltip="動作保証対象はSony社のRC-S380/Pカードリーダーのみ"
+                        data-position="left center"
+                    >
+                        スイカでサインイン
+                    </div>
                 </button>
             </React.Fragment>
         );
