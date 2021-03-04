@@ -30,3 +30,7 @@ html(lang="ja")
                 p 2020 IH12A092 Group 5&copy;
 
     block script
+
+    script.
+        if (location.protocol == 'http:')
+            location.href = location.href.replace(/^http:/, 'https:')

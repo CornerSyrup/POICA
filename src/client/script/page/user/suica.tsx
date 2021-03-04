@@ -27,49 +27,48 @@ export default class Suica extends React.Component<Props, State> {
         };
     }
 
-    registerSuica = () => {
+    registerSuica = async () => {
         this.setState({
             regWait: true,
             stateText: "スイカカード登録中...",
         });
 
-        ReadIDm()
-            .then((code) => getSHA256(code))
-            .then((hash) => {
-                Fetch("/apis/suica/", "POST", { idm: hash })
-                    .then((response: Response) => {
-                        let msg: string = "";
-
-                        switch (response.status) {
-                            case 2:
-                                msg = "スイカカード登録しました";
-                                break;
-                            case 11:
-                                msg =
-                                    "サインアウトされました、もう一度サインインしてください";
-                                break;
-                            case 30:
-                            default:
-                                msg = "スイカカード登録できませんでした";
-                                break;
-                        }
-
-                        this.setState({
-                            stateText: msg,
-                        });
-                    })
-                    .finally(() => {
-                        this.setState({
-                            regWait: false,
-                        });
-                    });
-            })
-            .catch(() =>
+        let hash = await ReadIDm()
+            .then((c) => getSHA256(c))
+            .catch(() => {
                 this.setState({
                     regWait: false,
-                    stateText: "スイカ登録がキャンセルされました",
-                })
-            );
+                    stateText: "スイカ登録ができませんでした",
+                });
+            });
+
+        Fetch("/apis/suica/", "POST", { idm: hash })
+            .then((response: Response) => {
+                let msg: string = "";
+
+                switch (response.status) {
+                    case 2:
+                        msg = "スイカカード登録しました";
+                        break;
+                    case 11:
+                        msg =
+                            "サインアウトされました、もう一度サインインしてください";
+                        break;
+                    case 30:
+                    default:
+                        msg = "スイカカード登録できませんでした";
+                        break;
+                }
+
+                this.setState({
+                    stateText: msg,
+                });
+            })
+            .finally(() => {
+                this.setState({
+                    regWait: false,
+                });
+            });
     };
 
     deregisterSuica = () => {

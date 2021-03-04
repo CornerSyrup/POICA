@@ -5,7 +5,7 @@ export const HOST = window.location.host;
  * @param path path section of URL, without leading slash.
  */
 export function Navigate(path: string) {
-    window.location.href = `http://${HOST}/${path}`;
+    window.location.href = CreateURL(path);
 }
 
 /**
@@ -13,7 +13,7 @@ export function Navigate(path: string) {
  * @param path path section of UEL, without leading slath.
  */
 export function CreateURL(path: string) {
-    return `http://${HOST}/${path}`;
+    return `https://${HOST}/${path}`;
 }
 
 export function Fetch(

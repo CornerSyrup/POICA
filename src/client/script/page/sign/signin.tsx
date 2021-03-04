@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { default as ReadIDm } from "../../model/felica";
 import { getSHA256 } from "../../model/hash";
 import Response from "../../model/response";
-import { HOST, Fetch } from "../../model/server";
+import { Fetch, Navigate } from "../../model/server";
 
 //#region form
 interface Fields {
@@ -151,7 +151,7 @@ export default class SignIn extends React.Component<Props, State> {
                 });
 
                 if (respond.status == 1) {
-                    this.redirect2Insider();
+                    Navigate("");
                 }
             })
             .finally(() => {
@@ -172,14 +172,14 @@ export default class SignIn extends React.Component<Props, State> {
                 this.setState({ suicaWait: false });
             });
 
-        Fetch("/auth/signin/suica/", "POST", { idm: hash })
+        Fetch("/auth/suica/", "POST", { idm: hash })
             .then((response: Response) => {
                 this.setState({
                     respond: response.status,
                 });
 
                 if (response.status == 2) {
-                    this.redirect2Insider();
+                    Navigate("");
                 }
             })
             .finally(() => {
@@ -187,10 +187,6 @@ export default class SignIn extends React.Component<Props, State> {
                     suicaWait: false,
                 });
             });
-    };
-
-    redirect2Insider = () => {
-        window.location.href = `http://${HOST}`;
     };
 
     render() {
