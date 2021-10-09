@@ -10,10 +10,10 @@ namespace POICA\model {
     class DBAdaptor
     {
         #region constants
-        const HOST = "";
-        const DATA = "";
-        const USER = "";
-        const PASS = "";
+        const HOST = getenv("DB_HOST");
+        const DATA = getenv("DB_BASE");
+        const USER = getenv("DB_USER");
+        const PASS = getenv("DB_PASS");
         #endregion
 
         #region fields

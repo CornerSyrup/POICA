@@ -1,26 +1,32 @@
-# HEW 2020 Team 5
+# POICA
 
-Repository for IH12A team 5 towards HEW 2020
+スイカを使った学校のポータルサイト。HEW2020に向けたグループ制作作品。
 
-## File Structure
+## グループメンバ
 
-```
-root                                project root
-├───docs                            documents of this project
-|   ├───design requirement          requirements for gui design
-|   └───functional specification    specifications for coding of functions
-|   └───database usage              usage and schema of database
-├───src                             source files
-│   ├───page                        pug/html files of page/components
-│   ├───script                      typescript files of scripts
-│   ├───style                       less file of styles
-│   └───sql                         sql commands
-├───test                            test files, either for php and js
-├───www                             website root
-│   ├───controller                  php files which interact with user access
-│   ├───model                       php files represent business logics
-│   └───view                        html files compiled from src/page
-└───cdn                             files other than html
-    └───js                          js files, bundled from src/script
-    └───css                         css files, compiled from src/style
+- 趙澤 (GitHub@ths95049, リーダ)
+- 飯島聖也 (GitHub@ths90234)
+- 折田直彦 (GitHub@on0302)
+- 小林宏明 (GitHub@hiro90850)
+- 山下由里子 (GitHub@yy9889)
+
+## プロジェクト構造
+
+```txt
+/                       
+├───/docs                       ドキュメント
+|   ├───/API                    REST API関連
+|   └───Database Schema.drawio  データベースのスキーマ
+├───/src                        ソースファイル
+│   ├───/client                 クライアントサイド関連
+│   |   ├───/page               PUGページ
+│   |   ├───/script             ReactJSスクリプト
+│   |   └───/style              lessスタイル
+|   ├───/database               SQLスクリプト
+|   └───/server                 サーバサイド関連
+|       ├───/model              モデル
+|       └───/...                API別
+└───/www                        PHPサーバのCGIコード
+    ├───/controller             コントローラ別
+    └───/image                  サイトの画像
 ```
